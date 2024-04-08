@@ -1,3 +1,36 @@
+import "./app.css";
+import { NotFound } from "./view/not-found/not-found";
+import { Authorization } from "./view/authorization/authorization";
+import { About } from "./view/about/about";
+import {MainView} from "./view/main/main-view";
+
+class App {
+    routes = [
+        {path: "", view: Authorization },
+        {path: "#auth", view: Authorization },
+        {path: "#about", view: About },
+        {path: "#main", view: MainView}
+    ];
+
+    constructor(){
+        window.addEventListener('hashchange', this.route.bind(this));
+        this.route(); 
+    }
+
+    async route(){
+       const isPage = this.routes.some(r => r.path === location.hash);
+       if(isPage){
+            const view = this.routes.find(r => r.path == location.hash).view;
+            this.currentView = new view();
+       } else{
+            this.currentView = new NotFound();
+       }
+       this.currentView.render();
+    }
+}
+
+new App();
+
 console.log("123");
 
 // {
@@ -11,6 +44,8 @@ console.log("123");
 //     }
 //   }
 
+
+/*
 
 const user1 = {
     id: '1',
@@ -33,3 +68,4 @@ const user1 = {
     //console.log(ws.send(JSON.stringify(user1)));
 
   });
+  */
