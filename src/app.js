@@ -31,8 +31,6 @@ class App {
 
 new App();
 
-console.log("123");
-
 // {
 //     id: string,
 //     type: "USER_LOGOUT",
