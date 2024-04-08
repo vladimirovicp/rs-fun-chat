@@ -1,4 +1,4 @@
-import "./app.css";
+import "./app.scss";
 import { NotFound } from "./view/not-found/not-found";
 import { Authorization } from "./view/authorization/authorization";
 import { About } from "./view/about/about";

@@ -11,8 +11,18 @@ const baseConfig = {
     module: {
         rules: [
             {
-                test: /\.css$/i,
-                use: [MiniCssExtractPlugin.loader, 'css-loader'],
+                test: /\.s[ac]ss$/,
+                use: [{
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        publicPath: (resourcePath, context) => {
+                            return path.relative(path.dirname(resourcePath), context) + '/';
+                        },
+                    }
+                },
+                    "css-loader",
+                    'sass-loader'
+                ],
             },
             {
                 test: /\.ts$/i,
