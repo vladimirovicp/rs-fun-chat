@@ -27,15 +27,23 @@ export class MainView extends AbstractView{
 
         this.ws.addEventListener('open', (event) => {
 
-            console.log('addEventListener - event', event);
+            //console.log('addEventListener - event', event);
             this.ws.send(JSON.stringify(data));
         });
 
         this.ws.addEventListener('message', (event) => {
             const answer = JSON.parse(event.data);
 
+            console.log(answer);
+
             if (answer.type === 'ERROR'){
-                
+                console.log('ERROR', answer);
+                alert('a user with this login is already authorized');
+            }
+
+            if(answer.type === 'USER_LOGIN'){
+                console.log('USER_LOGIN', answer);
+                this.render();
             }
 
         });
