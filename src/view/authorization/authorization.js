@@ -1,6 +1,8 @@
 import { AbstractView } from '../../common/view';
 import './authorization.scss';
 import { authorizationIco } from '../../helpers/svg';
+//import { userAuthentication } from '../../helpers/api';
+import { MainView } from '../main/main-view';
 export class Authorization extends AbstractView {
     constructor(){
         super();
@@ -19,7 +21,7 @@ export class Authorization extends AbstractView {
                                 <use xlink:href="#man-people-user"></use>
                             </svg>
                         </label>
-                        <input class="user-name" type="text" name="name" id="name" placeholder="My name is"  />
+                        <input class="user-name" type="text" name="name" id="name" placeholder="My name is" value="test1"  />
                     </div>
                     <div>
                         <label class="lock" for="password">
@@ -29,7 +31,7 @@ export class Authorization extends AbstractView {
                                 </g>
                             </svg>  
                         </label>
-                        <input type="password" name="password" class="user-password" placeholder="My password is" />
+                        <input type="password" name="password" class="user-password" placeholder="My password is" value="test"/>
                     </div>
                     <input type="submit" value="Sign in" class="sign-in" />
                 </form>
@@ -47,13 +49,18 @@ export class Authorization extends AbstractView {
     }
 
     btnClick(el){
-
         const userName = el.querySelector('.user-name');
         const userPas = el.querySelector('.user-password');
         const userNameVal = userName.value;
         const userPasVal = userPas.value;
 
-        console.log('userNameVal',userNameVal);
-        console.log('userPasVal',userPasVal);
+        const mainView = new MainView();
+        mainView.authorization(userNameVal, userPasVal);
+    }
+
+    errorAuth(){
+        const wrapper = this.app.querySelector('.wrapper');
+
+
     }
 }

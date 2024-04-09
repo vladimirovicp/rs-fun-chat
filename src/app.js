@@ -12,9 +12,15 @@ class App {
         {path: "#main", view: MainView}
     ];
 
-    constructor(){
+    constructor(){  
         window.addEventListener('hashchange', this.route.bind(this));
         this.route(); 
+
+        // this.ws.onmessage = (message) => {
+        //   console.log('JSON.parse(message)',message);
+        // }
+
+        
     }
 
     async route(){
