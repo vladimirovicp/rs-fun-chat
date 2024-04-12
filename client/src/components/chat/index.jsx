@@ -11,7 +11,7 @@ const ChatPage = ({socket}) => {
           <Sidebar />
           <main className={styles.main}>
             <Body />
-            <MessageBlock />
+            <MessageBlock socket={socket}/>
           </main>
       </div>
     )
