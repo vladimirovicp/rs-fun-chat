@@ -1,10 +1,30 @@
-const Home = ({socket}) => {
+import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
+import styles from './styles.module.css';
 
-  return (
-    <div>
-        <h1>Home</h1>
-    </div>
-  )
-}
+const Home = ({socket}) => {
+    const navigate = useNavigate();
+    const [user, setUser] = useState('');
+    const handleSabmit = (e) => {
+        e.preventDefault();
+        localStorage.setItem('user', user);
+        navigate('/chat')
+
+    }
+    return (
+
+        <form onSubmit={handleSabmit} className={styles.container}>
+            <h2>Вход в чат</h2>
+            <label htmlFor='user'></label>
+            <input 
+                type="text" 
+                id='user' 
+                value={user} 
+                onChange={(e) => setUser(e.target.value)}
+                className={styles.userInput} />
+            <button type='submit' className={styles.homeBtn}>Войти</button>
+        </form>
+    );
+};
 
 export default Home;
