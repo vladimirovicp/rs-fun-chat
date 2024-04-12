@@ -1,11 +1,19 @@
 import React from 'react';
 import styles from "./styles.module.css";
+import {useNavigate} from "react-router-dom";
 
 const body = () => {
+
+    const navigate = useNavigate();
+    const handleLeave = () => {
+        localStorage.removeItem('user');
+        navigate('/');
+    }
+
     return (
         <>
             <header className={styles.header}>
-                <button className='btn'>Покинуть чат</button>
+                <button className='btn' onClick={handleLeave}>Покинуть чат</button>
             </header>
 
             <div className={styles.container}>

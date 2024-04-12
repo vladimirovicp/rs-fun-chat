@@ -1,1 +1,1 @@
-# rs-fun-chat
+запуск - npm run dev
