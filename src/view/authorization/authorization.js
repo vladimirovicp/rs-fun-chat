@@ -1,11 +1,11 @@
 import { AbstractView } from '../../common/view';
 import './authorization.scss';
 import { authorizationIco } from '../../helpers/svg';
-//import { userAuthentication } from '../../helpers/api';
 import { MainView } from '../main/main-view';
 export class Authorization extends AbstractView {
-    constructor(){
+    constructor(socket){
         super();
+        this.socket = socket;
     }
 
     render(){
@@ -56,6 +56,8 @@ export class Authorization extends AbstractView {
 
         const mainView = new MainView();
         mainView.authorization(userNameVal, userPasVal);
+
+        
     }
 
     errorAuth(){
