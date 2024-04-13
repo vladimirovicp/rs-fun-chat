@@ -1,10 +1,8 @@
-const ws = new WebSocket('ws://127.0.0.1:4000');
+//const ws = new WebSocket('ws://127.0.0.1:4000');
 
-const userAuthentication = async(id,login,pas) => {
-
-    const result = {};
+const userAuthentication = async(ws,login,pas) => {
     const data = {
-        id: id,
+        id: login,
         type: "USER_LOGIN",
         payload: {
           user: {
@@ -15,11 +13,13 @@ const userAuthentication = async(id,login,pas) => {
       };
  
     ws.send(JSON.stringify(data));
-    ws.addEventListener('message', (event) => {
-        result =  event.data;
-    });
 
-    console.log(result);
+
+    // socket.addEventListener('message', (event) => {
+    //     result =  event.data;
+    // });
+
+    // console.log(result);
 
     //return result;
 }

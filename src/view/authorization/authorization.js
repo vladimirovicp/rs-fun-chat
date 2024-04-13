@@ -1,14 +1,16 @@
 import { AbstractView } from '../../common/view';
 import './authorization.scss';
 import { authorizationIco } from '../../helpers/svg';
-import { MainView } from '../main/main-view';
+import { userAuthentication } from '../../helpers/api';
+//import { MainView } from '../main/main-view';
 export class Authorization extends AbstractView {
-    constructor(socket){
+    constructor(ws,stateUser){
         super();
-        this.socket = socket;
+        this.stateUser = stateUser;
+        this.ws = ws;
     }
 
-    render(){
+    render(stateUser){
         const pageAuth = document.createElement('div');
         pageAuth.classList.add('page-auth');
         pageAuth.innerHTML = `
@@ -54,15 +56,14 @@ export class Authorization extends AbstractView {
         const userNameVal = userName.value;
         const userPasVal = userPas.value;
 
-        const mainView = new MainView();
-        mainView.authorization(userNameVal, userPasVal);
+        this.stateUser.password = userPasVal;
 
-        
-    }
+        //userAuthentication(this.ws,userNameVal, userPasVal);
 
-    errorAuth(){
-        const wrapper = this.app.querySelector('.wrapper');
+    
 
 
+        //const mainView = new MainView();
+        //mainView.authorization(userNameVal, userPasVal);
     }
 }
