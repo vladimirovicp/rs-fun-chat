@@ -11,6 +11,10 @@ const processingTypes = (message,stateUser) =>{
     if(type === 'ERROR'){
       alert(messageJson.payload.error);
     }
+
+    if(type === 'USER_LOGOUT'){
+      window.location.hash = '';
+    }
 }
 
 

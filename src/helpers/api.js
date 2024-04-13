@@ -12,19 +12,22 @@ const userAuthentication = async(ws,login,pas) => {
     ws.send(JSON.stringify(data));
 }
 
-const userLogout = (ws) => {
+const userLogout = (ws,stateUser) => {
+
+  console.log(stateUser.login);
+
   const data = {
-    id: string,
+    id: stateUser.login,
     type: "USER_LOGOUT",
     payload: {
       user: {
-        login: string,
-        password: string,
+        login: stateUser.login,
+        password: stateUser.password,
       }
     }
   }
-
-  //ws.send(JSON.stringify(data));
+  
+  ws.send(JSON.stringify(data));
 
 }
 

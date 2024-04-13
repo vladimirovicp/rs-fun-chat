@@ -11,9 +11,6 @@ export class Body extends AbstractView{
     }
 
     render(){
-
-        console.log(this.stateUser)
-
         const bodyHeader = document.createElement('header');
         bodyHeader.classList.add('body__header');
 
@@ -23,7 +20,7 @@ export class Body extends AbstractView{
         bodyBtn.addEventListener('click',() =>{
             console.log('выход из чата');
 
-            //userLogout();
+            userLogout(this.ws,this.stateUser);
         })
 
 
