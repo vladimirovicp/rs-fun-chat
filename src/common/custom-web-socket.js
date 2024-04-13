@@ -1,9 +1,11 @@
 import { processingTypes } from '../helpers/control';
 
 export class CustomWebSocket {
-    constructor(url) {
+    constructor(url,stateUser) {
       this.url = url;
       this.socket = new WebSocket(this.url);
+
+      this.stateUser = stateUser;
       
       this.socket.onopen = () => {
         console.log('Соединение установлено');
@@ -11,7 +13,7 @@ export class CustomWebSocket {
       
       this.socket.onmessage = (event) => {
         console.log('Получено сообщение: ' + event.data);
-        processingTypes(event.data);
+        processingTypes(event.data, this.stateUser);
         //this.control(event.data);
       };
       

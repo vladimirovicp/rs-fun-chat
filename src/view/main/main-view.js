@@ -7,8 +7,12 @@ import { MessageBlock } from '../components/message-block/message-block';
 import "./styles.css";
 
 export class MainView extends AbstractView{
-    constructor(){
+
+    constructor(ws,stateUser){
         super();
+
+        this.ws = ws;
+        this.stateUser = stateUser;
     }
 
     render(){
@@ -22,7 +26,7 @@ export class MainView extends AbstractView{
         const main = document.createElement('main');
         main.classList.add('main');
 
-        main.append(new Body().render());
+        main.append(new Body(this.ws,this.stateUser).render());
         main.append(new MessageBlock().render());
 
         pageName.append(main);

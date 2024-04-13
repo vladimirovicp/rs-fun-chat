@@ -23,12 +23,9 @@ class App {
 
     constructor(){  
         window.addEventListener('hashchange', this.route.bind(this));
-
-
-
         this.stateUser = onChange(this.stateUser, this.stateUserHook.bind(this));
 
-        this.ws = new CustomWebSocket('ws://127.0.0.1:4000');
+        this.ws = new CustomWebSocket('ws://127.0.0.1:4000',this.stateUser);
         this.route();   
     }
 

@@ -2,7 +2,7 @@ import { AbstractView } from '../../common/view';
 import './authorization.scss';
 import { authorizationIco } from '../../helpers/svg';
 import { userAuthentication } from '../../helpers/api';
-//import { MainView } from '../main/main-view';
+
 export class Authorization extends AbstractView {
     constructor(ws,stateUser){
         super();
@@ -55,10 +55,8 @@ export class Authorization extends AbstractView {
         const userPas = el.querySelector('.user-password');
         const userNameVal = userName.value;
         const userPasVal = userPas.value;
-
         this.stateUser.password = userPasVal;
-
-        //userAuthentication(this.ws,userNameVal, userPasVal);
+        userAuthentication(this.ws,userNameVal, userPasVal);
 
     
 

@@ -1,10 +1,10 @@
-const processingTypes = (message) =>{
+const processingTypes = (message,stateUser) =>{
     const messageJson = JSON.parse(message);
     const type = messageJson.type;
 
     if(type === 'USER_LOGIN'){
-      //new MainView();
-
+      const login = messageJson.payload.user.login;
+      stateUser.login = login;
       window.location.hash = '#main';
     }
 
