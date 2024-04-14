@@ -19,6 +19,7 @@ class App {
     stateUser = {
       login: null,
       password: null,
+      users: [],
     }
 
     constructor(){  
@@ -31,6 +32,22 @@ class App {
 
     stateUserHook(path){
       console.log('stateUserHook:', path);
+
+      if( path === 'users'){
+        console.log('users');
+        //new MainView(this.ws,this.stateUser).redrawingSidebar();
+
+        if(this.currentView){
+          this.currentView.redrawingSidebar();
+        }
+        
+
+        //this.currentView(this.ws,this.stateUser).redrawingSidebar.bind(this.currentView());
+
+        //console.log('this.currentView',this.currentView.name);
+      }
+
+      //console.log('this.currentView',this.currentView);
     }
 
 

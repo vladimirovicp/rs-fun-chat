@@ -3,26 +3,24 @@ import { AbstractView } from '../../common/view';
 import { Sidebar } from '../components/sidebar/sidebar';
 import { Body } from '../components/body/body';
 import { MessageBlock } from '../components/message-block/message-block';
+import { gettingAllAuthenticatedUsers } from "../../helpers/api";
 
 import "./styles.css";
 
 export class MainView extends AbstractView{
-
     constructor(ws,stateUser){
         super();
-
         this.ws = ws;
         this.stateUser = stateUser;
+        gettingAllAuthenticatedUsers(this.ws);
     }
 
     render(){
         const pageName = document.createElement('div');
         pageName.classList.add('chat');
-
-        const sidebar = new Sidebar().render();
+        const sidebar = new Sidebar(this.ws,this.stateUser).render();
         pageName.append(sidebar);
         
-    
         const main = document.createElement('main');
         main.classList.add('main');
 
@@ -30,11 +28,23 @@ export class MainView extends AbstractView{
         main.append(new MessageBlock().render());
 
         pageName.append(main);
-
         this.app.innerHTML = '';
-
         this.app.append(pageName);
+    }
 
+    redrawingSidebar(){
+        const sidebar = this.app.querySelector('.sidebar');
+
+        if(sidebar){
+            const sidebarNew = new Sidebar(this.ws,this.stateUser).render();
+            const sidebarStr = sidebarNew.innerHTML;
+            sidebar.innerHTML = sidebarStr;
+        }
+
+        
+        //sidebar.innerHTML = sidebarStr;
+
+        //sidebar.innerHTML = Сработало;
     }
 
 }

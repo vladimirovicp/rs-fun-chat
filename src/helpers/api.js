@@ -15,9 +15,6 @@ const userAuthentication = async(ws,login,pas) => {
 
 //Выход пользователя из системы
 const userLogout = (ws,stateUser) => {
-
-  //console.log(stateUser.login);
-
   const data = {
     id: stateUser.login,
     type: "USER_LOGOUT",
@@ -88,15 +85,15 @@ const thirdPartyUserLogout = () =>{
 }
 
 //?? Получение всех аутентифицированных пользователей
-const gettingAllAuthenticatedUsers = () =>{
+const gettingAllAuthenticatedUsers = (ws) =>{
 
-  /*
-    {
-      id: string,
-      type: "USER_ACTIVE",
-      payload: null,
-    }
-  */
+  const data = {
+    id: 'allUser',
+    type: "USER_ACTIVE",
+    payload: null,
+  }
+
+  ws.send(JSON.stringify(data));
 
 
   /*

@@ -10,7 +10,7 @@ export class Authorization extends AbstractView {
         this.ws = ws;
     }
 
-    render(stateUser){
+    render(){
         const pageAuth = document.createElement('div');
         pageAuth.classList.add('page-auth');
         pageAuth.innerHTML = `
