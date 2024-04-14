@@ -5,6 +5,8 @@ import styles from "./styles.module.css";
 export class Sidebar extends AbstractView{
     render(){
 
+        
+
         const sidebar = document.createElement('div');
         sidebar.classList.add(styles.sidebar);
         sidebar.innerHTML = `
