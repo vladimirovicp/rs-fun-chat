@@ -141,28 +141,18 @@ export class Authorization extends AbstractView {
             if (nameBool && passBool){
                 signIn.removeAttribute('disabled');
 
-                document.addEventListener('keydown', (e) =>{
-                    if (e.key === 'Enter'){
-                        if(signIn.disabled){
-                            //this.btnClick();
-                            console.log('Enter');
-                        }
-                    }
-                });
+                // document.addEventListener('keydown', (e) =>{
+                //     if (e.key === 'Enter'){
+                //         if(signIn.disabled){
+                //             //this.btnClick();
+                //             console.log('Enter');
+                //         }
+                //     }
+                // });
 
             } else{
                 signIn.setAttribute('disabled', 'disabled');
             }
         };
-
-
-        const enterClick = (e) => {
-
-        };
-
-
-
-
-        
     }
 }
