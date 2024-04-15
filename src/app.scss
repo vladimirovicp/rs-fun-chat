@@ -48,6 +48,16 @@ input[type="text"]:focus, input[type="password"]:focus {
    
 } 
 
+.sign-in:disabled{
+  cursor: default;
+  background-color: #5b5858;
+  &:hover{
+    background-color: #5b5858;
+  }
+  
+}
+
+
 input[type="text"]{
   background:transparent; 
   border:2px solid $border;

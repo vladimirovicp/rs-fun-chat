@@ -60,6 +60,15 @@ $border:#22272d;
         }
       }
 
+      .user-error,.password-error{
+        font-size: 13px;
+        display: block;
+        width: 223px;
+        color: red;
+        line-height: 1;
+        padding-bottom: 5px;
+      }
+
 
 
 }
