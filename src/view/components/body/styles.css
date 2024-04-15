@@ -32,9 +32,9 @@
     font-size: 13px;
 }
 
-.body__senderName{
+/* .body__senderName{
     text-align: right;
-}
+} */
 
 .body__messageRecipient{
     background-color: #f9efec;
@@ -51,4 +51,34 @@
     border-radius: 10px;
     margin-left: auto;
     font-size: 15px;
+}
+
+.body__messageRecipent{
+    background-color: rgb(194,243,194);
+    max-width: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    margin-right: auto;
+    font-size: 15px;
+}
+
+.body__chats-sender .body__chats-info,
+.body__chats-recipent .body__chats-info{
+    width: 300px;
+    padding-bottom: .5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.body__chats-sender .body__chats-name,
+.body__chats-recipent .body__chats-name{
+    font-weight: bold;
+}
+
+.body__chats-sender .body__chats-info{
+    margin-left: auto;
+}
+
+.body__messageSender-status{
+    text-align: right;
 }
