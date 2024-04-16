@@ -75,6 +75,8 @@ export class Authorization extends AbstractView {
         const userNameVal = userName.value;
         const userPasVal = userPas.value;
         this.stateUser.password = userPasVal;
+
+        sessionStorage.setItem('user', JSON.stringify({login: userNameVal, password: userPasVal}));
         userAuthentication(this.ws,userNameVal, userPasVal);
     }
 

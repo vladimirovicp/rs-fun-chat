@@ -1,5 +1,8 @@
 //Аутентификация пользователя
 const userAuthentication = async(ws,login,pas) => {
+
+  console.log();
+
     const data = {
         id: login,
         type: "USER_LOGIN",

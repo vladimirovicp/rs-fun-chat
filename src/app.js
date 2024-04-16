@@ -4,7 +4,6 @@ import { Authorization } from "./view/authorization/authorization";
 import { About } from "./view/about/about";
 import {MainView} from "./view/main/main-view";
 import { CustomWebSocket } from "./common/custom-web-socket";
-
 import onChange from "on-change";
 
 class App {
@@ -24,9 +23,8 @@ class App {
     constructor(){  
         window.addEventListener('hashchange', this.route.bind(this));
         this.stateUser = onChange(this.stateUser, this.stateUserHook.bind(this));
-
         this.ws = new CustomWebSocket('ws://127.0.0.1:4000',this.stateUser);
-        this.route();   
+        this.route();
     }
 
     stateUserHook(path){
@@ -63,8 +61,12 @@ class App {
         }
       }
 
+      console.log(locationHash);
+
        const isPage = this.routes.some(r => r.path === location.hash);
        if(isPage){
+
+
 
         // console.log('this.stateUser.login',this.stateUser.login);
         // console.log('this.stateUser.password',this.stateUser.password);
@@ -77,6 +79,9 @@ class App {
               this.currentView = new view(this.ws,this.stateUser);
 
        } else{
+
+        console.log('dffdfdfd');
+
             this.currentView = new NotFound();
        }
        this.currentView.render();
