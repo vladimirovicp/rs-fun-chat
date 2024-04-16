@@ -3,7 +3,7 @@ import { AbstractView } from '../../common/view';
 import { Sidebar } from '../components/sidebar/sidebar';
 import { Body } from '../components/body/body';
 import { MessageBlock } from '../components/message-block/message-block';
-import { gettingAllAuthenticatedUsers } from "../../helpers/api";
+import { userAuthentication, gettingAllAuthenticatedUsers } from "../../helpers/api";
 
 import "./styles.css";
 
@@ -20,7 +20,10 @@ export class MainView extends AbstractView{
     render(){
 
         if(this.user){
-            console.log('this.user.login',this.user.login)
+            if(!this.stateUser.isLogined){
+                userAuthentication(this.ws);
+                this.stateUser.isLogined = true;
+            }
             gettingAllAuthenticatedUsers(this.ws);
         }
 

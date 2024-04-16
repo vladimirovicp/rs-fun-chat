@@ -28,7 +28,6 @@ export class Body extends AbstractView{
 
         container.addInnerElement(bodyHeader);
 
-
         const bodyContainer = new ElementCreator({tag:'div', classNames:['body__container']});
         const bodyChatsSender = new ElementCreator({tag:'div', classNames:['body__chats','body__chats-sender']});
         const bodyChatsSenderInfo = new ElementCreator({tag:'div', classNames: ['body__chats-info'] });

@@ -1,12 +1,10 @@
 import { processingTypes } from '../helpers/control';
-//import { userAuthentication } from '../helpers/api';
 
 export class CustomWebSocket {
     constructor(url,stateUser) {
       this.url = url;
       this.socket = new WebSocket(this.url);
       this.connected = false;
-
       this.stateUser = stateUser;
       
       this.socket.onopen = () => {

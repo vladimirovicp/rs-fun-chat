@@ -4,6 +4,7 @@ import { Authorization } from "./view/authorization/authorization";
 import { About } from "./view/about/about";
 import {MainView} from "./view/main/main-view";
 import { CustomWebSocket } from "./common/custom-web-socket";
+import { userAuthentication }from "./helpers/api";
 import onChange from "on-change";
 
 class App {
@@ -17,6 +18,7 @@ class App {
     stateUser = {
       login: null,
       password: null,
+      isLogined: false,
       users: [],
     }
 
@@ -29,7 +31,6 @@ class App {
 
     stateUserHook(path){
       console.log('stateUserHook:', path);
-
       if( path === 'users'){
         console.log('users');
         //new MainView(this.ws,this.stateUser).redrawingSidebar();
@@ -37,13 +38,14 @@ class App {
         if(this.currentView){
           this.currentView.redrawingSidebar();
         }
+
+
         
 
         //this.currentView(this.ws,this.stateUser).redrawingSidebar.bind(this.currentView());
 
         //console.log('this.currentView',this.currentView.name);
       }
-
     }
 
 
@@ -60,10 +62,12 @@ class App {
 
       const locationHash = location.hash;
 
+
+
       if(!locationHash || locationHash ==='#auth'){
-          console.log('this.stateUser.login',this.stateUser.login);
-          console.log('this.stateUser.password',this.stateUser.password);
-        if(this.stateUser.login && this.stateUser.password){
+        const userObject = sessionStorage.getItem('user');
+        const user =  JSON.parse(userObject);
+        if(user){
           location.hash = '#main';
         } else{
           location.hash = '#auth';
@@ -71,7 +75,6 @@ class App {
       }
 
        const isPage = this.routes.some(r => r.path === location.hash);
-
 
        const ws = new CustomWebSocket('ws://127.0.0.1:4000',this.stateUser);
        ws.connect().then((socket) => {

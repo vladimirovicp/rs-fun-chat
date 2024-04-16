@@ -3,7 +3,6 @@ const userAuthentication = async(ws) => {
 
   const userObject = sessionStorage.getItem('user');
   const user =  JSON.parse(userObject);
-
     const data = {
         id: user.login,
         type: "USER_LOGIN",
@@ -18,7 +17,7 @@ const userAuthentication = async(ws) => {
 }
 
 //Выход пользователя из системы
-const userLogout = (ws) => {
+const userLogout = (ws,stateUser) => {
 
   const userObject = sessionStorage.getItem('user');
   const user =  JSON.parse(userObject);
@@ -39,6 +38,7 @@ const userLogout = (ws) => {
   // stateUser.password = null;
   ws.send(JSON.stringify(data));
 
+  stateUser.isLogined = false;
   sessionStorage.removeItem('user');
 
 }
