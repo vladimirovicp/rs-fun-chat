@@ -10,7 +10,6 @@ import onChange from "on-change";
 class App {
 
     routes = [
-        {path: "", view: Authorization },
         {path: "#auth", view: Authorization },
         {path: "#about", view: About },
         {path: "#main", view: MainView}
@@ -47,15 +46,36 @@ class App {
         //console.log('this.currentView',this.currentView.name);
       }
 
-      //console.log('this.currentView',this.currentView);
     }
 
 
     async route(){
+
+      const locationHash = location.hash;
+
+      if(!locationHash || locationHash ==='#auth'){
+          console.log('this.stateUser.login',this.stateUser.login);
+          console.log('this.stateUser.password',this.stateUser.password);
+        if(this.stateUser.login && this.stateUser.password){
+          location.hash = '#main';
+        } else{
+          location.hash = '#auth';
+        }
+      }
+
        const isPage = this.routes.some(r => r.path === location.hash);
        if(isPage){
-            const view = this.routes.find(r => r.path == location.hash).view;
-            this.currentView = new view(this.ws,this.stateUser);
+
+        // console.log('this.stateUser.login',this.stateUser.login);
+        // console.log('this.stateUser.password',this.stateUser.password);
+        
+            // if(this.stateUser.login && this.stateUser.password){
+            //   this.currentView = new MainView(this.ws,this.stateUser);
+            // }
+
+              const view = this.routes.find(r => r.path == location.hash).view;
+              this.currentView = new view(this.ws,this.stateUser);
+
        } else{
             this.currentView = new NotFound();
        }

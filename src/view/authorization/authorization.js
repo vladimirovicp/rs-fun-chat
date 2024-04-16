@@ -46,7 +46,7 @@ export class Authorization extends AbstractView {
                         <input type="password" name="password" class="user-password" placeholder="My password is" value="test"/>
                         <span class="password-error"></span>
                     </div>
-                    <input type="submit" value="Sign in" class="sign-in" disabled />
+                    <input type="submit" value="Sign in" class="sign-in" />
                 </form>
                 <a href="#about" class="btn">about</a>
             </div>
@@ -54,7 +54,9 @@ export class Authorization extends AbstractView {
         </div`;
 
 
-        this.validateInput(pageAuth);
+        //!!!!!!!!!!!!!! Потом Включи валидацию!!!!
+        // добавь <input type="submit" value="Sign in" class="sign-in" disabled />
+        //this.validateInput(pageAuth);
 
 
         const signIn = pageAuth.querySelector('.sign-in');
