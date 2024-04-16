@@ -24,6 +24,9 @@ export class MainView extends AbstractView{
                 userAuthentication(this.ws);
                 this.stateUser.isLogined = true;
             }
+
+            //console.log('----',gettingAllAuthenticatedUsers(this.ws));
+
             gettingAllAuthenticatedUsers(this.ws);
         }
 

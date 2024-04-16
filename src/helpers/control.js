@@ -18,8 +18,16 @@ const processingTypes = (message,stateUser) =>{
 
     //Аутентификация пользователя третьей стороной
     if(type === 'USER_EXTERNAL_LOGIN'){
-      //stateUser.users = stateUser.users
-      stateUser.users.push(messageJson.payload.user);
+      const foundObject = stateUser.users.some(obj => obj.login === messageJson.payload.user.login);
+      
+      console.log('foundObject----',foundObject);
+      
+      if(!foundObject){
+        stateUser.users.push(messageJson.payload.user);
+        console.log('----------------',stateUser.users);
+      } else {
+        stateUser.usersActive = true;
+      }
     }
 
     //Получение всех аутентифицированных пользователей

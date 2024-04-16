@@ -20,6 +20,7 @@ class App {
       password: null,
       isLogined: false,
       users: [],
+      usersActive: false,
     }
 
     constructor(){  
@@ -32,19 +33,21 @@ class App {
     stateUserHook(path){
       console.log('stateUserHook:', path);
       if( path === 'users'){
-        console.log('users');
-        //new MainView(this.ws,this.stateUser).redrawingSidebar();
-
         if(this.currentView){
           this.currentView.redrawingSidebar();
         }
+      }
 
+      if (path === 'usersActive'){
 
-        
-
-        //this.currentView(this.ws,this.stateUser).redrawingSidebar.bind(this.currentView());
-
-        //console.log('this.currentView',this.currentView.name);
+        console.log('this.stateUser.usersActive', this.stateUser.usersActive);
+          if(this.stateUser.usersActive){
+            this.stateUser.usersActive = false;
+            //userAuthentication(this.ws);
+            if(this.currentView){
+              this.currentView.redrawingSidebar();
+            }
+          }
       }
     }
 

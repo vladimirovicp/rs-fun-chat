@@ -22,7 +22,7 @@ export class Sidebar extends AbstractView{
         const sidebar = document.createElement('div');
         sidebar.classList.add('sidebar');
 
-        const sidebarTitle = document.createElement('div');
+        //const sidebarTitle = document.createElement('div');
 
         // sidebarTitle.classList.add('sidebar__header');
         // sidebarTitle.innerHTML = 'Users';
