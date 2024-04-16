@@ -2,7 +2,6 @@ import { AbstractView } from '../../../common/view';
 import "./styles.css";
 import { gettingAllAuthenticatedUsers } from "../../../helpers/api";
 
-
 export class Sidebar extends AbstractView{
 
 
@@ -13,6 +12,8 @@ export class Sidebar extends AbstractView{
     }
 
     render(){
+
+        //gettingAllAuthenticatedUsers(this.ws);
 
         //gettingAllAuthenticatedUsers(this.ws);
 

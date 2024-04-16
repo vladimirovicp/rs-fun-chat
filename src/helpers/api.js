@@ -1,15 +1,16 @@
 //Аутентификация пользователя
-const userAuthentication = async(ws,login,pas) => {
+const userAuthentication = async(ws) => {
 
-  console.log();
+  const userObject = sessionStorage.getItem('user');
+  const user =  JSON.parse(userObject);
 
     const data = {
-        id: login,
+        id: user.login,
         type: "USER_LOGIN",
         payload: {
           user: {
-            login: login,
-            password: pas,
+            login: user.login,
+            password: user.password,
           },
         },
       };
@@ -17,22 +18,28 @@ const userAuthentication = async(ws,login,pas) => {
 }
 
 //Выход пользователя из системы
-const userLogout = (ws,stateUser) => {
+const userLogout = (ws) => {
+
+  const userObject = sessionStorage.getItem('user');
+  const user =  JSON.parse(userObject);
+
+
   const data = {
-    id: stateUser.login,
+    id: user.login,
     type: "USER_LOGOUT",
     payload: {
       user: {
-        login: stateUser.login,
-        password: stateUser.password,
+        login: user.login,
+        password: user.password,
       }
     }
   }
 
-  stateUser.login = null;
-  stateUser.password = null;
-  
+  // stateUser.login = null;
+  // stateUser.password = null;
   ws.send(JSON.stringify(data));
+
+  sessionStorage.removeItem('user');
 
 }
 

@@ -77,7 +77,7 @@ export class Authorization extends AbstractView {
         this.stateUser.password = userPasVal;
 
         sessionStorage.setItem('user', JSON.stringify({login: userNameVal, password: userPasVal}));
-        userAuthentication(this.ws,userNameVal, userPasVal);
+        userAuthentication(this.ws);
     }
 
     validateInput(pageAuth){

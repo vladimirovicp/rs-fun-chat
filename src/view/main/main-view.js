@@ -13,15 +13,24 @@ export class MainView extends AbstractView{
         this.ws = ws;
         this.stateUser = stateUser;
 
-        if(this.stateUser.login && this.stateUser.password){
-            gettingAllAuthenticatedUsers(this.ws);
-        }
-        
+        const userObject = sessionStorage.getItem('user');
+        this.user = JSON.parse(userObject);
     }
 
     render(){
-        if(!this.stateUser.login && !this.stateUser.password){
 
+        if(this.user){
+            console.log('this.user.login',this.user.login)
+            gettingAllAuthenticatedUsers(this.ws);
+        }
+
+        // if(this.user.login){
+        //     console.log('this.user.login',this.user.login)
+        //     console.log(this.ws);
+        //     gettingAllAuthenticatedUsers(this.ws);
+        // }
+
+        if(!this.user){
             const pageName = document.createElement('div');
             pageName.classList.add('chat__noAuth');
             pageName.innerHTML = `<div class="chat__noAuth-container">
@@ -31,8 +40,6 @@ export class MainView extends AbstractView{
             this.app.innerHTML = '';
             this.app.append(pageName);
             return null;
-
-
         }
 
         const pageName = document.createElement('div');
