@@ -4,7 +4,7 @@ import { Sidebar } from '../components/sidebar/sidebar';
 import { Body } from '../components/body/body';
 import { MessageBlock } from '../components/message-block/message-block';
 import { userAuthentication, gettingAllAuthenticatedUsers } from "../../helpers/api";
-
+import ElementCreator from '../../util/element-creator';
 import "./styles.css";
 
 export class MainView extends AbstractView{
@@ -51,7 +51,17 @@ export class MainView extends AbstractView{
         main.append(new Body(this.ws,this.stateUser).render());
         main.append(new MessageBlock().render());
 
+        const footer = new ElementCreator({tag:'div', classNames:['chat__footer']}).getElement();
+        footer.innerHTML = `
+            <div class="chat__footer-rs"><img src="../img/rs-logo.webp">The Rolling Scopes School</div>
+            <div>Git Hub: <a href="https://github.com/vladimirovicp">Vladimirovicp</a></div>
+            <div>2024</div>
+        `;
+        main.append(footer);
         pageName.append(main);
+
+        
+
         this.app.innerHTML = '';
         this.app.append(pageName);
     }

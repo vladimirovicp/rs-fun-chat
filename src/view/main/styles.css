@@ -33,3 +33,24 @@
     font-size: 1.2rem;
     color: #a1c5f9;
 }
+
+.chat__footer{
+    margin-top: 5vh;
+    height: 5vh;
+    background-color: azure;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.chat__footer-rs{
+    height: 4vh;
+    display: flex;
+    align-items:center;
+
+}
+.chat__footer-rs img{
+    height: 100%;
+    width: auto;
+    margin-right: 1rem;
+}
