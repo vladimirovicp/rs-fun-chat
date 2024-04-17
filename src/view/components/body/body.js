@@ -24,8 +24,21 @@ export class Body extends AbstractView{
                 userLogout(this.ws,this.stateUser);
             }
         });
-        bodyHeader.addInnerElement(bodyBtn);
 
+        const nameChat = new ElementCreator({tag:'div', classNames:['body__name-chat'], textContent: 'Супер чат!'});
+        const aboutBtn = new ElementCreator({
+            tag:'button', 
+            classNames:['btn','body__btn','body__btn-about'], 
+            textContent: 'About',
+            callback: () =>{
+                window.location.hash = '#about';
+            }
+        });
+
+
+        bodyHeader.addInnerElement(nameChat);
+        bodyHeader.addInnerElement(aboutBtn);
+        bodyHeader.addInnerElement(bodyBtn);
         container.addInnerElement(bodyHeader);
 
         const bodyContainer = new ElementCreator({tag:'div', classNames:['body__container']});

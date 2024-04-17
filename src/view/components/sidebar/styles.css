@@ -42,3 +42,20 @@
 .sidebar__user-active {
     background: #32cd32;
 }
+
+.sidebar__user-current{
+    text-align: center;
+    background-color:#e1e1e1;
+    padding: 1rem;
+}
+
+.sidebar__user-current-name{
+    font-weight: bold;
+    display: block;
+    margin-top: 0.5rem;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}

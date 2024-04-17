@@ -5,9 +5,6 @@ const processingTypes = (message,stateUser,ws) =>{
     const type = messageJson.type;
 
     if(type === 'USER_LOGIN'){
-      // const login = messageJson.payload.user.login;
-      // stateUser.login = login;
-
       window.location.hash = '#main';
       gettingAllAuthenticatedUsers(ws); // Получение всех аутентифицированных пользователей
       gettingAllUnauthorizedUsers(ws); // Получение всех неавторизованных пользователей

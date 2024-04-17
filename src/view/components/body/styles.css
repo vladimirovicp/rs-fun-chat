@@ -2,9 +2,11 @@
     height: 10vh;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 20px;
     border-bottom: 1px solid #bfbdbd;
+    background-color: #fff;
+    gap: 1rem;
 }
 
 .body__btn{
@@ -15,6 +17,10 @@
     background-color: #d1512d;
     cursor: pointer;
     color: #eae3d2;
+}
+
+.body__btn-about{
+    margin-left: auto;
 }
 
 .body__container{
@@ -81,4 +87,9 @@
 
 .body__messageSender-status{
     text-align: right;
+}
+
+.body__name-chat{
+    font-size: 2rem;
+    font-weight: bold;
 }

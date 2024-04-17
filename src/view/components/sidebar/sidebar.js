@@ -9,10 +9,16 @@ export class Sidebar extends AbstractView{
     }
 
     render(){
+
+        const userObject = sessionStorage.getItem('user');
+        const userName = JSON.parse(userObject).login;
+
         const sidebar = document.createElement('div');
         sidebar.classList.add('sidebar');
 
         sidebar.innerHTML = `
+            <div class="sidebar__user-current">
+                Вы вошли как: <span class="sidebar__user-current-name">${userName}</span></div>
             <h4 class='sidebar__header'>Пользователи:</h4>
             <ul class='sidebar__users'>
                 <li>User 1</li>
