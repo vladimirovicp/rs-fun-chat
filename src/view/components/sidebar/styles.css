@@ -7,7 +7,7 @@
 }
 
 .sidebar__header{
-    margin: 30px 0 20px 0;
+    margin: 0 0 1rem 0;
     font-size: 25px;
 }
 
@@ -58,4 +58,20 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 150px;
+}
+
+.search__input{
+    margin: 1rem 0;
+}
+
+.sidebar__message-number{
+    border: 1px solid #32cd32;
+    border-radius: 50%;
+    font-size: 10px;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
 }

@@ -95,7 +95,6 @@ export class Authorization extends AbstractView {
                     activeSignIn();
                 } else{
                     if(value.length < 4){
-                        console.log(value.length)
                         userError.innerHTML = 'Символов в Имени должно быть больше 3!';
                         nameBool=false;
                         activeSignIn();

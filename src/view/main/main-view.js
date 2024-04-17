@@ -60,8 +60,6 @@ export class MainView extends AbstractView{
         main.append(footer);
         pageName.append(main);
 
-        
-
         this.app.innerHTML = '';
         this.app.append(pageName);
     }
@@ -72,7 +70,28 @@ export class MainView extends AbstractView{
             const sidebarNew = new Sidebar(this.ws,this.stateUser).render();
             const sidebarStr = sidebarNew.innerHTML;
             sidebar.innerHTML = sidebarStr;
+
+            this.searchUser(sidebar)
         }
+    }
+
+    searchUser(sidebar){
+        const searchInput = sidebar.querySelector('.search__input');
+        const sidebarUsers = sidebar.querySelector('.sidebar__users');
+        const items = sidebarUsers.getElementsByTagName('li');
+        searchInput.addEventListener('input', (e) => {
+            const searchText = e.target.value.toLowerCase();
+            Array.from(items).forEach(function(item){
+                const nameUser = item.querySelector('.sidebar__user-name').textContent.toLowerCase();
+                if (nameUser.includes(searchText)){
+                    item.style.display = 'block';
+                } else{
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        
     }
 
 }

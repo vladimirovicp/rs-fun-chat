@@ -31,7 +31,19 @@ const processingTypes = (message,stateUser,ws) =>{
 
     //Получение всех аутентифицированных пользователей
     if(type === 'USER_ACTIVE'){
-      stateUser.usersActive = messageJson.payload.users;
+
+      const usersList = messageJson.payload.users;
+
+      const currentUserObj = sessionStorage.getItem('user');
+      const currentUserName = JSON.parse(currentUserObj).login;
+      // Находим индекс объекта в списке
+      const indexToDelete = usersList.findIndex(obj => obj.login === currentUserName);
+
+      if (indexToDelete !== -1) {
+        usersList.splice(indexToDelete, 1);
+      }
+    
+      stateUser.usersActive = usersList;
     }
 
     //Получение всех неавторизованных пользователей

@@ -19,13 +19,14 @@ export class Sidebar extends AbstractView{
         sidebar.innerHTML = `
             <div class="sidebar__user-current">
                 Вы вошли как: <span class="sidebar__user-current-name">${userName}</span></div>
+            <div class="search__box">
+                <input type="search" class="search__input" placeholder="Найти пользователя ...">
+            </div>
             <h4 class='sidebar__header'>Пользователи:</h4>
             <ul class='sidebar__users'>
-                <li>User 1</li>
-                <li>User 2</li>
-                <li>User 3</li>
             </ul>
         `;
+
 
         let sidebarUsersList = '';
 
@@ -34,6 +35,7 @@ export class Sidebar extends AbstractView{
                 <div class="sidebar__user">
                     <div class="sidebar__user-status sidebar__user-active"></div>
                     <div class="sidebar__user-name">${this.stateUser.usersActive[i].login}</div>
+                    <div class="sidebar__message-number">1</div>
                 </div>
             </li>`;
           }
@@ -49,6 +51,8 @@ export class Sidebar extends AbstractView{
 
         const sidebarUsers = sidebar.querySelector('.sidebar__users');
         sidebarUsers.innerHTML = sidebarUsersList;
+
+
 
 
         return sidebar;
