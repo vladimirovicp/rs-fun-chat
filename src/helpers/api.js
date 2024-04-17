@@ -94,34 +94,24 @@ const thirdPartyUserLogout = () =>{
 
 }
 
-//?? Получение всех аутентифицированных пользователей
+//Получение всех аутентифицированных пользователей
 const gettingAllAuthenticatedUsers = (ws) =>{
-
   const data = {
-    id: 'allUser',
+    id: 'allAuthUser',
     type: "USER_ACTIVE",
     payload: null,
   }
-
   ws.send(JSON.stringify(data));
-
-
-  /*
-    id - идентификатор запроса
-  */
 }
 
-//?? Получение всех неавторизованных пользователей
-const gettingAllUnauthorizedUsers = () => {
-  /*
-    {
-      id: string,
-      type: "USER_INACTIVE",
-      payload: null,
-    }
-  */
-
-  //id - идентификатор запроса
+//Получение всех неавторизованных пользователей
+const gettingAllUnauthorizedUsers = (ws) => {
+  const data = {
+    id: 'allUnautUser',
+    type: "USER_INACTIVE",
+    payload: null,
+  }
+  ws.send(JSON.stringify(data));
 }
 
 //?? Отправка сообщения пользователю

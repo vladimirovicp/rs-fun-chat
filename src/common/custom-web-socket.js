@@ -15,8 +15,7 @@ export class CustomWebSocket {
       
       this.socket.onmessage = (event) => {
         console.log('Получено сообщение: ' + event.data);
-        processingTypes(event.data, this.stateUser);
-        //this.control(event.data);
+        processingTypes(event.data, this.stateUser, this.socket);
       };
       
       this.socket.onclose = () => {
@@ -39,15 +38,6 @@ export class CustomWebSocket {
       
       this.socket.onopen = () => {
         console.log('Соединение восстановлено');
-
-        // const userObject = sessionStorage.getItem('user');
-        // const user = JSON.parse(userObject);
-        // if(this.user.login){
-
-        // }
-
-
-
       };
       
       this.socket.onmessage = (event) => {

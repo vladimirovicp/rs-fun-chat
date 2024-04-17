@@ -1,11 +1,16 @@
-const processingTypes = (message,stateUser) =>{
+import { gettingAllAuthenticatedUsers, gettingAllUnauthorizedUsers } from '../helpers/api';
+
+const processingTypes = (message,stateUser,ws) =>{
     const messageJson = JSON.parse(message);
     const type = messageJson.type;
 
     if(type === 'USER_LOGIN'){
-      const login = messageJson.payload.user.login;
-      stateUser.login = login;
+      // const login = messageJson.payload.user.login;
+      // stateUser.login = login;
+
       window.location.hash = '#main';
+      gettingAllAuthenticatedUsers(ws); // Получение всех аутентифицированных пользователей
+      gettingAllUnauthorizedUsers(ws); // Получение всех неавторизованных пользователей
     }
 
     if(type === 'ERROR'){
@@ -18,24 +23,23 @@ const processingTypes = (message,stateUser) =>{
 
     //Аутентификация пользователя третьей стороной
     if(type === 'USER_EXTERNAL_LOGIN'){
-      const foundObject = stateUser.users.some(obj => obj.login === messageJson.payload.user.login);
-      
-      console.log('foundObject----',foundObject);
-      
-      if(!foundObject){
-        stateUser.users.push(messageJson.payload.user);
-        console.log('----------------',stateUser.users);
-      } else {
-        stateUser.usersActive = true;
-      }
+      gettingAllAuthenticatedUsers(ws); // Получение всех аутентифицированных пользователей
+      gettingAllUnauthorizedUsers(ws); // Получение всех неавторизованных пользователей
+    }
+
+    if(type === 'USER_EXTERNAL_LOGOUT'){
+      gettingAllAuthenticatedUsers(ws); // Получение всех аутентифицированных пользователей
+      gettingAllUnauthorizedUsers(ws); // Получение всех неавторизованных пользователей
     }
 
     //Получение всех аутентифицированных пользователей
     if(type === 'USER_ACTIVE'){
-      stateUser.users = messageJson.payload.users;
+      stateUser.usersActive = messageJson.payload.users;
+    }
 
-      //console.log(document);
-
+    //Получение всех неавторизованных пользователей
+    if(type === 'USER_INACTIVE'){
+      stateUser.usersInacrive = messageJson.payload.users;
     }
 
     

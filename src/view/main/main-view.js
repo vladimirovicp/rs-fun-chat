@@ -21,20 +21,11 @@ export class MainView extends AbstractView{
 
         if(this.user){
             if(!this.stateUser.isLogined){
-                userAuthentication(this.ws);
+                userAuthentication(this.ws); // Аутентификация пользователя
                 this.stateUser.isLogined = true;
             }
-
-            //console.log('----',gettingAllAuthenticatedUsers(this.ws));
-
-            gettingAllAuthenticatedUsers(this.ws);
+            gettingAllAuthenticatedUsers(this.ws); //Получение всех аутентифицированных пользователей
         }
-
-        // if(this.user.login){
-        //     console.log('this.user.login',this.user.login)
-        //     console.log(this.ws);
-        //     gettingAllAuthenticatedUsers(this.ws);
-        // }
 
         if(!this.user){
             const pageName = document.createElement('div');
@@ -67,17 +58,11 @@ export class MainView extends AbstractView{
 
     redrawingSidebar(){
         const sidebar = this.app.querySelector('.sidebar');
-
         if(sidebar){
             const sidebarNew = new Sidebar(this.ws,this.stateUser).render();
             const sidebarStr = sidebarNew.innerHTML;
             sidebar.innerHTML = sidebarStr;
         }
-
-        
-        //sidebar.innerHTML = sidebarStr;
-
-        //sidebar.innerHTML = Сработало;
     }
 
 }

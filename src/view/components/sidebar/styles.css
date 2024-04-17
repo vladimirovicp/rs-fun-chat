@@ -13,6 +13,7 @@
 
 .sidebar__users{
     margin-bottom: 10px;
+    padding-left: .5rem;
     color: #607eaa;
     font-size: 14px;
     list-style: none;
@@ -21,4 +22,23 @@
 .sidebar__users > li {
     margin-bottom: 20px;
     cursor: pointer;
+}
+
+.sidebar__user{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem
+}
+
+.sidebar__user-status{
+    background: #8b0000;
+    border: 1px solid;
+    border-radius: 50%;
+    box-sizing: border-box;
+    height: 6px;
+    width: 6px;
+}
+
+.sidebar__user-active {
+    background: #32cd32;
 }

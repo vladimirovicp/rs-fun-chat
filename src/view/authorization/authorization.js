@@ -74,21 +74,15 @@ export class Authorization extends AbstractView {
         const userPas = el.querySelector('.user-password');
         const userNameVal = userName.value;
         const userPasVal = userPas.value;
-
-        //this.stateUser.password = userPasVal;
-
         sessionStorage.setItem('user', JSON.stringify({login: userNameVal, password: userPasVal}));
         this.stateUser.isLogined = true;
         userAuthentication(this.ws);
     }
 
     validateInput(pageAuth){
-
         let nameBool = false;
         let passBool = false;
-
         const signIn = pageAuth.querySelector('.sign-in');
-
         const formUserName = pageAuth.querySelector('.form__user-name');
         const userError = formUserName.querySelector('.user-error');
         const userName = formUserName.querySelector('.user-name');
