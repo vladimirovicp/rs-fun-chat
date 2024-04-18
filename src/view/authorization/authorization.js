@@ -48,7 +48,7 @@ export class Authorization extends AbstractView {
                     </div>
                     <input type="submit" value="Sign in" class="sign-in" />
                 </form>
-                <a href="#about" class="btn">about</a>
+                <a href="#about" class="btn form__btn">about</a>
             </div>
             ${authorizationIco}
         </div`;

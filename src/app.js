@@ -51,6 +51,9 @@ class App {
       if(!locationHash || locationHash ==='#auth'){
         const userObject = sessionStorage.getItem('user');
         const user =  JSON.parse(userObject);
+
+        console.log('-----------',user);
+
         if(user){
           location.hash = '#main';
         } else{

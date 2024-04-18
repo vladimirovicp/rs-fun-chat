@@ -1,6 +1,5 @@
 //Аутентификация пользователя
 const userAuthentication = async(ws) => {
-
   const userObject = sessionStorage.getItem('user');
   const user =  JSON.parse(userObject);
     const data = {
@@ -20,7 +19,6 @@ const userAuthentication = async(ws) => {
 const userLogout = (ws,stateUser) => {
   const userObject = sessionStorage.getItem('user');
   const user =  JSON.parse(userObject);
-  
   const data = {
     id: user.login,
     type: "USER_LOGOUT",
@@ -31,14 +29,15 @@ const userLogout = (ws,stateUser) => {
       }
     }
   }
-
-  // stateUser.login = null;
-  // stateUser.password = null;
-  ws.send(JSON.stringify(data));
-
-  stateUser.isLogined = false;
   sessionStorage.removeItem('user');
+  stateUser.isLogined = false;
+  ws.send(JSON.stringify(data));
+  window.location.hash = '#auth';
 
+
+
+  // console.log(user);
+  
 }
 
 //?? Аутентификация пользователя третьей стороной

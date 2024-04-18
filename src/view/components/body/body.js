@@ -18,7 +18,7 @@ export class Body extends AbstractView{
         const bodyHeader = new ElementCreator({tag:'header', classNames:['body__header']});
         const bodyBtn = new ElementCreator({
             tag:'button', 
-            classNames:['btn','body__btn'], 
+            classNames:['btn','body__btn','body__btn-chat'], 
             textContent: 'Покинуть чат',
             callback: () =>{
                 userLogout(this.ws,this.stateUser);
@@ -34,7 +34,6 @@ export class Body extends AbstractView{
                 window.location.hash = '#about';
             }
         });
-
 
         bodyHeader.addInnerElement(nameChat);
         bodyHeader.addInnerElement(aboutBtn);
@@ -82,38 +81,7 @@ export class Body extends AbstractView{
 
         bodyContainer.addInnerElement(bodyChatsSender);
         bodyContainer.addInnerElement(bodyChatsRecipent);
-
-
-
         container.addInnerElement(bodyContainer);
-
-
-
-        const body = `
-            <header class="body__header">
-                <button class='btn body__btn'>Покинуть чат</button>
-            </header>
-
-            <div class="body__container">
-                <div class="body__chats body__chats-sender">
-                    <p class="body__sender">Вы</p>
-                    <div class="body__messageSender">
-                        <p>Hellow</p>
-                    </div>
-                </div>
-
-                <div class="body__chats body__chats-recipent">
-                    <p>Вы</p>
-                    <div class="body__messageRecipent">
-                        <p>Hellow</p>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        //const bodyBtn =
-
-        
 
         return container.getElement();
     }
