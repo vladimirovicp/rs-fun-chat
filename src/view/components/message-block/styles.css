@@ -17,10 +17,13 @@
     width: 80%;
     height: 100%;
     border-radius: 10px;
-    border: 1px solid #ddd;
     outline: none;
     padding: 15px!important;
     color: #000!important;
+}
+
+.userMessage:disabled{
+   border: 2px solid #b0b8c1!important;
 }
 
 .btn{
@@ -37,4 +40,13 @@
 .btn:hover{
     background-color: rgb(13 18 13);
     /* background-color: rgb(129,201,129); */
+}
+
+.btn:disabled{
+    background-color: rgb(129,201,129);
+    cursor: default;
+}
+
+.btn:disabled:hover{
+    background-color: rgb(129,201,129);
 }

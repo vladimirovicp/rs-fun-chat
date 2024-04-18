@@ -22,6 +22,7 @@ export default class ElementCreator {
         this.setTextContent(params.textContent);
         this.setCallback(params.callback);
         this.setId(params.id);
+        this.setAttr(params.attr);
     }
 
     setId(id) {
@@ -32,6 +33,13 @@ export default class ElementCreator {
 
     setCssClasses(cssClasses = []) {
         cssClasses.map((cssClass) => this.element.classList.add(cssClass));
+    }
+
+    setAttr(attr = {}){
+        for (let i = 0; i < Object.keys(attr).length; i += 1) {
+            const key = Object.keys(attr)[i];
+            this.element.setAttribute(key, attr[key]);
+          }
     }
 
     setTextContent(text = '') {

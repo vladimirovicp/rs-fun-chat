@@ -9,13 +9,10 @@ export class Sidebar extends AbstractView{
     }
 
     render(){
-
         const userObject = sessionStorage.getItem('user');
         const userName = JSON.parse(userObject).login;
-
         const sidebar = document.createElement('div');
         sidebar.classList.add('sidebar');
-
         sidebar.innerHTML = `
             <div class="sidebar__user-current">
                 Вы вошли как: <span class="sidebar__user-current-name">${userName}</span></div>
@@ -26,10 +23,7 @@ export class Sidebar extends AbstractView{
             <ul class='sidebar__users'>
             </ul>
         `;
-
-
         let sidebarUsersList = '';
-
         for (let i = 0; i < this.stateUser.usersActive.length; i++) {
             sidebarUsersList += `<li>
                 <div class="sidebar__user">
@@ -39,7 +33,6 @@ export class Sidebar extends AbstractView{
                 </div>
             </li>`;
           }
-
           for (let i = 0; i < this.stateUser.usersInacrive.length; i++) {
             sidebarUsersList += `<li>
                 <div class="sidebar__user">
@@ -48,13 +41,8 @@ export class Sidebar extends AbstractView{
                 </div>
             </li>`;
           }
-
         const sidebarUsers = sidebar.querySelector('.sidebar__users');
         sidebarUsers.innerHTML = sidebarUsersList;
-
-
-
-
         return sidebar;
     }
 }

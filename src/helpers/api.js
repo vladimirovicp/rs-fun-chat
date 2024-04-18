@@ -18,11 +18,9 @@ const userAuthentication = async(ws) => {
 
 //Выход пользователя из системы
 const userLogout = (ws,stateUser) => {
-
   const userObject = sessionStorage.getItem('user');
   const user =  JSON.parse(userObject);
-
-
+  
   const data = {
     id: user.login,
     type: "USER_LOGOUT",

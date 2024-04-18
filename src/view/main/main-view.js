@@ -72,6 +72,7 @@ export class MainView extends AbstractView{
             sidebar.innerHTML = sidebarStr;
 
             this.searchUser(sidebar)
+            this.clickUser(sidebar,this.stateUser);
         }
     }
 
@@ -90,8 +91,28 @@ export class MainView extends AbstractView{
                 }
             });
         });
+    }
 
-        
+    clickUser(sidebar,stateUser) {
+        const sidebarUsers = sidebar.querySelector('.sidebar__users');
+        const items = sidebarUsers.getElementsByTagName('li');
+
+        Array.from(items).forEach(function(item){
+
+            const sidebarUser = item.querySelector('.sidebar__user');
+
+            sidebarUser.addEventListener('click', ()=>{
+                const sidebarUserName = sidebarUser.querySelector('.sidebar__user-name').textContent;
+                stateUser.sendUser = sidebarUserName.trim();
+            })
+        });
+    }
+
+    isSendUser(){
+        if(this.stateUser.sendUser){
+            const userMessage = this.app.querySelector('.userMessage');
+            userMessage.removeAttribute('disabled');
+        }
     }
 
 }

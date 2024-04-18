@@ -20,6 +20,7 @@ class App {
       isLogined: false,
       usersActive: [],
       usersInacrive: [],
+      sendUser: null,
     }
 
     constructor(){  
@@ -33,6 +34,14 @@ class App {
         if( this.currentView.constructor.name === 'MainView'){
           this.currentView.redrawingSidebar();
         }
+      }
+
+      if( path === 'sendUser'){
+        console.log('messageToUser');
+        if( this.currentView.constructor.name === 'MainView'){
+          this.currentView. isSendUser();
+        }
+       
       }
     }
 
