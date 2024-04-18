@@ -41,6 +41,14 @@ export class Body extends AbstractView{
         bodyHeader.addInnerElement(bodyBtn);
         container.addInnerElement(bodyHeader);
 
+
+        const bodyInfo = new ElementCreator({tag:'div', classNames:['body__info']});
+        const sendUserName = new ElementCreator({tag:'div', classNames:['body__send-user-name'], textContent: 'annonimus'});
+        const sendUserStatus = new ElementCreator({tag:'div', classNames:['body__send-user-status'], textContent: 'в сети'});
+        bodyInfo.addInnerElement(sendUserName);
+        bodyInfo.addInnerElement(sendUserStatus);
+        container.addInnerElement(bodyInfo);
+
         const bodyContainer = new ElementCreator({tag:'div', classNames:['body__container']});
         const bodyChatsSender = new ElementCreator({tag:'div', classNames:['body__chats','body__chats-sender']});
         const bodyChatsSenderInfo = new ElementCreator({tag:'div', classNames: ['body__chats-info'] });
