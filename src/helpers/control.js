@@ -65,9 +65,17 @@ const processingTypes = (message,stateUser,ws) =>{
       if(currentUserName === from) {
         stateUser.mainLastMessage = {
           text: text,
-          datetime: datetime
+          datetime: datetime,
         }
-        
+      }
+
+      if(currentUserName === to) {
+        if(stateUser.sendUser === from){
+          stateUser.currentReceivedMessage={
+            text: text,
+            datetime: datetime,
+          }
+        }
       }
 
     }

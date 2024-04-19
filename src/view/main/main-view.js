@@ -145,22 +145,17 @@ export class MainView extends AbstractView{
     }
 
     mainNewMessage(dateMessage){
-        console.log('newMessage',dateMessage);
-
-        // text: text,
-        // datetime: datetime
-
         const bodyContainer = this.app.querySelector('.body__container');
-
-        //console.log('Body',this.BodyClass.constructor.name);
-
-
         const date =  this.formateDate(dateMessage.datetime);
-
         const bodyChatsSender = this.BodyClass.createChatsSender(dateMessage.text,date);
+        bodyContainer.innerHTML += bodyChatsSender.getElement().outerHTML;
+    }
 
-       bodyContainer.innerHTML += bodyChatsSender.getElement().outerHTML;
-        
+    interlocutorNewMessage(dateMessage){
+        const bodyContainer = this.app.querySelector('.body__container');
+        const date =  this.formateDate(dateMessage.datetime);
+        const bodyChatsRecipent = this.BodyClass.createChatsRecipent(dateMessage.text,date,this.stateUser.sendUser);
+        bodyContainer.innerHTML += bodyChatsRecipent.getElement().outerHTML;
     }
 
     formateDate(timestamp){

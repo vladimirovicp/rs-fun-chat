@@ -48,25 +48,11 @@ export class Body extends AbstractView{
 
         const bodyContainer = new ElementCreator({tag:'div', classNames:['body__container']});
 
+        // const bodyChatsSender = this.createChatsSender('Привет!','19.04.2024, 22:42:29');
+        // const bodyChatsRecipent = this.createChatsRecipent('Как дела?','19.04.2024, 22:42:29',this.stateUser.sendUser)
 
-        const bodyChatsSender = this.createChatsSender('Привет!','19.04.2024, 22:42:29');
-
-        const bodyChatsRecipent = new ElementCreator({tag:'div', classNames:['body__chats', 'body__chats-recipent']});
-        const bodyChatsRecipentInfo = new ElementCreator({tag:'div', classNames: ['body__chats-info'] });
-        const bodyChatsRecipentName = new ElementCreator({tag:'span', classNames: ['body__chats-name'], textContent: 'Имя отправляющего'});
-        const bodyChatsRecipentDate = new ElementCreator({tag:'span', classNames: ['body__chats-date'], textContent: '15.04.2024, 22:42:29'});
-        bodyChatsRecipentInfo.addInnerElement(bodyChatsRecipentName);
-        bodyChatsRecipentInfo.addInnerElement(bodyChatsRecipentDate);
-        bodyChatsRecipent.addInnerElement(bodyChatsRecipentInfo);
-        const bodyChatsRecipentMessage = new ElementCreator({tag:'div', classNames:['body__messageRecipent']});
-        const bodyChatsRecipentMessageP = new ElementCreator({tag:'p', textContent: 'Hellow'});
-        bodyChatsRecipentMessage.addInnerElement(bodyChatsRecipentMessageP);
-        bodyChatsRecipent.addInnerElement(bodyChatsRecipentMessage);
-        // const bodyChatsRecipentMessageStatus = new ElementCreator({tag:'p', textContent: 'прочитано'});
-        // bodyChatsRecipent.addInnerElement(bodyChatsRecipentMessageStatus);
-
-        bodyContainer.addInnerElement(bodyChatsSender);
-        bodyContainer.addInnerElement(bodyChatsRecipent);
+        // bodyContainer.addInnerElement(bodyChatsSender);
+        // bodyContainer.addInnerElement(bodyChatsRecipent);
         container.addInnerElement(bodyContainer);
 
         return container.getElement();
@@ -88,6 +74,22 @@ export class Body extends AbstractView{
         const bodyChatsSenderMessageStatus = new ElementCreator({tag:'p', classNames:['body__messageSender-status'], textContent: 'доставлено'});
         bodyChatsSender.addInnerElement(bodyChatsSenderMessageStatus);
         return bodyChatsSender;
+    }
+
+    createChatsRecipent(message,date,userRecipent){
+        const bodyChatsRecipent = new ElementCreator({tag:'div', classNames:['body__chats', 'body__chats-recipent']});
+        const bodyChatsRecipentInfo = new ElementCreator({tag:'div', classNames: ['body__chats-info'] });
+        const bodyChatsRecipentName = new ElementCreator({tag:'span', classNames: ['body__chats-name'], textContent: userRecipent});
+        const bodyChatsRecipentDate = new ElementCreator({tag:'span', classNames: ['body__chats-date'], textContent: date});
+        bodyChatsRecipentInfo.addInnerElement(bodyChatsRecipentName);
+        bodyChatsRecipentInfo.addInnerElement(bodyChatsRecipentDate);
+        bodyChatsRecipent.addInnerElement(bodyChatsRecipentInfo);
+        const bodyChatsRecipentMessage = new ElementCreator({tag:'div', classNames:['body__messageRecipent']});
+        const bodyChatsRecipentMessageP = new ElementCreator({tag:'p', textContent: message});
+        bodyChatsRecipentMessage.addInnerElement(bodyChatsRecipentMessageP);
+        bodyChatsRecipent.addInnerElement(bodyChatsRecipentMessage);
+
+        return bodyChatsRecipent;
     }
 
 
