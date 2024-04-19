@@ -62,8 +62,6 @@ const thirdPartyUserAuthentication = () => {
     isLogined - текущий статус аутентификации пользователя
   */
 
-  
-
 }
 
 //?? Выход стороннего пользователя из системы
@@ -112,19 +110,24 @@ const gettingAllUnauthorizedUsers = (ws) => {
 }
 
 //?? Отправка сообщения пользователю
-const sendingMessageUser = () =>{
-  /*
-    {
-      id: string,
+const sendingMessageUser = (ws,textMessage,toUser) =>{
+
+  const userObject = sessionStorage.getItem('user');
+  const user =  JSON.parse(userObject);
+
+    const data = {
+      id: user.login,
       type: "MSG_SEND",
       payload: {
         message: {
-          to: string,
-          text: string,
+          to: toUser,
+          text: textMessage,
         }
       }
     }
-  */
+    ws.send(JSON.stringify(data));
+
+
     /*
       id - идентификатор запроса
       login - логин пользователя, которому отправляется сообщение

@@ -20,6 +20,10 @@ class App {
       usersActive: [],
       usersInacrive: [],
       sendUser: null,
+      mainLastMessage: {
+        text: null,
+        datetime: null
+      },
     }
 
     constructor(){  
@@ -43,9 +47,26 @@ class App {
             this.currentView. isSendUser();
           }
         }
-
-       
       }
+
+      if( path === 'mainLastMessage'){
+
+        if(this.stateUser.mainLastMessage){
+          if( this.currentView.constructor.name === 'MainView'){
+            this.currentView. mainNewMessage(this.stateUser.mainLastMessage);
+          }
+        }
+
+
+        //console.log('mainLastMessage', this.stateUser.mainLastMessage.toUser, this.stateUser.mainLastMessage.text);
+        // text: null,
+        // user: null,
+
+        // if(this.stateUser.mainLastMessage.toUser === sendUser){
+
+        // }
+      }
+
     }
 
     route(){

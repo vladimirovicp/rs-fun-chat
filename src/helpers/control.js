@@ -31,18 +31,14 @@ const processingTypes = (message,stateUser,ws) =>{
 
     //Получение всех аутентифицированных пользователей
     if(type === 'USER_ACTIVE'){
-
       const usersList = messageJson.payload.users;
-
       const currentUserObj = sessionStorage.getItem('user');
       const currentUserName = JSON.parse(currentUserObj).login;
       // Находим индекс объекта в списке
       const indexToDelete = usersList.findIndex(obj => obj.login === currentUserName);
-
       if (indexToDelete !== -1) {
         usersList.splice(indexToDelete, 1);
       }
-    
       stateUser.usersActive = usersList;
     }
 
@@ -50,6 +46,32 @@ const processingTypes = (message,stateUser,ws) =>{
     if(type === 'USER_INACTIVE'){
       stateUser.usersInacrive = messageJson.payload.users;
     }
+
+    //Получение сообщения от пользователя
+    if(type === 'MSG_SEND'){
+      
+      const from = messageJson.payload.message.from;
+      const to = messageJson.payload.message.to;
+
+      const currentUserObj = sessionStorage.getItem('user');
+      const currentUserName = JSON.parse(currentUserObj).login;
+
+      // console.log(currentUserName);
+      // console.log(from, to);
+
+      const text = messageJson.payload.message.text;
+
+      if(currentUserName === from) {
+        stateUser.mainLastMessage = {
+          text: text,
+          datetime: 'datetime'
+        }
+        
+      }
+
+    }
+
+    
 
     
 }

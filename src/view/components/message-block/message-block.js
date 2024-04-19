@@ -2,10 +2,17 @@ import { AbstractView } from '../../../common/view';
 //import styles from "./styles.module.css";
 import "./styles.css";
 import ElementCreator from '../../../util/element-creator';
+import { sendingMessageUser } from '../../../helpers/api';
 
 export class MessageBlock extends AbstractView{
-    render(){
 
+    constructor(ws,stateUser){
+        super();
+        this.ws = ws;
+        this.stateUser = stateUser;
+    }
+
+    render(){
         const messageBlock = new ElementCreator({tag:'div', classNames:['messageBlock']});
         const form = new ElementCreator({tag:'form', classNames:['form']});
         const input = new ElementCreator({
@@ -23,7 +30,6 @@ export class MessageBlock extends AbstractView{
         form.addInnerElement(button);
         messageBlock.addInnerElement(form);
         const messageContainer = messageBlock.getElement();
-
 
         this.trackInput(messageContainer);
         this.btnClick(messageContainer);
@@ -52,8 +58,7 @@ export class MessageBlock extends AbstractView{
             e.preventDefault();
             const messaage = userMessage.value;
             console.log(messaage);
-
-            
+            sendingMessageUser(this.ws,messaage,this.stateUser.sendUser);
 
         });
     }

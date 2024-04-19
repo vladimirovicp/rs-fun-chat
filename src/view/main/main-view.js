@@ -47,8 +47,9 @@ export class MainView extends AbstractView{
         const main = document.createElement('main');
         main.classList.add('main');
 
-        main.append(new Body(this.ws,this.stateUser).render());
-        main.append(new MessageBlock().render());
+        this.BodyClass = new Body(this.ws,this.stateUser);
+        main.append(this.BodyClass.render());
+        main.append(new MessageBlock(this.ws,this.stateUser).render());
 
         const footer = new ElementCreator({tag:'div', classNames:['chat__footer']}).getElement();
         footer.innerHTML = `
@@ -151,6 +152,22 @@ export class MainView extends AbstractView{
             const userMessage = this.app.querySelector('.userMessage');
             userMessage.removeAttribute('disabled'); 
         }
+    }
+
+    mainNewMessage(dateMessage){
+        console.log('newMessage',dateMessage);
+
+        // text: text,
+        // datetime: datetime
+
+        const bodyContainer = this.app.querySelector('.body__container');
+
+        //console.log('Body',this.BodyClass.constructor.name);
+
+        const bodyChatsSender = this.BodyClass.createChatsSender(dateMessage.text,dateMessage.date);
+
+       bodyContainer.innerHTML += bodyChatsSender.getElement().outerHTML;
+        
     }
 
 }
