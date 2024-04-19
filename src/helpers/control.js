@@ -60,11 +60,12 @@ const processingTypes = (message,stateUser,ws) =>{
       // console.log(from, to);
 
       const text = messageJson.payload.message.text;
+      const datetime = messageJson.payload.message.datetime;
 
       if(currentUserName === from) {
         stateUser.mainLastMessage = {
           text: text,
-          datetime: 'datetime'
+          datetime: datetime
         }
         
       }

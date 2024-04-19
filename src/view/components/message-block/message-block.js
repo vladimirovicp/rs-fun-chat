@@ -57,7 +57,7 @@ export class MessageBlock extends AbstractView{
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             const messaage = userMessage.value;
-            console.log(messaage);
+            userMessage.value = '';
             sendingMessageUser(this.ws,messaage,this.stateUser.sendUser);
 
         });

@@ -114,7 +114,6 @@ export class MainView extends AbstractView{
             const sidebar = this.app.querySelector('.sidebar');
             const sidebarUsers = sidebar.querySelector('.sidebar__users');
             const items = sidebarUsers.getElementsByTagName('li');
-
             const bodyInfo = this.app.querySelector('.body__info');
             const activeUserName = bodyInfo.querySelector('.body__send-user-name');
             const activeUserStatus = bodyInfo.querySelector('.body__send-user-status');
@@ -132,21 +131,12 @@ export class MainView extends AbstractView{
                     } else{
                         activeUserStatus.innerHTML = `<span>Не в сети</span>`;
                     }
-                    
-
                 }else{
                     if(item.classList.contains('active')){
                         item.classList.remove('active');
                     }
                 }
             });
-
-
-            
-            
-            
-            
-
 
             // активный интуп для отправки сообщений
             const userMessage = this.app.querySelector('.userMessage');
@@ -164,10 +154,26 @@ export class MainView extends AbstractView{
 
         //console.log('Body',this.BodyClass.constructor.name);
 
-        const bodyChatsSender = this.BodyClass.createChatsSender(dateMessage.text,dateMessage.date);
+
+        const date =  this.formateDate(dateMessage.datetime);
+
+        const bodyChatsSender = this.BodyClass.createChatsSender(dateMessage.text,date);
 
        bodyContainer.innerHTML += bodyChatsSender.getElement().outerHTML;
         
+    }
+
+    formateDate(timestamp){
+        const date = new Date(timestamp);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const seconds = date.getSeconds().toString().padStart(2, '0');
+
+        const formattedDate = `${day}.${month}.${year}, ${hours}:${minutes}:${seconds}`;
+        return formattedDate;
     }
 
 }
