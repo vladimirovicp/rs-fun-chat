@@ -50,9 +50,11 @@ export class MessageBlock extends AbstractView{
         const btn = messageContainer.querySelector('.btn');
         btn.addEventListener('click', (e) => {
             e.preventDefault();
-
             const messaage = userMessage.value;
             console.log(messaage);
+
+            
+
         });
     }
 }

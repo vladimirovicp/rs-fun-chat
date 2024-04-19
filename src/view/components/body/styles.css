@@ -107,6 +107,11 @@
     text-transform: capitalize;
 }
 
-.body__send-user-status{
-    color:green;
+.body__send-user-status {
+    color: #8b0000;
+    
+}
+
+.body__send-user-status .status-active{
+    color:#32cd32;
 }

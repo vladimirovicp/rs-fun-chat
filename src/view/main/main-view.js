@@ -12,7 +12,6 @@ export class MainView extends AbstractView{
         super();
         this.ws = ws;
         this.stateUser = stateUser;
-
         const userObject = sessionStorage.getItem('user');
         this.user = JSON.parse(userObject);
     }
@@ -110,8 +109,47 @@ export class MainView extends AbstractView{
 
     isSendUser(){
         if(this.stateUser.sendUser){
+
+            const sidebar = this.app.querySelector('.sidebar');
+            const sidebarUsers = sidebar.querySelector('.sidebar__users');
+            const items = sidebarUsers.getElementsByTagName('li');
+
+            const bodyInfo = this.app.querySelector('.body__info');
+            const activeUserName = bodyInfo.querySelector('.body__send-user-name');
+            const activeUserStatus = bodyInfo.querySelector('.body__send-user-status');
+
+            Array.from(items).forEach((item) => {
+                const nameUser = item.querySelector('.sidebar__user-name').textContent;
+
+                if( this.stateUser.sendUser === nameUser){
+                    item.classList.add('active');
+                    activeUserName.textContent = nameUser;
+
+                    const sidebarUserStatus = item.querySelector('.sidebar__user-status');
+                    if(sidebarUserStatus.classList.contains('sidebar__user-active')){
+                        activeUserStatus.innerHTML = `<span class="status-active">В сети</span>`
+                    } else{
+                        activeUserStatus.innerHTML = `<span>Не в сети</span>`;
+                    }
+                    
+
+                }else{
+                    if(item.classList.contains('active')){
+                        item.classList.remove('active');
+                    }
+                }
+            });
+
+
+            
+            
+            
+            
+
+
+            // активный интуп для отправки сообщений
             const userMessage = this.app.querySelector('.userMessage');
-            userMessage.removeAttribute('disabled');
+            userMessage.removeAttribute('disabled'); 
         }
     }
 

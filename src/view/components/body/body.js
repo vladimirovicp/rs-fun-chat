@@ -12,9 +12,7 @@ export class Body extends AbstractView{
     }
 
     render(){
-
         const container = new ElementCreator({tag:'div', classNames:['main__container']});
-
         const bodyHeader = new ElementCreator({tag:'header', classNames:['body__header']});
         const bodyBtn = new ElementCreator({
             tag:'button', 
@@ -42,8 +40,8 @@ export class Body extends AbstractView{
 
 
         const bodyInfo = new ElementCreator({tag:'div', classNames:['body__info']});
-        const sendUserName = new ElementCreator({tag:'div', classNames:['body__send-user-name'], textContent: 'annonimus'});
-        const sendUserStatus = new ElementCreator({tag:'div', classNames:['body__send-user-status'], textContent: 'в сети'});
+        const sendUserName = new ElementCreator({tag:'div', classNames:['body__send-user-name']});
+        const sendUserStatus = new ElementCreator({tag:'div', classNames:['body__send-user-status']});
         bodyInfo.addInnerElement(sendUserName);
         bodyInfo.addInnerElement(sendUserStatus);
         container.addInnerElement(bodyInfo);

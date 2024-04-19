@@ -20,14 +20,15 @@
 }
 
 .sidebar__users > li {
-    margin-bottom: 20px;
+    margin-bottom: .25rem;
     cursor: pointer;
 }
 
 .sidebar__user{
     display: flex;
     align-items: center;
-    gap: 0.5rem
+    gap: 0.5rem;
+    padding: .5rem .2rem;
 }
 
 .sidebar__user-status{
@@ -74,4 +75,8 @@
     align-items: center;
     justify-content: center;
     margin-left: auto;
+}
+
+.sidebar__users .active .sidebar__user{
+    background-color: #e1e1e1;
 }

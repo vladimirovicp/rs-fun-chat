@@ -7,7 +7,6 @@ import { CustomWebSocket } from "./common/custom-web-socket";
 import onChange from "on-change";
 
 class App {
-
     routes = [
         {path: "#auth", view: Authorization },
         {path: "#about", view: About },
@@ -26,10 +25,8 @@ class App {
     constructor(){  
         window.addEventListener('hashchange', this.route.bind(this));
         this.stateUser = onChange(this.stateUser, this.stateUserHook.bind(this));
-
         this.ws = new CustomWebSocket('ws://127.0.0.1:4000',this.stateUser);
         this.route();
-
     }
 
     stateUserHook(path){
@@ -40,14 +37,16 @@ class App {
       }
 
       if( path === 'sendUser'){
-        console.log('messageToUser');
-        if( this.currentView.constructor.name === 'MainView'){
-          this.currentView. isSendUser();
+        if(this.stateUser.sendUser){
+          console.log('messageToUser');
+          if( this.currentView.constructor.name === 'MainView'){
+            this.currentView. isSendUser();
+          }
         }
+
        
       }
     }
-
 
     route(){
       const locationHash = location.hash;
@@ -62,19 +61,7 @@ class App {
         }
       }
 
-       const isPage = this.routes.some(r => r.path === location.hash);
-
-      //  const ws = new CustomWebSocket('ws://127.0.0.1:4000',this.stateUser);
-      //  ws.connect().then((socket) => {
-      //         if(isPage){
-      //           const view = this.routes.find(r => r.path == location.hash).view;
-      //           this.currentView = new view(socket,this.stateUser);
-      //         }else{
-      //           this.currentView = new NotFound();
-      //         }
-      //         this.currentView.render();
-      //  })
-
+      const isPage = this.routes.some(r => r.path === location.hash);
       this.ws.connect().then((socket) => {
         if(isPage){
           const view = this.routes.find(r => r.path == location.hash).view;
@@ -83,17 +70,7 @@ class App {
           this.currentView = new NotFound();
         }
         this.currentView.render();
-      })
-
-
-      // if(isPage){
-      //   const view = this.routes.find(r => r.path == location.hash).view;
-      //   this.currentView = new view(socket,this.stateUser);
-      // }else{
-      //   this.currentView = new NotFound();
-      // }
-      // this.currentView.render();
-
+      });
     }
 }
 
