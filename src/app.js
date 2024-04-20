@@ -20,10 +20,11 @@ class App {
       usersActive: [],
       usersInacrive: [],
       sendUser: null,
-      mainLastMessage: {
-        text: null,
-        datetime: null
-      },
+      // mainLastMessage: {
+      //   text: null,
+      //   datetime: null
+      // },
+      mainLastMessage: null,
       currentReceivedMessage: {
         text: null,
         datetime: null
@@ -56,10 +57,11 @@ class App {
         }
       }
 
+      //Я отправляю сообщение
       if( path === 'mainLastMessage'){
         if(this.stateUser.mainLastMessage){
           if( this.currentView.constructor.name === 'MainView'){
-            this.currentView.mainNewMessage(this.stateUser.mainLastMessage);
+            this.currentView.mainNewMessage(this.stateUser.mainLastMessage.payload.message);
           }
         }
       }
@@ -72,7 +74,6 @@ class App {
 
       if (path === 'historyWithUser'){
         const currerUser = (this.stateUser.historyWithUser.id).replace("history", "");
-
         if(currerUser === this.stateUser.sendUser){
           if( this.currentView.constructor.name === 'MainView'){
             this.currentView.updateMessageList(this.stateUser.historyWithUser);
@@ -80,22 +81,15 @@ class App {
         } else{
           //оповещение о новом сообщении
         }
-
-        
-
-
       }
 
       if (path === 'notificationMessage'){
         if(this.stateUser.notificationMessage !== null){
-          //console.log('notificationMessage')
           if( this.currentView.constructor.name === 'MainView'){
             this.currentView.updateMessageNumber(this.currentView.stateUser.notificationMessage);
           }
         }
-        
       }
-
     }
 
     route(){

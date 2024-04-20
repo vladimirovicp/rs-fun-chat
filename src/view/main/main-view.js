@@ -141,27 +141,69 @@ export class MainView extends AbstractView{
         }
     }
 
+    //Появление сообщений, которые отправил я!
     mainNewMessage(dateMessage){
-
         const bodyContainer = this.app.querySelector('.body__container');
         const noneMessage = bodyContainer.querySelector('.none-message');
         if(noneMessage){
             bodyContainer.innerHTML = '';
         }
         const date =  this.formateDate(dateMessage.datetime);
-        const bodyChatsSender = this.BodyClass.createChatsSender(dateMessage.text,date);
+        const statusMessage = dateMessage.status.isReaded ? 'прочитано' : 'доставлено';
+        const editMessage = dateMessage.status.isEdited ? 'изменено' : null;
+
+        const bodyChatsSender = this.BodyClass.createChatsSender(dateMessage.text,date,statusMessage,editMessage);
         bodyContainer.innerHTML += bodyChatsSender.getElement().outerHTML;
+
+        // Проверяем, нужно ли прокручивать вниз
+        if (bodyContainer.scrollHeight > bodyContainer.clientHeight) {
+            bodyContainer.scrollTo({
+                top: bodyContainer.scrollHeight - bodyContainer.clientHeight,
+                behavior: 'smooth'
+            });
+        }
     }
 
+    //Появления сообщения присланного мне!
     interlocutorNewMessage(dateMessage){
+
+        let isNewMessage = false;
         const bodyContainer = this.app.querySelector('.body__container');
         const noneMessage = bodyContainer.querySelector('.none-message');
         if(noneMessage){
             bodyContainer.innerHTML = '';
         }
         const date =  this.formateDate(dateMessage.datetime);
+
+        if(!isNewMessage){
+            console.log('dateMessage',);
+            if(!dateMessage.status.isReaded){
+                isNewMessage = true;
+
+                bodyContainer.innerHTML += `<div class="body__chats body__chats-not-read">
+                    <span>Новые сообщения</span>
+                </div>`;
+            }
+        }
+
         const bodyChatsRecipent = this.BodyClass.createChatsRecipent(dateMessage.text,date,this.stateUser.sendUser);
         bodyContainer.innerHTML += bodyChatsRecipent.getElement().outerHTML;
+
+        if(isNewMessage){
+            //Прокрутка до непрочитаного сообщения
+           const notRead = bodyContainer.querySelector('.body__chats-not-read');
+           notRead.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else{
+            // Проверяем, нужно ли прокручивать вниз
+            if (bodyContainer.scrollHeight > bodyContainer.clientHeight) {
+                bodyContainer.scrollTo({
+                    top: bodyContainer.scrollHeight - bodyContainer.clientHeight,
+                    behavior: 'smooth'
+                });
+            } 
+        }
+
+
     }
 
     formateDate(timestamp){
@@ -185,10 +227,11 @@ export class MainView extends AbstractView{
         if(messages.length === 0){
             bodyContainer.innerHTML = `<div class="none-message">Напишите ваше первое сообщение...</div>`;
         } else{
+            let isNewMessage = false;
             messages.forEach( item => {
                 if( this.stateUser.sendUser === item.from){
-                    //отправленные сообщения мной
-                    this.interlocutorNewMessage(item);
+                    //отправленные сообщения мной, появится у собеседника
+                    this.interlocutorNewMessage(item,isNewMessage);
     
                 } else{
                     ////отправленные сообщения мне

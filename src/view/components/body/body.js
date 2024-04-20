@@ -47,18 +47,12 @@ export class Body extends AbstractView{
         container.addInnerElement(bodyInfo);
 
         const bodyContainer = new ElementCreator({tag:'div', classNames:['body__container']});
-
-        // const bodyChatsSender = this.createChatsSender('Привет!','19.04.2024, 22:42:29');
-        // const bodyChatsRecipent = this.createChatsRecipent('Как дела?','19.04.2024, 22:42:29',this.stateUser.sendUser)
-
-        // bodyContainer.addInnerElement(bodyChatsSender);
-        // bodyContainer.addInnerElement(bodyChatsRecipent);
         container.addInnerElement(bodyContainer);
 
         return container.getElement();
     }
 
-    createChatsSender(message,date){
+    createChatsSender(message,date,statusMessage,editMessage){
         const bodyChatsSender = new ElementCreator({tag:'div', classNames:['body__chats','body__chats-sender']});
         const bodyChatsSenderInfo = new ElementCreator({tag:'div', classNames: ['body__chats-info'] });
         const bodyChatsSenderName = new ElementCreator({tag:'span', classNames: ['body__chats-name'], textContent: 'Вы'});
@@ -71,8 +65,15 @@ export class Body extends AbstractView{
         const bodyChatsSenderMessageP = new ElementCreator({tag:'p', textContent: message});
         bodyChatsSenderMessage.addInnerElement(bodyChatsSenderMessageP);
         bodyChatsSender.addInnerElement(bodyChatsSenderMessage);
-        const bodyChatsSenderMessageStatus = new ElementCreator({tag:'p', classNames:['body__messageSender-status'], textContent: 'доставлено'});
-        bodyChatsSender.addInnerElement(bodyChatsSenderMessageStatus);
+        const bodyChatsSenderMessageStatuses = new ElementCreator({tag:'p', classNames:['body__messageSender-statuses']});
+        const editMessageText = editMessage ? editMessage : '';
+        const bodyChatsSenderMessageEdit = new ElementCreator({tag:'span', classNames:['body__messageSender-status'], textContent: editMessageText});
+        bodyChatsSenderMessageStatuses.addInnerElement(bodyChatsSenderMessageEdit);
+        
+        const bodyChatsSenderMessageStatus = new ElementCreator({tag:'span', classNames:['body__messageSender-status'], textContent: statusMessage});
+        bodyChatsSenderMessageStatuses.addInnerElement(bodyChatsSenderMessageStatus);
+
+        bodyChatsSender.addInnerElement(bodyChatsSenderMessageStatuses);
         return bodyChatsSender;
     }
 

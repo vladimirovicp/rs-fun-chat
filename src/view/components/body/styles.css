@@ -85,8 +85,17 @@
     margin-left: auto;
 }
 
+.body__messageSender-statuses{
+    width: 300px;
+    padding-bottom: .5rem;
+    display: flex;
+    justify-content: space-between;
+    margin: .2rem 0 2rem auto;
+}
+
 .body__messageSender-status{
     text-align: right;
+    
 }
 
 .body__name-chat{
@@ -123,4 +132,29 @@
     height: 100%;
     justify-content: center;
     text-align: center;
+}
+
+.body__chats-not-read{
+    font-size: 1.5rem;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.body__chats-not-read:before{
+    border-bottom: 1px solid;
+    content: " ";
+    left: 0;
+    position: absolute;
+    top: .85rem;
+    width: 100%;
+}
+
+.body__chats-not-read span{
+    background: #fff;
+    box-sizing: border-box;
+    padding: 0 .5rem;
+    position: relative;
+    font-size: 1rem;
 }

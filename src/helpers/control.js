@@ -53,14 +53,16 @@ const processingTypes = (message,stateUser,ws) =>{
       const to = messageJson.payload.message.to;
       const currentUserObj = sessionStorage.getItem('user');
       const currentUserName = JSON.parse(currentUserObj).login;
+
       const text = messageJson.payload.message.text;
       const datetime = messageJson.payload.message.datetime;
 
       if(currentUserName === from) {
-        stateUser.mainLastMessage = {
-          text: text,
-          datetime: datetime,
-        };
+        // stateUser.mainLastMessage = {
+        //   text: text,
+        //   datetime: datetime,
+        // };
+        stateUser.mainLastMessage = messageJson;
       }
 
       if(currentUserName === to) {
