@@ -115,3 +115,12 @@
 .body__send-user-status .status-active{
     color:#32cd32;
 }
+
+.none-message{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    text-align: center;
+}

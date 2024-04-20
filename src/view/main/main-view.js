@@ -142,7 +142,12 @@ export class MainView extends AbstractView{
     }
 
     mainNewMessage(dateMessage){
+
         const bodyContainer = this.app.querySelector('.body__container');
+        const noneMessage = bodyContainer.querySelector('.none-message');
+        if(noneMessage){
+            bodyContainer.innerHTML = '';
+        }
         const date =  this.formateDate(dateMessage.datetime);
         const bodyChatsSender = this.BodyClass.createChatsSender(dateMessage.text,date);
         bodyContainer.innerHTML += bodyChatsSender.getElement().outerHTML;
@@ -150,6 +155,10 @@ export class MainView extends AbstractView{
 
     interlocutorNewMessage(dateMessage){
         const bodyContainer = this.app.querySelector('.body__container');
+        const noneMessage = bodyContainer.querySelector('.none-message');
+        if(noneMessage){
+            bodyContainer.innerHTML = '';
+        }
         const date =  this.formateDate(dateMessage.datetime);
         const bodyChatsRecipent = this.BodyClass.createChatsRecipent(dateMessage.text,date,this.stateUser.sendUser);
         bodyContainer.innerHTML += bodyChatsRecipent.getElement().outerHTML;
@@ -172,26 +181,25 @@ export class MainView extends AbstractView{
         const bodyContainer = this.app.querySelector('.body__container');
         bodyContainer.innerHTML = '';
         const messages = message.payload.messages;
-        messages.forEach( item => {
-            console.log(item)
-            if( this.stateUser.sendUser === item.from){
-                //отправленные сообщения мной
-                console.log('мне')
-                this.interlocutorNewMessage(item);
 
-            } else{
-                ////отправленные сообщения мне
-                this.mainNewMessage(item);
-            }
-        });
-
+        if(messages.length === 0){
+            bodyContainer.innerHTML = `<div class="none-message">Напишите ваше первое сообщение...</div>`;
+        } else{
+            messages.forEach( item => {
+                if( this.stateUser.sendUser === item.from){
+                    //отправленные сообщения мной
+                    this.interlocutorNewMessage(item);
+    
+                } else{
+                    ////отправленные сообщения мне
+                    this.mainNewMessage(item);
+                }
+            });
+        }
     }
 
     //обновление непрочитанных сообщений
     updateMessageNumber(userSender){
-
-        console.log('userSender',userSender);
-
         const sidebarUsers = this.app.querySelector('.sidebar__users');
         const items = sidebarUsers.getElementsByTagName('li');
         Array.from(items).forEach(function(item){
@@ -199,7 +207,6 @@ export class MainView extends AbstractView{
             if (nameUser === userSender){
                 const sidebarMessageNumber =  item.querySelector('.sidebar__message-number');
                 const sidebarMessageNumberIsSpan = sidebarMessageNumber.innerHTML;
-                console.log('sidebar__message-number',sidebarMessageNumberIsSpan);
                 if(sidebarMessageNumberIsSpan){
                     const sidebarMessageNumberSpan = sidebarMessageNumber.querySelector('span');
                     sidebarMessageNumberSpan.textContent = String(Number(sidebarMessageNumberSpan.textContent) + 1);
