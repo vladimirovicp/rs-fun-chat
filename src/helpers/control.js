@@ -56,9 +56,6 @@ const processingTypes = (message,stateUser,ws) =>{
       const currentUserObj = sessionStorage.getItem('user');
       const currentUserName = JSON.parse(currentUserObj).login;
 
-      // console.log(currentUserName);
-      // console.log(from, to);
-
       const text = messageJson.payload.message.text;
       const datetime = messageJson.payload.message.datetime;
 
@@ -70,14 +67,25 @@ const processingTypes = (message,stateUser,ws) =>{
       }
 
       if(currentUserName === to) {
+
         if(stateUser.sendUser === from){
           stateUser.currentReceivedMessage={
             text: text,
             datetime: datetime,
           }
+        }else{
+          
+
+
         }
+
       }
 
+    }
+
+    //Получение истории сообщений пользователя
+    if(type === 'MSG_FROM_USER'){
+      stateUser.historyWithUser = messageJson;
     }
 
     

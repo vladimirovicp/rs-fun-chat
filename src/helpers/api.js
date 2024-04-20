@@ -33,11 +33,6 @@ const userLogout = (ws,stateUser) => {
   stateUser.isLogined = false;
   ws.send(JSON.stringify(data));
   window.location.hash = '#auth';
-
-
-
-  // console.log(user);
-  
 }
 
 //?? Аутентификация пользователя третьей стороной
@@ -109,12 +104,10 @@ const gettingAllUnauthorizedUsers = (ws) => {
   ws.send(JSON.stringify(data));
 }
 
-//?? Отправка сообщения пользователю
+//Отправка сообщения пользователю
 const sendingMessageUser = (ws,textMessage,toUser) =>{
-
   const userObject = sessionStorage.getItem('user');
   const user =  JSON.parse(userObject);
-
     const data = {
       id: user.login,
       type: "MSG_SEND",
@@ -126,8 +119,6 @@ const sendingMessageUser = (ws,textMessage,toUser) =>{
       }
     }
     ws.send(JSON.stringify(data));
-
-
     /*
       id - идентификатор запроса
       login - логин пользователя, которому отправляется сообщение
@@ -173,26 +164,23 @@ const receivingMessageFromUser = () => {
     */
 }
 
-//?? Получение истории сообщений пользователя
-const fetchingMessageHistoryWithUser = () => {
-  /**
-   * {
-        id: string,
-        type: "MSG_FROM_USER",
-        payload: {
-          user: {
-            login: string,
-          }
-        }
+//Получение истории сообщений пользователя
+const fetchingMessageHistoryWithUser = (ws,login) => {
+  const data =     {
+    id: `history${login}`,
+    type: "MSG_FROM_USER",
+    payload: {
+      user: {
+        login: login,
       }
-   */
+    }
+  };
 
-      /**
-       *  id - идентификатор запроса
-          login - имя пользователя, от которого запрашивается история сообщений
-       */
-
-
+  ws.send(JSON.stringify(data));
+  /**
+   *  id - идентификатор запроса
+      login - имя пользователя, от которого запрашивается история сообщений
+    */
 }
 
 //?? Уведомление об изменении статуса доставки сообщения

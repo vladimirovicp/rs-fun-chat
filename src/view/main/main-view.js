@@ -3,7 +3,7 @@ import { AbstractView } from '../../common/view';
 import { Sidebar } from '../components/sidebar/sidebar';
 import { Body } from '../components/body/body';
 import { MessageBlock } from '../components/message-block/message-block';
-import { userAuthentication, gettingAllAuthenticatedUsers } from "../../helpers/api";
+import { userAuthentication, gettingAllAuthenticatedUsers, fetchingMessageHistoryWithUser } from "../../helpers/api";
 import ElementCreator from '../../util/element-creator';
 import "./styles.css";
 
@@ -96,21 +96,17 @@ export class MainView extends AbstractView{
     clickUser(sidebar,stateUser) {
         const sidebarUsers = sidebar.querySelector('.sidebar__users');
         const items = sidebarUsers.getElementsByTagName('li');
-
         Array.from(items).forEach(function(item){
-
             const sidebarUser = item.querySelector('.sidebar__user');
-
             sidebarUser.addEventListener('click', ()=>{
                 const sidebarUserName = sidebarUser.querySelector('.sidebar__user-name').textContent;
-                stateUser.sendUser = sidebarUserName.trim();
+                stateUser.sendUser = sidebarUserName;
             })
         });
     }
 
     isSendUser(){
         if(this.stateUser.sendUser){
-
             const sidebar = this.app.querySelector('.sidebar');
             const sidebarUsers = sidebar.querySelector('.sidebar__users');
             const items = sidebarUsers.getElementsByTagName('li');
@@ -120,11 +116,9 @@ export class MainView extends AbstractView{
 
             Array.from(items).forEach((item) => {
                 const nameUser = item.querySelector('.sidebar__user-name').textContent;
-
                 if( this.stateUser.sendUser === nameUser){
                     item.classList.add('active');
                     activeUserName.textContent = nameUser;
-
                     const sidebarUserStatus = item.querySelector('.sidebar__user-status');
                     if(sidebarUserStatus.classList.contains('sidebar__user-active')){
                         activeUserStatus.innerHTML = `<span class="status-active">В сети</span>`
@@ -141,6 +135,9 @@ export class MainView extends AbstractView{
             // активный интуп для отправки сообщений
             const userMessage = this.app.querySelector('.userMessage');
             userMessage.removeAttribute('disabled'); 
+
+            //Получение истории сообщений пользователя
+            fetchingMessageHistoryWithUser(this.ws,this.stateUser.sendUser);
         }
     }
 
@@ -169,6 +166,25 @@ export class MainView extends AbstractView{
 
         const formattedDate = `${day}.${month}.${year}, ${hours}:${minutes}:${seconds}`;
         return formattedDate;
+    }
+
+    updateMessageList(message){
+        const bodyContainer = this.app.querySelector('.body__container');
+        bodyContainer.innerHTML = '';
+        const messages = message.payload.messages;
+        messages.forEach( item => {
+            console.log(item)
+            if( this.stateUser.sendUser === item.from){
+                //отправленные сообщения мной
+                console.log('мне')
+                this.interlocutorNewMessage(item);
+
+            } else{
+                ////отправленные сообщения мне
+                this.mainNewMessage(item);
+            }
+        });
+
     }
 
 }

@@ -28,6 +28,7 @@ class App {
         text: null,
         datetime: null
       },
+      historyWithUser: null,
     }
 
     constructor(){  
@@ -49,6 +50,7 @@ class App {
           console.log('messageToUser');
           if( this.currentView.constructor.name === 'MainView'){
             this.currentView. isSendUser();
+
           }
         }
       }
@@ -65,6 +67,22 @@ class App {
         if( this.currentView.constructor.name === 'MainView'){
           this.currentView.interlocutorNewMessage(this.stateUser.currentReceivedMessage);
         }
+      }
+
+      if (path === 'historyWithUser'){
+        const currerUser = (this.stateUser.historyWithUser.id).replace("history", "");
+
+        if(currerUser === this.stateUser.sendUser){
+          if( this.currentView.constructor.name === 'MainView'){
+            this.currentView.updateMessageList(this.stateUser.historyWithUser);
+          }
+        } else{
+          //оповещение о новом сообщении
+        }
+
+        
+
+
       }
 
     }
