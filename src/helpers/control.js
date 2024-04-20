@@ -49,13 +49,10 @@ const processingTypes = (message,stateUser,ws) =>{
 
     //Получение сообщения от пользователя
     if(type === 'MSG_SEND'){
-      
       const from = messageJson.payload.message.from;
       const to = messageJson.payload.message.to;
-
       const currentUserObj = sessionStorage.getItem('user');
       const currentUserName = JSON.parse(currentUserObj).login;
-
       const text = messageJson.payload.message.text;
       const datetime = messageJson.payload.message.datetime;
 
@@ -63,22 +60,23 @@ const processingTypes = (message,stateUser,ws) =>{
         stateUser.mainLastMessage = {
           text: text,
           datetime: datetime,
-        }
+        };
       }
 
       if(currentUserName === to) {
-
         if(stateUser.sendUser === from){
           stateUser.currentReceivedMessage={
             text: text,
             datetime: datetime,
-          }
-        }else{
-          
-
-
+          };
         }
-
+          // получатель я от from
+          if (stateUser.notificationMessage === from){
+            stateUser.notificationMessage = null;
+            stateUser.notificationMessage = from;
+          } else {
+            stateUser.notificationMessage = from;
+          }
       }
 
     }

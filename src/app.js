@@ -29,6 +29,7 @@ class App {
         datetime: null
       },
       historyWithUser: null,
+      notificationMessage : null,
     }
 
     constructor(){  
@@ -83,6 +84,16 @@ class App {
         
 
 
+      }
+
+      if (path === 'notificationMessage'){
+        if(this.stateUser.notificationMessage !== null){
+          //console.log('notificationMessage')
+          if( this.currentView.constructor.name === 'MainView'){
+            this.currentView.updateMessageNumber(this.currentView.stateUser.notificationMessage);
+          }
+        }
+        
       }
 
     }

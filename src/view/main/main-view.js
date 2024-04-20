@@ -187,4 +187,29 @@ export class MainView extends AbstractView{
 
     }
 
+    //обновление непрочитанных сообщений
+    updateMessageNumber(userSender){
+
+        console.log('userSender',userSender);
+
+        const sidebarUsers = this.app.querySelector('.sidebar__users');
+        const items = sidebarUsers.getElementsByTagName('li');
+        Array.from(items).forEach(function(item){
+            const nameUser = item.querySelector('.sidebar__user-name').textContent;
+            if (nameUser === userSender){
+                const sidebarMessageNumber =  item.querySelector('.sidebar__message-number');
+                const sidebarMessageNumberIsSpan = sidebarMessageNumber.innerHTML;
+                console.log('sidebar__message-number',sidebarMessageNumberIsSpan);
+                if(sidebarMessageNumberIsSpan){
+                    const sidebarMessageNumberSpan = sidebarMessageNumber.querySelector('span');
+                    sidebarMessageNumberSpan.textContent = String(Number(sidebarMessageNumberSpan.textContent) + 1);
+                } else {
+                    sidebarMessageNumber.innerHTML = '<span>1</span>';
+                }
+            }
+        });
+
+
+    }
+
 }

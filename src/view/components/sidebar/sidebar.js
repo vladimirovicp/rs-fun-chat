@@ -29,7 +29,7 @@ export class Sidebar extends AbstractView{
                 <div class="sidebar__user">
                     <div class="sidebar__user-status sidebar__user-active"></div>
                     <div class="sidebar__user-name">${this.stateUser.usersActive[i].login}</div>
-                    <div class="sidebar__message-number">1</div>
+                    <div class="sidebar__message-number"></div>
                 </div>
             </li>`;
           }
@@ -38,6 +38,7 @@ export class Sidebar extends AbstractView{
                 <div class="sidebar__user">
                     <div class="sidebar__user-status"></div>
                     <div class="sidebar__user-name">${this.stateUser.usersInacrive[i].login}</div>
+                    <div class="sidebar__message-number"></div>
                 </div>
             </li>`;
           }
