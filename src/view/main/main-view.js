@@ -271,15 +271,24 @@ export class MainView extends AbstractView{
     }
 
     changeStatusMain(){
-        console.log('changeStatusMain');
-
         const bodyContainer = document.querySelector('.body__container');
         const notRead = bodyContainer.querySelector('.body__chats-not-read');
 
+        //sendUser
+
+
         if(notRead){
             notRead.remove();
-
             //удалить оповещение у нужного пользователя
+            const sidebarUsers = document.querySelector('.sidebar__users');
+            const items = sidebarUsers.getElementsByTagName('li');
+            Array.from(items).forEach(function(item){
+                if(item.classList.contains('active')){
+                    const sidebarMessageNumber = item.querySelector('.sidebar__message-number');
+                    sidebarMessageNumber.innerHTML = '';
+                }
+            })
+            
 
             //отправить сообщение, что статус сменился
         }
