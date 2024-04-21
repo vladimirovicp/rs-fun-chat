@@ -89,6 +89,13 @@ const processingTypes = (message,stateUser,ws) =>{
       stateUser.historyWithUser = messageJson;
     }
 
+
+    if(type === 'mainMSG_READ'){
+
+      //сменился статус у сообщения
+
+    }
+
     
 
     

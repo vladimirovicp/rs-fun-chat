@@ -3,7 +3,7 @@ import { AbstractView } from '../../common/view';
 import { Sidebar } from '../components/sidebar/sidebar';
 import { Body } from '../components/body/body';
 import { MessageBlock } from '../components/message-block/message-block';
-import { userAuthentication, gettingAllAuthenticatedUsers, fetchingMessageHistoryWithUser } from "../../helpers/api";
+import { userAuthentication, gettingAllAuthenticatedUsers, fetchingMessageHistoryWithUser, messageReadStatusChange } from "../../helpers/api";
 import ElementCreator from '../../util/element-creator';
 import "./styles.css";
 
@@ -178,7 +178,6 @@ export class MainView extends AbstractView{
         }
         const date =  this.formateDate(dateMessage.datetime);
         const isNewMessage = bodyContainer.querySelector('.body__chats-not-read');
-        console.log(isNewMessage);
         if(!isNewMessage){
             if(!dateMessage.status.isReaded){
                 bodyContainer.innerHTML += `<div class="body__chats body__chats-not-read">
@@ -191,15 +190,16 @@ export class MainView extends AbstractView{
                 //const parentElement = notReadBox.parentNode;
 
                 const changeStatusMainFun = this.changeStatusMain;
+                const mainWs = this.ws;
                 function changeStatus(){
-                    console.log('changeStatus');//changeStatusMain
-                    changeStatusMainFun(); // меняем статусы на моей страничке
+                    changeStatusMainFun(mainWs); // меняем статусы на моей страничке
                    mainBox.removeEventListener('click', changeStatus);
                 }
                 mainBox.addEventListener('click', changeStatus);
             }
         }
-        const bodyChatsRecipent = this.BodyClass.createChatsRecipent(dateMessage.text,date,this.stateUser.sendUser);
+
+        const bodyChatsRecipent = this.BodyClass.createChatsRecipent(dateMessage.text,date,this.stateUser.sendUser,dateMessage.id);
         bodyContainer.innerHTML += bodyChatsRecipent.getElement().outerHTML;
 
         if(isNewMessage){
@@ -273,15 +273,13 @@ export class MainView extends AbstractView{
 
     }
 
-    changeStatusMain(){
+    changeStatusMain(ws){
         const bodyContainer = document.querySelector('.body__container');
         const notRead = bodyContainer.querySelector('.body__chats-not-read');
 
         //sendUser
 
-
         if(notRead){
-            notRead.remove();
             //удалить оповещение у нужного пользователя
             const sidebarUsers = document.querySelector('.sidebar__users');
             const items = sidebarUsers.getElementsByTagName('li');
@@ -290,29 +288,56 @@ export class MainView extends AbstractView{
                     const sidebarMessageNumber = item.querySelector('.sidebar__message-number');
                     sidebarMessageNumber.innerHTML = '';
                 }
-            })
-            
+            });
+           
+            if(notRead){
+                var elementsAfterReference = [];
+                var nextElement = notRead.nextElementSibling;
+                while (nextElement) {
+                    elementsAfterReference.push(nextElement);
+                    nextElement = nextElement.nextElementSibling;
+                }
 
-            //отправить сообщение, что статус сменился
+
+
+                elementsAfterReference.forEach(el =>{
+                    messageReadStatusChange(ws,el.dataset.id);
+                })
+            
+                
+            }
+
+            // const bodychatsRecipents =  bodyContainer.querySelectorAll('.body__chats-recipent');
+            // bodychatsRecipents.forEach( recipents =>{
+            //     messageReadStatusChange(ws,recipents.dataset.id);
+            // })
+
+            notRead.remove();
         }
     }
 
     // при загрузке показывает количество сообщения, которые не прочитаны
     updateSidebarMessageNumber(historyWithUser){
+
         if (historyWithUser.payload.messages.length > 0){
+            const userObject = sessionStorage.getItem('user');
+            const userName = JSON.parse(userObject).login;
+
             const currerUser = (this.stateUser.historyWithUser.id).replace("history", "");
             const sidebarUsers = document.querySelector('.sidebar__users');
             const items = sidebarUsers.getElementsByTagName('li');
             Array.from(items).forEach(function(item){
                 const sidebarUserNameText = item.querySelector('.sidebar__user-name').textContent;
+                
                 if(sidebarUserNameText === currerUser){
                     let countNotRead = 0;
                     historyWithUser.payload.messages.forEach(el =>{
-                        if(el.status.isReaded === false){
-                            countNotRead +=1;
+                        if(el.to === userName){
+                            if(el.status.isReaded === false){
+                                countNotRead +=1;
+                            }
                         }
                     });
-
                     if(countNotRead !==0){
                         const sidebarMessageNumber = item.querySelector('.sidebar__message-number');
                         sidebarMessageNumber.innerHTML = `<span>${countNotRead}</span>`

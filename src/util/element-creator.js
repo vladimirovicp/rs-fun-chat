@@ -23,6 +23,7 @@ export default class ElementCreator {
         this.setCallback(params.callback);
         this.setId(params.id);
         this.setAttr(params.attr);
+        this.addData(params.idData);
     }
 
     setId(id) {
@@ -49,6 +50,12 @@ export default class ElementCreator {
     setCallback(callback) {
         if (typeof callback === 'function') {
             this.element.addEventListener('click', (event) => callback(event));
+        }
+    }
+
+    addData(idData){
+        if(idData){
+            this.element.dataset.id = idData;
         }
     }
     

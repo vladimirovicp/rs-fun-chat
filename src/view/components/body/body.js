@@ -77,8 +77,8 @@ export class Body extends AbstractView{
         return bodyChatsSender;
     }
 
-    createChatsRecipent(message,date,userRecipent){
-        const bodyChatsRecipent = new ElementCreator({tag:'div', classNames:['body__chats', 'body__chats-recipent']});
+    createChatsRecipent(message,date,userRecipent,idMessage){
+        const bodyChatsRecipent = new ElementCreator({tag:'div', classNames:['body__chats', 'body__chats-recipent'], idData: idMessage});
         const bodyChatsRecipentInfo = new ElementCreator({tag:'div', classNames: ['body__chats-info'] });
         const bodyChatsRecipentName = new ElementCreator({tag:'span', classNames: ['body__chats-name'], textContent: userRecipent});
         const bodyChatsRecipentDate = new ElementCreator({tag:'span', classNames: ['body__chats-date'], textContent: date});

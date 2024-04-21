@@ -166,7 +166,7 @@ const receivingMessageFromUser = () => {
 
 //Получение истории сообщений пользователя
 const fetchingMessageHistoryWithUser = (ws,login) => {
-  const data =     {
+  const data = {
     id: `history${login}`,
     type: "MSG_FROM_USER",
     payload: {
@@ -209,32 +209,18 @@ const notificationMessageDeliveryStatusChange = () => {
 
 }
 
-//?? Изменение статуса прочтения сообщения
-const messageReadStatusChange = () => {
-
-  /**
-   * {
-        id: string,
-        type: "MSG_READ",
-        payload: {
-          message: {
-            id: string,
-          }
+//Изменение статуса прочтения сообщения
+const messageReadStatusChange = (ws,idMessage) => {
+    const data = {
+      id: `mainMSG_READ`,
+      type: "MSG_READ",
+      payload: {
+        message: {
+          id: idMessage,
         }
       }
-   */
-
-      /**
-       *  {
-            id: string,
-            type: "MSG_READ",
-            payload: {
-              message: {
-                id: string,
-              }
-            }
-          }
-       */
+    };
+    ws.send(JSON.stringify(data));
 
 } 
 
