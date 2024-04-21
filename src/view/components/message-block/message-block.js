@@ -41,7 +41,6 @@ export class MessageBlock extends AbstractView{
     trackInput(messageContainer){
         const userMessage = messageContainer.querySelector('.userMessage');
         const btn = messageContainer.querySelector('.btn');
-        
         userMessage.addEventListener('input', (e) => {
             const value = e.target.value;
             if(value.length > 0){

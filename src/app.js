@@ -20,15 +20,7 @@ class App {
       usersActive: [],
       usersInacrive: [],
       sendUser: null,
-      // mainLastMessage: {
-      //   text: null,
-      //   datetime: null
-      // },
       mainLastMessage: null,
-      // currentReceivedMessage: {
-      //   text: null,
-      //   datetime: null
-      // },
       currentReceivedMessage: null,
       historyWithUser: null,
       notificationMessage : null,
@@ -50,7 +42,6 @@ class App {
 
       if( path === 'sendUser'){
         if(this.stateUser.sendUser){
-          console.log('messageToUser');
           if( this.currentView.constructor.name === 'MainView'){
             this.currentView. isSendUser();
 
@@ -80,8 +71,11 @@ class App {
             this.currentView.updateMessageList(this.stateUser.historyWithUser);
           }
         } else{
-          //оповещение о новом сообщении
+          if( this.currentView.constructor.name === 'MainView'){
+            this.currentView.updateSidebarMessageNumber(this.stateUser.historyWithUser);
+          }
         }
+
       }
 
       if (path === 'notificationMessage'){

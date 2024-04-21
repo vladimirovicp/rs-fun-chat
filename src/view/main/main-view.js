@@ -68,6 +68,9 @@ export class MainView extends AbstractView{
         const sidebar = this.app.querySelector('.sidebar');
         if(sidebar){
             const sidebarNew = new Sidebar(this.ws,this.stateUser).render();
+
+            console.log('sidebarNew',sidebarNew)
+
             const sidebarStr = sidebarNew.innerHTML;
             sidebar.innerHTML = sidebarStr;
 
@@ -292,8 +295,33 @@ export class MainView extends AbstractView{
 
             //отправить сообщение, что статус сменился
         }
+    }
 
-        
+    // при загрузке показывает количество сообщения, которые не прочитаны
+    updateSidebarMessageNumber(historyWithUser){
+        if (historyWithUser.payload.messages.length > 0){
+            const currerUser = (this.stateUser.historyWithUser.id).replace("history", "");
+            const sidebarUsers = document.querySelector('.sidebar__users');
+            const items = sidebarUsers.getElementsByTagName('li');
+            Array.from(items).forEach(function(item){
+                const sidebarUserNameText = item.querySelector('.sidebar__user-name').textContent;
+                if(sidebarUserNameText === currerUser){
+                    let countNotRead = 0;
+                    historyWithUser.payload.messages.forEach(el =>{
+                        if(el.status.isReaded === false){
+                            countNotRead +=1;
+                        }
+                    });
+
+                    if(countNotRead !==0){
+                        const sidebarMessageNumber = item.querySelector('.sidebar__message-number');
+                        sidebarMessageNumber.innerHTML = `<span>${countNotRead}</span>`
+                    }
+                }
+            })
+        }
+
+
 
     }
 
