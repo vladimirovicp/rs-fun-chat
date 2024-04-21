@@ -90,10 +90,9 @@ const processingTypes = (message,stateUser,ws) =>{
     }
 
 
-    if(type === 'mainMSG_READ'){
-
+    if(type === 'MSG_READ'){
       //сменился статус у сообщения
-
+      stateUser.msgRead = messageJson.payload.message;
     }
 
     

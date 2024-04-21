@@ -155,7 +155,7 @@ export class MainView extends AbstractView{
         const statusMessage = dateMessage.status.isReaded ? 'прочитано' : 'доставлено';
         const editMessage = dateMessage.status.isEdited ? 'изменено' : null;
 
-        const bodyChatsSender = this.BodyClass.createChatsSender(dateMessage.text,date,statusMessage,editMessage);
+        const bodyChatsSender = this.BodyClass.createChatsSender(dateMessage.text,date,statusMessage,editMessage,dateMessage.id);
         bodyContainer.innerHTML += bodyChatsSender.getElement().outerHTML;
 
         // Проверяем, нужно ли прокручивать вниз
@@ -347,6 +347,30 @@ export class MainView extends AbstractView{
         }
 
 
+
+    }
+
+    interlocutorStatusMessage(data){
+        const id = data.id;
+        const isReaded = data.status.isReaded;
+
+        if(isReaded){
+            if(this.stateUser.sendUser){
+                const bodyContainer = this.app.querySelector('.body__container');
+                const bodyChatsSender = bodyContainer.querySelectorAll('.body__chats-sender');
+    
+                bodyChatsSender.forEach(el =>{
+                    if(el.dataset.id === id){
+    
+                        const bodyMessageSenderStatus = el.querySelector('.body__messageSender-status');
+                        bodyMessageSenderStatus.textContent = 'прочитано';
+                    }
+                })
+            }
+        }
+
+
+        
 
     }
 

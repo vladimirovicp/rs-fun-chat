@@ -52,8 +52,8 @@ export class Body extends AbstractView{
         return container.getElement();
     }
 
-    createChatsSender(message,date,statusMessage,editMessage){
-        const bodyChatsSender = new ElementCreator({tag:'div', classNames:['body__chats','body__chats-sender']});
+    createChatsSender(message,date,statusMessage,editMessage,idMessage){
+        const bodyChatsSender = new ElementCreator({tag:'div', classNames:['body__chats','body__chats-sender'],idData: idMessage});
         const bodyChatsSenderInfo = new ElementCreator({tag:'div', classNames: ['body__chats-info'] });
         const bodyChatsSenderName = new ElementCreator({tag:'span', classNames: ['body__chats-name'], textContent: 'Вы'});
         const bodyChatsSenderDate = new ElementCreator({tag:'span', classNames: ['body__chats-date'], textContent: date});
@@ -67,7 +67,7 @@ export class Body extends AbstractView{
         bodyChatsSender.addInnerElement(bodyChatsSenderMessage);
         const bodyChatsSenderMessageStatuses = new ElementCreator({tag:'p', classNames:['body__messageSender-statuses']});
         const editMessageText = editMessage ? editMessage : '';
-        const bodyChatsSenderMessageEdit = new ElementCreator({tag:'span', classNames:['body__messageSender-status'], textContent: editMessageText});
+        const bodyChatsSenderMessageEdit = new ElementCreator({tag:'span', classNames:['body__messageSender-edit'], textContent: editMessageText});
         bodyChatsSenderMessageStatuses.addInnerElement(bodyChatsSenderMessageEdit);
         
         const bodyChatsSenderMessageStatus = new ElementCreator({tag:'span', classNames:['body__messageSender-status'], textContent: statusMessage});

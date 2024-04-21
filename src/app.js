@@ -24,6 +24,7 @@ class App {
       currentReceivedMessage: null,
       historyWithUser: null,
       notificationMessage : null,
+      msgRead: null,
     }
 
     constructor(){  
@@ -81,8 +82,15 @@ class App {
       if (path === 'notificationMessage'){
         if(this.stateUser.notificationMessage !== null){
           if( this.currentView.constructor.name === 'MainView'){
-            this.currentView.updateMessageNumber(this.currentView.stateUser.notificationMessage);
+            this.currentView.updateMessageNumber(this.stateUser.notificationMessage);
+            //this.currentView.updateMessageNumber(this.currentView.stateUser.notificationMessage);
           }
+        }
+      }
+
+      if(path === 'msgRead'){
+        if( this.currentView.constructor.name === 'MainView'){
+          this.currentView.interlocutorStatusMessage(this.stateUser.msgRead);
         }
       }
     }
