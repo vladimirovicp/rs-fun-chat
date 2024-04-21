@@ -174,18 +174,6 @@ export class MainView extends AbstractView{
             bodyContainer.innerHTML = '';
         }
         const date =  this.formateDate(dateMessage.datetime);
-
-        // if(!isNewMessage){
-
-        //     if(!dateMessage.status.isReaded){
-        //         isNewMessage = true;
-
-        //         bodyContainer.innerHTML += `<div class="body__chats body__chats-not-read">
-        //             <span>Новые сообщения</span>
-        //         </div>`;
-        //     }
-        // }
-
         const isNewMessage = bodyContainer.querySelector('.body__chats-not-read');
         console.log(isNewMessage);
         if(!isNewMessage){
@@ -193,10 +181,21 @@ export class MainView extends AbstractView{
                 bodyContainer.innerHTML += `<div class="body__chats body__chats-not-read">
                     <span>Новые сообщения</span>
                 </div>`;
+
+                //ждем клика для смены статуса
+                const mainBox = this.app.querySelector('.main');
+                const notReadBox = bodyContainer.querySelector('.body__chats-not-read');
+                //const parentElement = notReadBox.parentNode;
+
+                const changeStatusMainFun = this.changeStatusMain;
+                function changeStatus(){
+                    console.log('changeStatus');//changeStatusMain
+                    changeStatusMainFun(); // меняем статусы на моей страничке
+                   mainBox.removeEventListener('click', changeStatus);
+                }
+                mainBox.addEventListener('click', changeStatus);
             }
         }
-
-
         const bodyChatsRecipent = this.BodyClass.createChatsRecipent(dateMessage.text,date,this.stateUser.sendUser);
         bodyContainer.innerHTML += bodyChatsRecipent.getElement().outerHTML;
 
@@ -213,8 +212,6 @@ export class MainView extends AbstractView{
                 });
             } 
         }
-
-
     }
 
     formateDate(timestamp){
@@ -270,6 +267,24 @@ export class MainView extends AbstractView{
             }
         });
 
+
+    }
+
+    changeStatusMain(){
+        console.log('changeStatusMain');
+
+        const bodyContainer = document.querySelector('.body__container');
+        const notRead = bodyContainer.querySelector('.body__chats-not-read');
+
+        if(notRead){
+            notRead.remove();
+
+            //удалить оповещение у нужного пользователя
+
+            //отправить сообщение, что статус сменился
+        }
+
+        
 
     }
 

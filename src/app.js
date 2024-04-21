@@ -25,10 +25,11 @@ class App {
       //   datetime: null
       // },
       mainLastMessage: null,
-      currentReceivedMessage: {
-        text: null,
-        datetime: null
-      },
+      // currentReceivedMessage: {
+      //   text: null,
+      //   datetime: null
+      // },
+      currentReceivedMessage: null,
       historyWithUser: null,
       notificationMessage : null,
     }
@@ -68,7 +69,7 @@ class App {
 
       if (path === 'currentReceivedMessage'){
         if( this.currentView.constructor.name === 'MainView'){
-          this.currentView.interlocutorNewMessage(this.stateUser.currentReceivedMessage);
+          this.currentView.interlocutorNewMessage(this.stateUser.currentReceivedMessage.payload.message);
         }
       }
 
