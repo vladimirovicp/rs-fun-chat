@@ -167,7 +167,7 @@ export class MainView extends AbstractView{
     //Появления сообщения присланного мне!
     interlocutorNewMessage(dateMessage){
 
-        let isNewMessage = false;
+        //let isNewMessage = false;
         const bodyContainer = this.app.querySelector('.body__container');
         const noneMessage = bodyContainer.querySelector('.none-message');
         if(noneMessage){
@@ -175,16 +175,27 @@ export class MainView extends AbstractView{
         }
         const date =  this.formateDate(dateMessage.datetime);
 
-        if(!isNewMessage){
-            console.log('dateMessage',);
-            if(!dateMessage.status.isReaded){
-                isNewMessage = true;
+        // if(!isNewMessage){
 
+        //     if(!dateMessage.status.isReaded){
+        //         isNewMessage = true;
+
+        //         bodyContainer.innerHTML += `<div class="body__chats body__chats-not-read">
+        //             <span>Новые сообщения</span>
+        //         </div>`;
+        //     }
+        // }
+
+        const isNewMessage = bodyContainer.querySelector('.body__chats-not-read');
+        console.log(isNewMessage);
+        if(!isNewMessage){
+            if(!dateMessage.status.isReaded){
                 bodyContainer.innerHTML += `<div class="body__chats body__chats-not-read">
                     <span>Новые сообщения</span>
                 </div>`;
             }
         }
+
 
         const bodyChatsRecipent = this.BodyClass.createChatsRecipent(dateMessage.text,date,this.stateUser.sendUser);
         bodyContainer.innerHTML += bodyChatsRecipent.getElement().outerHTML;
