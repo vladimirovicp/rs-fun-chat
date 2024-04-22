@@ -192,22 +192,23 @@ export class MainView extends AbstractView{
                 const notReadBox = bodyContainer.querySelector('.body__chats-not-read');
                 //const parentElement = notReadBox.parentNode;
 
+                const bodyContainerWheel = this.app.querySelector('.body__container');
+
 
                 const changeStatusMainFun = this.changeStatusMain;
                 const mainWs = this.ws;
                 function changeStatus(e){
-
-                    console.log(e.target, '-----------');
-
                     const el = e.target;
-
                     if(el.classList.contains !== 'btn'){
                         changeStatusMainFun(mainWs); // меняем статусы на моей страничке
                     }
                     mainBox.removeEventListener('click', changeStatus);
+                    bodyContainerWheel.removeEventListener("wheel", changeStatus);
                 }
 
                 mainBox.addEventListener('click', changeStatus);
+                bodyContainerWheel.addEventListener("wheel", changeStatus);
+
             }
         }
 
