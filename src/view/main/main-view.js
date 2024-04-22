@@ -31,7 +31,7 @@ export class MainView extends AbstractView{
             pageName.classList.add('chat__noAuth');
             pageName.innerHTML = `<div class="chat__noAuth-container">
                 <div class="chat__noAuth-text">Вы не авторизованы!</div>
-                <a class="chat__noAuth-link" href="/">Перейти на страницу авторизации!</a>
+                <a class="chat__noAuth-link" href="/rs-fun-chat/">Перейти на страницу авторизации!</a>
             </div> `;
             this.app.innerHTML = '';
             this.app.append(pageName);
