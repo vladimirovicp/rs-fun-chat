@@ -82,3 +82,68 @@
 .sidebar__users .active .sidebar__user{
     background-color: #e1e1e1;
 }
+
+
+@media(max-width:700px){
+    .sidebar{
+        font-size: 1rem;
+    }
+
+    .sidebar__header{
+        font-size: 1rem;
+    }
+
+    .body__header{
+        flex-wrap: wrap;
+        height: 15vh!important;
+    }
+
+    .body__name-chat{
+        width: 100%;
+    }
+
+
+}
+
+@media(max-width:520px){
+    .chat__footer{
+        display: none!important;
+    }
+
+    .main .messageBlock{
+        height: 15vh;
+    }
+    .messageBlock .form{
+        flex-wrap: wrap;
+    }
+
+    .messageBlock .userMessage{
+        height: 40%;
+    }
+
+    .main .body__container{
+        height: 60vh;
+    }
+
+    .body__header{
+        height: 20vh!important;
+        justify-content: center!important;
+    }
+
+    .body__btn-about {
+        margin-left: 0!important;
+    }
+
+    .body__messageSender-statuses{
+        display: none!important;
+    }
+
+    .body__chats-date{
+        display: none;
+    }
+
+    .body__chats-info{
+        width: auto!important;
+    }
+}
+
