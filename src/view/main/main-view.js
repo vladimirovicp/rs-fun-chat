@@ -53,7 +53,7 @@ export class MainView extends AbstractView{
 
         const footer = new ElementCreator({tag:'div', classNames:['chat__footer']}).getElement();
         footer.innerHTML = `
-            <div class="chat__footer-rs"><img src="../img/rs-logo.webp">The Rolling Scopes School</div>
+            <div class="chat__footer-rs"><img src="./img/rs-logo.webp">The Rolling Scopes School</div>
             <div>Git Hub: <a href="https://github.com/vladimirovicp">Vladimirovicp</a></div>
             <div>2024</div>
         `;
@@ -65,6 +65,9 @@ export class MainView extends AbstractView{
     }
 
     redrawingSidebar(){
+
+        console.log('redrawingSidebar')
+
         const sidebar = this.app.querySelector('.sidebar');
         if(sidebar){
             const sidebarNew = new Sidebar(this.ws,this.stateUser).render();
@@ -189,12 +192,21 @@ export class MainView extends AbstractView{
                 const notReadBox = bodyContainer.querySelector('.body__chats-not-read');
                 //const parentElement = notReadBox.parentNode;
 
+
                 const changeStatusMainFun = this.changeStatusMain;
                 const mainWs = this.ws;
-                function changeStatus(){
-                    changeStatusMainFun(mainWs); // меняем статусы на моей страничке
-                   mainBox.removeEventListener('click', changeStatus);
+                function changeStatus(e){
+
+                    console.log(e.target, '-----------');
+
+                    const el = e.target;
+
+                    if(el.classList.contains !== 'btn'){
+                        changeStatusMainFun(mainWs); // меняем статусы на моей страничке
+                    }
+                    mainBox.removeEventListener('click', changeStatus);
                 }
+
                 mainBox.addEventListener('click', changeStatus);
             }
         }
@@ -361,7 +373,6 @@ export class MainView extends AbstractView{
     
                 bodyChatsSender.forEach(el =>{
                     if(el.dataset.id === id){
-    
                         const bodyMessageSenderStatus = el.querySelector('.body__messageSender-status');
                         bodyMessageSenderStatus.textContent = 'прочитано';
                     }

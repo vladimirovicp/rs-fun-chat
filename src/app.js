@@ -36,9 +36,12 @@ class App {
 
     stateUserHook(path){
       if( path === 'usersActive' || path === 'usersInacrive'){
+        console.log('----usersActive---usersInacrive', this.currentView.constructor.name);
         if( this.currentView.constructor.name === 'MainView'){
           this.currentView.redrawingSidebar();
         }
+
+        
       }
 
       if( path === 'sendUser'){
