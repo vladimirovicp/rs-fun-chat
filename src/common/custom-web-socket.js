@@ -6,10 +6,18 @@ export class CustomWebSocket {
       this.socket = new WebSocket(this.url);
       this.connected = false;
       this.stateUser = stateUser;
+
+      
+      this.body = document.querySelector('body');
+      this.body.innerHTML = `<div class="connect">
+        <div class="connect__info">Соединение подождите 10с</div>
+      </div>`;
+      this.count = 0;
       
       this.socket.onopen = () => {
         console.log('Соединение установлено');
         this.connected = true;
+
         this.onOpenCallback();
       };
       
@@ -34,9 +42,15 @@ export class CustomWebSocket {
     
     reconnect() {
       console.log('Попытка переподключения...');
+      this.count += 1;
+      this.body.innerHTML = `<div class="connect">
+        <div class="connect__info">Попытка переподключения №${this.count}...</div>
+      </div>`;
       this.socket = new WebSocket(this.url);
       
       this.socket.onopen = () => {
+        this.count = 0;
+        window.location.hash = '#';
         console.log('Соединение восстановлено');
       };
       
@@ -45,7 +59,6 @@ export class CustomWebSocket {
       };
       
       this.socket.onclose = () => {
-        console.log('Соединение закрыто');
         this.reconnect();
       };
     }

@@ -25,6 +25,7 @@ class App {
       historyWithUser: null,
       notificationMessage : null,
       msgRead: null,
+      connection: false,
     }
 
     constructor(){  
@@ -40,15 +41,12 @@ class App {
         if( this.currentView.constructor.name === 'MainView'){
           this.currentView.redrawingSidebar();
         }
-
-        
       }
 
       if( path === 'sendUser'){
         if(this.stateUser.sendUser){
           if( this.currentView.constructor.name === 'MainView'){
             this.currentView. isSendUser();
-
           }
         }
       }
@@ -95,6 +93,12 @@ class App {
         if( this.currentView.constructor.name === 'MainView'){
           this.currentView.interlocutorStatusMessage(this.stateUser.msgRead);
         }
+      }
+
+      if(path === 'connection'){
+         
+        console.log('connection', this.stateUser.connection)
+
       }
     }
 
