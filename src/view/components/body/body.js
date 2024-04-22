@@ -47,6 +47,9 @@ export class Body extends AbstractView{
         container.addInnerElement(bodyInfo);
 
         const bodyContainer = new ElementCreator({tag:'div', classNames:['body__container']});
+        const noneMessage = new ElementCreator({tag:'div', classNames:['none-message'],textContent:'Выберите пользователя для отправки сообщения...'});
+        bodyContainer.addInnerElement(noneMessage);
+        
         container.addInnerElement(bodyContainer);
 
         return container.getElement();
