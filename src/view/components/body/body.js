@@ -77,6 +77,8 @@ export class Body extends AbstractView{
         bodyChatsSenderMessageStatuses.addInnerElement(bodyChatsSenderMessageStatus);
 
         bodyChatsSender.addInnerElement(bodyChatsSenderMessageStatuses);
+
+
         return bodyChatsSender;
     }
 
