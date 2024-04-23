@@ -111,10 +111,18 @@
     }
 
     .main .messageBlock{
-        height: 15vh;
+        height: 120px;
+        padding: 0;
     }
+
+    .main .body__info{
+        height: 30px;
+    }
+
     .messageBlock .form{
         flex-wrap: wrap;
+        justify-content: center;
+        gap: 0
     }
 
     .messageBlock .userMessage{
@@ -122,12 +130,15 @@
     }
 
     .main .body__container{
-        height: 60vh;
+        height: calc(100vh - 270px);
     }
 
     .body__header{
-        height: 20vh!important;
+        height: 120px!important;
         justify-content: center!important;
+        gap: 5px!important;
+        padding: 5px 20px!important;
+        text-align: center;
     }
 
     .body__btn-about {
