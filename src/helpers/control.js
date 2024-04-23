@@ -95,6 +95,11 @@ const processingTypes = (message,stateUser,ws) =>{
       stateUser.msgRead = messageJson.payload.message;
     }
 
+    if(type === 'MSG_DELETE'){
+      //удаление сообщения
+      stateUser.msgDel = messageJson.payload.message;
+    }
+
     
 
     

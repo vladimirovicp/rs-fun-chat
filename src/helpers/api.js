@@ -225,20 +225,19 @@ const messageReadStatusChange = (ws,idMessage) => {
 } 
 
 //?? Удаление сообщения
-const messageDeletion = () => {
+const messageDeletion = (ws,id) => {
 
-  /**
-   * {
-        id: string,
-        type: "MSG_DELETE"
+  const data = {
+        id: 'del',
+        type: "MSG_DELETE",
         payload: {
           message: {
-            id: string,
+            id: id,
           }
         }
-      }
-   */
+      };
 
+      ws.send(JSON.stringify(data));
 
   /**
    * 

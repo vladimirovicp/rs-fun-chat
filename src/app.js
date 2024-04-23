@@ -25,6 +25,7 @@ class App {
       historyWithUser: null,
       notificationMessage : null,
       msgRead: null,
+      msgDel: null,
       connection: false,
     }
 
@@ -95,11 +96,15 @@ class App {
         }
       }
 
-      if(path === 'connection'){
-         
-        console.log('connection', this.stateUser.connection)
-
+      if(path === 'msgDel'){
+        if( this.currentView.constructor.name === 'MainView'){
+          this.currentView.deleteMessage(this.stateUser.msgDel);
+        }
       }
+
+      // if(path === 'connection'){
+      //   console.log('connection', this.stateUser.connection)
+      // }
     }
 
     route(){

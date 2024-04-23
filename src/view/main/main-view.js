@@ -3,7 +3,7 @@ import { AbstractView } from '../../common/view';
 import { Sidebar } from '../components/sidebar/sidebar';
 import { Body } from '../components/body/body';
 import { MessageBlock } from '../components/message-block/message-block';
-import { userAuthentication, gettingAllAuthenticatedUsers, fetchingMessageHistoryWithUser, messageReadStatusChange } from "../../helpers/api";
+import { userAuthentication, gettingAllAuthenticatedUsers, fetchingMessageHistoryWithUser, messageReadStatusChange, messageDeletion } from "../../helpers/api";
 import ElementCreator from '../../util/element-creator';
 import "./styles.css";
 
@@ -149,6 +149,7 @@ export class MainView extends AbstractView{
 
     //Появление сообщений, которые отправил я!
     mainNewMessage(dateMessage){
+
         const bodyContainer = this.app.querySelector('.body__container');
         const noneMessage = bodyContainer.querySelector('.none-message');
         if(noneMessage){
@@ -159,7 +160,61 @@ export class MainView extends AbstractView{
         const editMessage = dateMessage.status.isEdited ? 'изменено' : null;
 
         const bodyChatsSender = this.BodyClass.createChatsSender(dateMessage.text,date,statusMessage,editMessage,dateMessage.id);
-        bodyContainer.innerHTML += bodyChatsSender.getElement().outerHTML;
+
+        const bodyChatsSenderBox = bodyChatsSender.getElement();
+
+        //const bodyMessageSenderText = bodyChatsSenderBox.querySelector('p')
+
+
+        bodyChatsSenderBox.addEventListener('contextmenu', (event) => {
+
+            const self = this;
+
+            event.preventDefault();
+            console.log(event.target)
+            const bodyContainer = document.querySelector('.body__container');
+            const contextmenu = bodyContainer.querySelector('.body__context-menu');
+
+            if(contextmenu){
+                contextmenu.remove();
+            }
+            
+            bodyChatsSenderBox.innerHTML += `
+            <div class="body__context-menu">
+                <ul>
+                    <li class="message__edit">Изменить</li>
+                    <li class="message__delete">Удалить</li>
+                </ul>
+            </div>`;
+
+            
+            
+
+            const contextmenuNew = bodyChatsSenderBox.querySelector('.body__context-menu');
+            bodyChatsSenderBox.addEventListener('click', (e) => {
+
+                if(e.target.textContent.trim() === 'Изменить'){
+                    console.log('---Изменить')
+                }
+
+                if(e.target.textContent.trim() === 'Удалить'){
+                    console.log('---Удалить');
+                    messageDeletion(self.ws,dateMessage.id);
+                    bodyChatsSenderBox.remove();
+                }
+
+                contextmenuNew.remove();
+            });
+
+
+
+
+
+        });
+
+        //bodyContainer.innerHTML += bodyChatsSenderBox.outerHTML;
+
+        bodyContainer.append(bodyChatsSenderBox);
 
         // Проверяем, нужно ли прокручивать вниз
         if (bodyContainer.scrollHeight > bodyContainer.clientHeight) {
@@ -380,10 +435,25 @@ export class MainView extends AbstractView{
                 })
             }
         }
+    }
 
+    deleteMessage(data){
+        const id = data.id;
+        console.log('mainid',id)
 
-        
+        if(this.stateUser.sendUser){
+            const bodyContainer = this.app.querySelector('.body__container');
+            const bodyChatsRecipent = bodyContainer.querySelectorAll('.body__chats-recipent');
+            bodyChatsRecipent.forEach(el =>{
 
+                if(el.dataset.id === id){
+                    console.log('найден');
+                    el.remove();
+                }
+            })
+            
+
+        }
     }
 
 }
