@@ -29,7 +29,6 @@ export class Authorization extends AbstractView {
                             name="name" 
                             id="name" 
                             placeholder="My name is" 
-                            value="Test1" 
                             required: "required" 
                             minlength: "4" 
                             pattern: "^[A-Z][a-zA-Z\\-]+$"  />
@@ -43,10 +42,10 @@ export class Authorization extends AbstractView {
                                 </g>
                             </svg>  
                         </label>
-                        <input type="password" name="password" class="user-password" placeholder="My password is" value="test"/>
+                        <input type="password" name="password" class="user-password" placeholder="My password is"/>
                         <span class="password-error"></span>
                     </div>
-                    <input type="submit" value="Sign in" class="sign-in" />
+                    <input type="submit" value="Sign in" class="sign-in" disabled/>
                 </form>
                 <a href="#about" class="btn form__btn">about</a>
             </div>
@@ -56,7 +55,7 @@ export class Authorization extends AbstractView {
 
         //!!!!!!!!!!!!!! Потом Включи валидацию!!!!
         // добавь <input type="submit" value="Sign in" class="sign-in" disabled />
-        //this.validateInput(pageAuth);
+        this.validateInput(pageAuth);
 
 
         const signIn = pageAuth.querySelector('.sign-in');
