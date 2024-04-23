@@ -58,6 +58,7 @@ export class MessageBlock extends AbstractView{
             e.preventDefault();
             const messaage = userMessage.value;
             userMessage.value = '';
+            btn.setAttribute('disabled', 'disabled');
             sendingMessageUser(this.ws,messaage,this.stateUser.sendUser);
 
         });
