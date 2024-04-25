@@ -1,0 +1,160 @@
+.sidebar{
+    height: 100%;
+    background-color: #fff;
+    flex: 0.2;
+    padding: 20px;
+    border-right: 1px solid #bfbdbd;
+}
+
+.sidebar__header{
+    margin: 0 0 1rem 0;
+    font-size: 25px;
+}
+
+.sidebar__users{
+    margin-bottom: 10px;
+    padding-left: .5rem;
+    color: #607eaa;
+    font-size: 14px;
+    list-style: none;
+}
+
+.sidebar__users > li {
+    margin-bottom: .25rem;
+    cursor: pointer;
+}
+
+.sidebar__user{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: .5rem .2rem;
+}
+
+.sidebar__user-status{
+    background: #8b0000;
+    border: 1px solid;
+    border-radius: 50%;
+    box-sizing: border-box;
+    height: 6px;
+    width: 6px;
+}
+
+.sidebar__user-active {
+    background: #32cd32;
+}
+
+.sidebar__user-current{
+    text-align: center;
+    background-color:#e1e1e1;
+    padding: 1rem;
+}
+
+.sidebar__user-current-name{
+    font-weight: bold;
+    display: block;
+    margin-top: 0.5rem;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+.search__input{
+    margin: 1rem 0;
+}
+
+.sidebar__message-number{
+    margin-left: auto;
+}
+.sidebar__message-number span{
+    border: 1px solid #32cd32;
+    border-radius: 50%;
+    font-size: 10px;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar__users .active .sidebar__user{
+    background-color: #e1e1e1;
+}
+
+
+@media(max-width:700px){
+    .sidebar{
+        font-size: 1rem;
+    }
+
+    .sidebar__header{
+        font-size: 1rem;
+    }
+
+    .body__header{
+        flex-wrap: wrap;
+        height: 15vh!important;
+    }
+
+    .body__name-chat{
+        width: 100%;
+    }
+
+
+}
+
+@media(max-width:520px){
+    .chat__footer{
+        display: none!important;
+    }
+
+    .main .messageBlock{
+        height: 120px;
+        padding: 0;
+    }
+
+    .main .body__info{
+        height: 30px;
+    }
+
+    .messageBlock .form{
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0
+    }
+
+    .messageBlock .userMessage{
+        height: 40%;
+    }
+
+    .main .body__container{
+        height: calc(100vh - 270px);
+    }
+
+    .body__header{
+        height: 120px!important;
+        justify-content: center!important;
+        gap: 5px!important;
+        padding: 5px 20px!important;
+        text-align: center;
+    }
+
+    .body__btn-about {
+        margin-left: 0!important;
+    }
+
+    .body__messageSender-statuses{
+        display: none!important;
+    }
+
+    .body__chats-date{
+        display: none;
+    }
+
+    .body__chats-info{
+        width: auto!important;
+    }
+}
+

@@ -1,0 +1,14 @@
+.not-fouund__container{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.not-fouund__info{
+    font-size: 2.5rem;
+    color: #e1e1e1;
+    font-weight: bold;
+}
