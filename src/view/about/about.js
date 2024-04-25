@@ -4,12 +4,6 @@ import './style.css';
 
 export class About extends AbstractView {
     render(){
-
-        // const main = document.createElement('h1');
-        // main.innerHTML = 'About';
-        // this.app.innerHTML = '';
-        // this.app.append(main);
-
         const about = new ElementCreator({tag:'div', classNames:['about']});
         const container = new ElementCreator({tag:'div', classNames:['about__container']});
         const title = new ElementCreator({tag:'h1', classNames:['about__title'], textContent: 'Супер чат!'});
@@ -33,7 +27,5 @@ export class About extends AbstractView {
 
         this.app.innerHTML = '';
         this.app.append(about.getElement());
-
-
     }
 }

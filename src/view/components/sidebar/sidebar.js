@@ -28,8 +28,6 @@ export class Sidebar extends AbstractView{
         `;
         let sidebarUsersList = '';
 
-        console.log('this.stateUser.usersActive',this.stateUser.usersActive);
-
         for (let i = 0; i < this.stateUser.usersActive.length; i++) {
 
             //запросить историю для подсчета непрочитаных сообщений

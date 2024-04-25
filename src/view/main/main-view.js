@@ -65,15 +65,9 @@ export class MainView extends AbstractView{
     }
 
     redrawingSidebar(){
-
-        console.log('redrawingSidebar')
-
         const sidebar = this.app.querySelector('.sidebar');
         if(sidebar){
             const sidebarNew = new Sidebar(this.ws,this.stateUser).render();
-
-            console.log('sidebarNew',sidebarNew)
-
             const sidebarStr = sidebarNew.innerHTML;
             sidebar.innerHTML = sidebarStr;
 
@@ -171,7 +165,6 @@ export class MainView extends AbstractView{
             const self = this;
 
             event.preventDefault();
-            console.log(event.target)
             const bodyContainer = document.querySelector('.body__container');
             const contextmenu = bodyContainer.querySelector('.body__context-menu');
 
@@ -187,32 +180,16 @@ export class MainView extends AbstractView{
                 </ul>
             </div>`;
 
-            
-            
-
             const contextmenuNew = bodyChatsSenderBox.querySelector('.body__context-menu');
             bodyChatsSenderBox.addEventListener('click', (e) => {
-
-                if(e.target.textContent.trim() === 'Изменить'){
-                    console.log('---Изменить')
-                }
-
                 if(e.target.textContent.trim() === 'Удалить'){
-                    console.log('---Удалить');
+                    //Удалить
                     messageDeletion(self.ws,dateMessage.id);
                     bodyChatsSenderBox.remove();
                 }
-
                 contextmenuNew.remove();
             });
-
-
-
-
-
         });
-
-        //bodyContainer.innerHTML += bodyChatsSenderBox.outerHTML;
 
         bodyContainer.append(bodyChatsSenderBox);
 
@@ -227,8 +204,6 @@ export class MainView extends AbstractView{
 
     //Появления сообщения присланного мне!
     interlocutorNewMessage(dateMessage){
-
-        //let isNewMessage = false;
         const bodyContainer = this.app.querySelector('.body__container');
         const noneMessage = bodyContainer.querySelector('.none-message');
         if(noneMessage){
@@ -245,8 +220,6 @@ export class MainView extends AbstractView{
                 //ждем клика для смены статуса
                 const mainBox = this.app.querySelector('.main');
                 const notReadBox = bodyContainer.querySelector('.body__chats-not-read');
-                //const parentElement = notReadBox.parentNode;
-
                 const bodyContainerWheel = this.app.querySelector('.body__container');
 
 
@@ -345,8 +318,6 @@ export class MainView extends AbstractView{
         const bodyContainer = document.querySelector('.body__container');
         const notRead = bodyContainer.querySelector('.body__chats-not-read');
 
-        //sendUser
-
         if(notRead){
             //удалить оповещение у нужного пользователя
             const sidebarUsers = document.querySelector('.sidebar__users');
@@ -365,20 +336,10 @@ export class MainView extends AbstractView{
                     elementsAfterReference.push(nextElement);
                     nextElement = nextElement.nextElementSibling;
                 }
-
-
-
                 elementsAfterReference.forEach(el =>{
                     messageReadStatusChange(ws,el.dataset.id);
                 })
-            
-                
             }
-
-            // const bodychatsRecipents =  bodyContainer.querySelectorAll('.body__chats-recipent');
-            // bodychatsRecipents.forEach( recipents =>{
-            //     messageReadStatusChange(ws,recipents.dataset.id);
-            // })
 
             notRead.remove();
         }
@@ -439,15 +400,13 @@ export class MainView extends AbstractView{
 
     deleteMessage(data){
         const id = data.id;
-        console.log('mainid',id)
-
         if(this.stateUser.sendUser){
             const bodyContainer = this.app.querySelector('.body__container');
             const bodyChatsRecipent = bodyContainer.querySelectorAll('.body__chats-recipent');
             bodyChatsRecipent.forEach(el =>{
 
                 if(el.dataset.id === id){
-                    console.log('найден');
+                    //найден
                     el.remove();
                 }
             })
@@ -455,5 +414,4 @@ export class MainView extends AbstractView{
 
         }
     }
-
 }

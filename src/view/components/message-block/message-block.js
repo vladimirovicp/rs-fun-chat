@@ -1,11 +1,9 @@
 import { AbstractView } from '../../../common/view';
-//import styles from "./styles.module.css";
 import "./styles.css";
 import ElementCreator from '../../../util/element-creator';
 import { sendingMessageUser } from '../../../helpers/api';
 
 export class MessageBlock extends AbstractView{
-
     constructor(ws,stateUser){
         super();
         this.ws = ws;

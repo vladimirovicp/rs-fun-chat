@@ -52,12 +52,7 @@ export class Authorization extends AbstractView {
             ${authorizationIco}
         </div`;
 
-
-        //!!!!!!!!!!!!!! Потом Включи валидацию!!!!
-        // добавь <input type="submit" value="Sign in" class="sign-in" disabled />
         this.validateInput(pageAuth);
-
-
         const signIn = pageAuth.querySelector('.sign-in');
         signIn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -116,7 +111,6 @@ export class Authorization extends AbstractView {
             const value = e.target.value;
             if(value){
                 if( value.length < 4 ){
-                    console.log(value.length);
                     passwordError.innerHTML = 'Символов в пароле должно быть больше 3!';
                     passBool = false;
                     activeSignIn();
@@ -138,16 +132,6 @@ export class Authorization extends AbstractView {
         const activeSignIn = () => {
             if (nameBool && passBool){
                 signIn.removeAttribute('disabled');
-
-                // document.addEventListener('keydown', (e) =>{
-                //     if (e.key === 'Enter'){
-                //         if(signIn.disabled){
-                //             //this.btnClick();
-                //             console.log('Enter');
-                //         }
-                //     }
-                // });
-
             } else{
                 signIn.setAttribute('disabled', 'disabled');
             }
