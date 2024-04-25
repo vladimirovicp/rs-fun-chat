@@ -54,23 +54,12 @@ const processingTypes = (message,stateUser,ws) =>{
       const currentUserObj = sessionStorage.getItem('user');
       const currentUserName = JSON.parse(currentUserObj).login;
 
-      const text = messageJson.payload.message.text;
-      const datetime = messageJson.payload.message.datetime;
-
       if(currentUserName === from) {
-        // stateUser.mainLastMessage = {
-        //   text: text,
-        //   datetime: datetime,
-        // };
         stateUser.mainLastMessage = messageJson;
       }
 
       if(currentUserName === to) {
         if(stateUser.sendUser === from){
-          // stateUser.currentReceivedMessage={
-          //   text: text,
-          //   datetime: datetime,
-          // };
           stateUser.currentReceivedMessage=messageJson;
         }
           // получатель я от from
@@ -99,10 +88,6 @@ const processingTypes = (message,stateUser,ws) =>{
       //удаление сообщения
       stateUser.msgDel = messageJson.payload.message;
     }
-
-    
-
-    
 }
 
 
