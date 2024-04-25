@@ -38,7 +38,6 @@ class App {
 
     stateUserHook(path){
       if( path === 'usersActive' || path === 'usersInacrive'){
-        console.log('----usersActive---usersInacrive', this.currentView.constructor.name);
         if( this.currentView.constructor.name === 'MainView'){
           this.currentView.redrawingSidebar();
         }
@@ -85,7 +84,6 @@ class App {
         if(this.stateUser.notificationMessage !== null){
           if( this.currentView.constructor.name === 'MainView'){
             this.currentView.updateMessageNumber(this.stateUser.notificationMessage);
-            //this.currentView.updateMessageNumber(this.currentView.stateUser.notificationMessage);
           }
         }
       }
@@ -101,10 +99,6 @@ class App {
           this.currentView.deleteMessage(this.stateUser.msgDel);
         }
       }
-
-      // if(path === 'connection'){
-      //   console.log('connection', this.stateUser.connection)
-      // }
     }
 
     route(){
