@@ -7,7 +7,6 @@ export class CustomWebSocket {
       this.connected = false;
       this.stateUser = stateUser;
 
-      
       this.body = document.querySelector('body');
       this.body.innerHTML = `<div class="connect">
         <div class="connect__info">Соединение подождите 10с</div>
@@ -15,19 +14,18 @@ export class CustomWebSocket {
       this.count = 0;
       
       this.socket.onopen = () => {
-        console.log('Соединение установлено');
+        //Соединение установлено
         this.connected = true;
-
         this.onOpenCallback();
       };
       
       this.socket.onmessage = (event) => {
-        console.log('Получено сообщение: ' + event.data);
+        //Получено сообщение: ' + event.data
         processingTypes(event.data, this.stateUser, this.socket);
       };
       
       this.socket.onclose = () => {
-        console.log('Соединение закрыто');
+        //'Соединение закрыто
         this.reconnect();
       };
     }
@@ -41,7 +39,7 @@ export class CustomWebSocket {
     }
     
     reconnect() {
-      console.log('Попытка переподключения...');
+      //'Попытка переподключения...
       this.count += 1;
       this.body.innerHTML = `<div class="connect">
         <div class="connect__info">Попытка переподключения №${this.count}...</div>
@@ -51,11 +49,11 @@ export class CustomWebSocket {
       this.socket.onopen = () => {
         this.count = 0;
         window.location.hash = '#';
-        console.log('Соединение восстановлено');
+        //Соединение восстановлено
       };
       
       this.socket.onmessage = (event) => {
-        console.log('Получено сообщение: ' + event.data);
+        //Получено сообщение: ' + event.data
       };
       
       this.socket.onclose = () => {
@@ -82,6 +80,3 @@ export class CustomWebSocket {
     }
 
   }
-  
-  // Использование класса WebSocket
-  const ws = new CustomWebSocket('ws://127.0.0.1:4000');
