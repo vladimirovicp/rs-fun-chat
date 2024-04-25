@@ -1,19 +1,19 @@
-import { AbstractView } from '../../common/view';
-import './authorization.scss';
-import { authorizationIco } from '../../helpers/svg';
-import { userAuthentication } from '../../helpers/api';
+import { AbstractView } from "../../common/view";
+import "./authorization.scss";
+import { authorizationIco } from "../../helpers/svg";
+import { userAuthentication } from "../../helpers/api";
 
 export class Authorization extends AbstractView {
-    constructor(ws,stateUser){
-        super();
-        this.stateUser = stateUser;
-        this.ws = ws;
-    }
+  constructor(ws, stateUser) {
+    super();
+    this.stateUser = stateUser;
+    this.ws = ws;
+  }
 
-    render(){
-        const pageAuth = document.createElement('div');
-        pageAuth.classList.add('page-auth');
-        pageAuth.innerHTML = `
+  render() {
+    const pageAuth = document.createElement("div");
+    pageAuth.classList.add("page-auth");
+    pageAuth.innerHTML = `
         <div class='container'>
             <div class="wrapper">
                 <form action="#" class="auth__form">
@@ -52,89 +52,91 @@ export class Authorization extends AbstractView {
             ${authorizationIco}
         </div`;
 
-        this.validateInput(pageAuth);
-        const signIn = pageAuth.querySelector('.sign-in');
-        signIn.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.btnClick(pageAuth);
-        });
+    this.validateInput(pageAuth);
+    const signIn = pageAuth.querySelector(".sign-in");
+    signIn.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.btnClick(pageAuth);
+    });
 
-        this.app.innerHTML = '';
-        this.app.append(pageAuth);
-    }
+    this.app.innerHTML = "";
+    this.app.append(pageAuth);
+  }
 
-    btnClick(el){
-        const userName = el.querySelector('.user-name');
-        const userPas = el.querySelector('.user-password');
-        const userNameVal = userName.value;
-        const userPasVal = userPas.value;
-        sessionStorage.setItem('user', JSON.stringify({login: userNameVal, password: userPasVal}));
-        this.stateUser.isLogined = true;
-        userAuthentication(this.ws);
-    }
+  btnClick(el) {
+    const userName = el.querySelector(".user-name");
+    const userPas = el.querySelector(".user-password");
+    const userNameVal = userName.value;
+    const userPasVal = userPas.value;
+    sessionStorage.setItem(
+      "user",
+      JSON.stringify({ login: userNameVal, password: userPasVal }),
+    );
+    this.stateUser.isLogined = true;
+    userAuthentication(this.ws);
+  }
 
-    validateInput(pageAuth){
-        let nameBool = false;
-        let passBool = false;
-        const signIn = pageAuth.querySelector('.sign-in');
-        const formUserName = pageAuth.querySelector('.form__user-name');
-        const userError = formUserName.querySelector('.user-error');
-        const userName = formUserName.querySelector('.user-name');
-        userName.addEventListener('input', (e) => {
-            const value = e.target.value;
-            if(value){
-                if( value[0] !== value[0].toUpperCase()){
-                    userError.innerHTML = 'Первая буква в Имени должно быть заглавной!'; 
-                    nameBool= false; 
-                    activeSignIn();
-                } else{
-                    if(value.length < 4){
-                        userError.innerHTML = 'Символов в Имени должно быть больше 3!';
-                        nameBool=false;
-                        activeSignIn();
-                    } else{
-                        userError.innerHTML = '';
-                        nameBool=true;
-                        activeSignIn();
-                    }
-                }
-            } else{
-                userError.innerHTML = '';
-            }
+  validateInput(pageAuth) {
+    let nameBool = false;
+    let passBool = false;
+    const signIn = pageAuth.querySelector(".sign-in");
+    const formUserName = pageAuth.querySelector(".form__user-name");
+    const userError = formUserName.querySelector(".user-error");
+    const userName = formUserName.querySelector(".user-name");
+    userName.addEventListener("input", (e) => {
+      const value = e.target.value;
+      if (value) {
+        if (value[0] !== value[0].toUpperCase()) {
+          userError.innerHTML = "Первая буква в Имени должно быть заглавной!";
+          nameBool = false;
+          activeSignIn();
+        } else {
+          if (value.length < 4) {
+            userError.innerHTML = "Символов в Имени должно быть больше 3!";
+            nameBool = false;
+            activeSignIn();
+          } else {
+            userError.innerHTML = "";
+            nameBool = true;
+            activeSignIn();
+          }
+        }
+      } else {
+        userError.innerHTML = "";
+      }
+    });
 
-        });
+    const formUserPassword = pageAuth.querySelector(".form__user-password");
+    const passwordError = formUserPassword.querySelector(".password-error");
+    const userPassword = formUserPassword.querySelector(".user-password");
+    userPassword.addEventListener("input", (e) => {
+      const value = e.target.value;
+      if (value) {
+        if (value.length < 4) {
+          passwordError.innerHTML = "Символов в пароле должно быть больше 3!";
+          passBool = false;
+          activeSignIn();
+        } else {
+          passwordError.innerHTML = ``;
 
-        const formUserPassword =  pageAuth.querySelector('.form__user-password');
-        const passwordError = formUserPassword.querySelector('.password-error');
-        const userPassword = formUserPassword.querySelector('.user-password');
-        userPassword.addEventListener('input', (e) => {
-            const value = e.target.value;
-            if(value){
-                if( value.length < 4 ){
-                    passwordError.innerHTML = 'Символов в пароле должно быть больше 3!';
-                    passBool = false;
-                    activeSignIn();
-                } else{
-                    passwordError.innerHTML = ``;
+          if (!/[0-9]+/.test(value)) {
+            passwordError.innerHTML = "В пароле должна быть хоть одна цифра!";
+          } else {
+            passBool = true;
+            activeSignIn();
+          }
+        }
+      } else {
+        passwordError.innerHTML = "";
+      }
+    });
 
-                    if(!/[0-9]+/.test(value)){
-                        passwordError.innerHTML = 'В пароле должна быть хоть одна цифра!';
-                    } else{
-                        passBool = true;
-                        activeSignIn();
-                    }
-                }
-            } else {
-                passwordError.innerHTML = '';
-            }
-        });
-
-        const activeSignIn = () => {
-            if (nameBool && passBool){
-                signIn.removeAttribute('disabled');
-            } else{
-                signIn.setAttribute('disabled', 'disabled');
-            }
-        };
-    }
+    const activeSignIn = () => {
+      if (nameBool && passBool) {
+        signIn.removeAttribute("disabled");
+      } else {
+        signIn.setAttribute("disabled", "disabled");
+      }
+    };
+  }
 }

@@ -1,5 +1,5 @@
-export class AbstractView{
-    constructor(){
-        this.app = document.querySelector('body');
-    }
+export class AbstractView {
+  constructor() {
+    this.app = document.querySelector("body");
+  }
 }

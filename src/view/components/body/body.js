@@ -1,102 +1,178 @@
-import { AbstractView } from '../../../common/view';
-import { userLogout } from '../../../helpers/api';
+import { AbstractView } from "../../../common/view";
+import { userLogout } from "../../../helpers/api";
 import "./styles.css";
-import ElementCreator from '../../../util/element-creator';
+import ElementCreator from "../../../util/element-creator";
 
-export class Body extends AbstractView{
+export class Body extends AbstractView {
+  constructor(ws, stateUser) {
+    super();
+    this.ws = ws;
+    this.stateUser = stateUser;
+  }
 
-    constructor(ws,stateUser){
-        super();
-        this.ws = ws;
-        this.stateUser = stateUser;
-    }
+  render() {
+    const container = new ElementCreator({
+      tag: "div",
+      classNames: ["main__container"],
+    });
+    const bodyHeader = new ElementCreator({
+      tag: "header",
+      classNames: ["body__header"],
+    });
+    const bodyBtn = new ElementCreator({
+      tag: "button",
+      classNames: ["btn", "body__btn", "body__btn-chat"],
+      textContent: "Покинуть чат",
+      callback: () => {
+        userLogout(this.ws, this.stateUser);
+      },
+    });
 
-    render(){
-        const container = new ElementCreator({tag:'div', classNames:['main__container']});
-        const bodyHeader = new ElementCreator({tag:'header', classNames:['body__header']});
-        const bodyBtn = new ElementCreator({
-            tag:'button', 
-            classNames:['btn','body__btn','body__btn-chat'], 
-            textContent: 'Покинуть чат',
-            callback: () =>{
-                userLogout(this.ws,this.stateUser);
-            }
-        });
+    const nameChat = new ElementCreator({
+      tag: "div",
+      classNames: ["body__name-chat"],
+      textContent: "Супер чат!",
+    });
+    const aboutBtn = new ElementCreator({
+      tag: "button",
+      classNames: ["btn", "body__btn", "body__btn-about"],
+      textContent: "About",
+      callback: () => {
+        window.location.hash = "#about";
+      },
+    });
 
-        const nameChat = new ElementCreator({tag:'div', classNames:['body__name-chat'], textContent: 'Супер чат!'});
-        const aboutBtn = new ElementCreator({
-            tag:'button', 
-            classNames:['btn','body__btn','body__btn-about'], 
-            textContent: 'About',
-            callback: () =>{
-                window.location.hash = '#about';
-            }
-        });
+    bodyHeader.addInnerElement(nameChat);
+    bodyHeader.addInnerElement(aboutBtn);
+    bodyHeader.addInnerElement(bodyBtn);
+    container.addInnerElement(bodyHeader);
 
-        bodyHeader.addInnerElement(nameChat);
-        bodyHeader.addInnerElement(aboutBtn);
-        bodyHeader.addInnerElement(bodyBtn);
-        container.addInnerElement(bodyHeader);
+    const bodyInfo = new ElementCreator({
+      tag: "div",
+      classNames: ["body__info"],
+    });
+    const sendUserName = new ElementCreator({
+      tag: "div",
+      classNames: ["body__send-user-name"],
+    });
+    const sendUserStatus = new ElementCreator({
+      tag: "div",
+      classNames: ["body__send-user-status"],
+    });
+    bodyInfo.addInnerElement(sendUserName);
+    bodyInfo.addInnerElement(sendUserStatus);
+    container.addInnerElement(bodyInfo);
 
+    const bodyContainer = new ElementCreator({
+      tag: "div",
+      classNames: ["body__container"],
+    });
+    const noneMessage = new ElementCreator({
+      tag: "div",
+      classNames: ["none-message"],
+      textContent: "Выберите пользователя для отправки сообщения...",
+    });
+    bodyContainer.addInnerElement(noneMessage);
 
-        const bodyInfo = new ElementCreator({tag:'div', classNames:['body__info']});
-        const sendUserName = new ElementCreator({tag:'div', classNames:['body__send-user-name']});
-        const sendUserStatus = new ElementCreator({tag:'div', classNames:['body__send-user-status']});
-        bodyInfo.addInnerElement(sendUserName);
-        bodyInfo.addInnerElement(sendUserStatus);
-        container.addInnerElement(bodyInfo);
+    container.addInnerElement(bodyContainer);
 
-        const bodyContainer = new ElementCreator({tag:'div', classNames:['body__container']});
-        const noneMessage = new ElementCreator({tag:'div', classNames:['none-message'],textContent:'Выберите пользователя для отправки сообщения...'});
-        bodyContainer.addInnerElement(noneMessage);
-        
-        container.addInnerElement(bodyContainer);
+    return container.getElement();
+  }
 
-        return container.getElement();
-    }
+  createChatsSender(message, date, statusMessage, editMessage, idMessage) {
+    const bodyChatsSender = new ElementCreator({
+      tag: "div",
+      classNames: ["body__chats", "body__chats-sender"],
+      idData: idMessage,
+    });
+    const bodyChatsSenderInfo = new ElementCreator({
+      tag: "div",
+      classNames: ["body__chats-info"],
+    });
+    const bodyChatsSenderName = new ElementCreator({
+      tag: "span",
+      classNames: ["body__chats-name"],
+      textContent: "Вы",
+    });
+    const bodyChatsSenderDate = new ElementCreator({
+      tag: "span",
+      classNames: ["body__chats-date"],
+      textContent: date,
+    });
+    bodyChatsSenderInfo.addInnerElement(bodyChatsSenderName);
+    bodyChatsSenderInfo.addInnerElement(bodyChatsSenderDate);
 
-    createChatsSender(message,date,statusMessage,editMessage,idMessage){
-        const bodyChatsSender = new ElementCreator({tag:'div', classNames:['body__chats','body__chats-sender'],idData: idMessage});
-        const bodyChatsSenderInfo = new ElementCreator({tag:'div', classNames: ['body__chats-info'] });
-        const bodyChatsSenderName = new ElementCreator({tag:'span', classNames: ['body__chats-name'], textContent: 'Вы'});
-        const bodyChatsSenderDate = new ElementCreator({tag:'span', classNames: ['body__chats-date'], textContent: date});
-        bodyChatsSenderInfo.addInnerElement(bodyChatsSenderName);
-        bodyChatsSenderInfo.addInnerElement(bodyChatsSenderDate);
+    bodyChatsSender.addInnerElement(bodyChatsSenderInfo);
+    const bodyChatsSenderMessage = new ElementCreator({
+      tag: "div",
+      classNames: ["body__messageSender"],
+    });
+    const bodyChatsSenderMessageP = new ElementCreator({
+      tag: "p",
+      textContent: message,
+    });
+    bodyChatsSenderMessage.addInnerElement(bodyChatsSenderMessageP);
+    bodyChatsSender.addInnerElement(bodyChatsSenderMessage);
+    const bodyChatsSenderMessageStatuses = new ElementCreator({
+      tag: "p",
+      classNames: ["body__messageSender-statuses"],
+    });
+    const editMessageText = editMessage ? editMessage : "";
+    const bodyChatsSenderMessageEdit = new ElementCreator({
+      tag: "span",
+      classNames: ["body__messageSender-edit"],
+      textContent: editMessageText,
+    });
+    bodyChatsSenderMessageStatuses.addInnerElement(bodyChatsSenderMessageEdit);
 
-        bodyChatsSender.addInnerElement(bodyChatsSenderInfo);
-        const bodyChatsSenderMessage = new ElementCreator({tag:'div', classNames:['body__messageSender']});
-        const bodyChatsSenderMessageP = new ElementCreator({tag:'p', textContent: message});
-        bodyChatsSenderMessage.addInnerElement(bodyChatsSenderMessageP);
-        bodyChatsSender.addInnerElement(bodyChatsSenderMessage);
-        const bodyChatsSenderMessageStatuses = new ElementCreator({tag:'p', classNames:['body__messageSender-statuses']});
-        const editMessageText = editMessage ? editMessage : '';
-        const bodyChatsSenderMessageEdit = new ElementCreator({tag:'span', classNames:['body__messageSender-edit'], textContent: editMessageText});
-        bodyChatsSenderMessageStatuses.addInnerElement(bodyChatsSenderMessageEdit);
-        
-        const bodyChatsSenderMessageStatus = new ElementCreator({tag:'span', classNames:['body__messageSender-status'], textContent: statusMessage});
-        bodyChatsSenderMessageStatuses.addInnerElement(bodyChatsSenderMessageStatus);
+    const bodyChatsSenderMessageStatus = new ElementCreator({
+      tag: "span",
+      classNames: ["body__messageSender-status"],
+      textContent: statusMessage,
+    });
+    bodyChatsSenderMessageStatuses.addInnerElement(
+      bodyChatsSenderMessageStatus,
+    );
 
-        bodyChatsSender.addInnerElement(bodyChatsSenderMessageStatuses);
+    bodyChatsSender.addInnerElement(bodyChatsSenderMessageStatuses);
 
+    return bodyChatsSender;
+  }
 
-        return bodyChatsSender;
-    }
+  createChatsRecipent(message, date, userRecipent, idMessage) {
+    const bodyChatsRecipent = new ElementCreator({
+      tag: "div",
+      classNames: ["body__chats", "body__chats-recipent"],
+      idData: idMessage,
+    });
+    const bodyChatsRecipentInfo = new ElementCreator({
+      tag: "div",
+      classNames: ["body__chats-info"],
+    });
+    const bodyChatsRecipentName = new ElementCreator({
+      tag: "span",
+      classNames: ["body__chats-name"],
+      textContent: userRecipent,
+    });
+    const bodyChatsRecipentDate = new ElementCreator({
+      tag: "span",
+      classNames: ["body__chats-date"],
+      textContent: date,
+    });
+    bodyChatsRecipentInfo.addInnerElement(bodyChatsRecipentName);
+    bodyChatsRecipentInfo.addInnerElement(bodyChatsRecipentDate);
+    bodyChatsRecipent.addInnerElement(bodyChatsRecipentInfo);
+    const bodyChatsRecipentMessage = new ElementCreator({
+      tag: "div",
+      classNames: ["body__messageRecipent"],
+    });
+    const bodyChatsRecipentMessageP = new ElementCreator({
+      tag: "p",
+      textContent: message,
+    });
+    bodyChatsRecipentMessage.addInnerElement(bodyChatsRecipentMessageP);
+    bodyChatsRecipent.addInnerElement(bodyChatsRecipentMessage);
 
-    createChatsRecipent(message,date,userRecipent,idMessage){
-        const bodyChatsRecipent = new ElementCreator({tag:'div', classNames:['body__chats', 'body__chats-recipent'], idData: idMessage});
-        const bodyChatsRecipentInfo = new ElementCreator({tag:'div', classNames: ['body__chats-info'] });
-        const bodyChatsRecipentName = new ElementCreator({tag:'span', classNames: ['body__chats-name'], textContent: userRecipent});
-        const bodyChatsRecipentDate = new ElementCreator({tag:'span', classNames: ['body__chats-date'], textContent: date});
-        bodyChatsRecipentInfo.addInnerElement(bodyChatsRecipentName);
-        bodyChatsRecipentInfo.addInnerElement(bodyChatsRecipentDate);
-        bodyChatsRecipent.addInnerElement(bodyChatsRecipentInfo);
-        const bodyChatsRecipentMessage = new ElementCreator({tag:'div', classNames:['body__messageRecipent']});
-        const bodyChatsRecipentMessageP = new ElementCreator({tag:'p', textContent: message});
-        bodyChatsRecipentMessage.addInnerElement(bodyChatsRecipentMessageP);
-        bodyChatsRecipent.addInnerElement(bodyChatsRecipentMessage);
-
-        return bodyChatsRecipent;
-    }
-
-
+    return bodyChatsRecipent;
+  }
 }
