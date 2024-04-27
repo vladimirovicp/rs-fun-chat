@@ -2,15 +2,15 @@ interface State{
     login: String | null,
     password: String | null,
     isLogined: boolean,
-    usersActive: [{login:String, isLogined:String}],
-    usersInacrive: [{login:String, isLogined:String}],
+    usersActive: [{login:String, isLogined:String}] | [],
+    usersInacrive: [{login:String, isLogined:String}] | [],
     sendUser: string | null,
-    mainLastMessage: String | null,
-    currentReceivedMessage: String | null,
+    mainLastMessage: {payload:{message:DateMessage}} | null,
+    currentReceivedMessage: {payload:{message:DateMessage}} | null,
     historyWithUser: {} | null | any,
     notificationMessage: string | null
-    msgRead: {} | null,
-    msgDel: {} | null,
+    msgRead: { id: string; status: { isReaded: boolean; }; } | null,
+    msgDel: { id: string; status: { isDeleted: boolean; }; } | null,
     connection: boolean,
 }
 

@@ -8,8 +8,7 @@ export class CustomWebSocket {
   private stateUser:State;
   private body: HTMLElement;
   private count: number;
-  private resolve: ((value?: WebSocket | PromiseLike<WebSocket>) => void) | null;
-  private reject: ((reason?: any) => void) | null;
+  private resolve: ((value?: WebSocket) => void) | null;
 
   constructor(url:string, stateUser:State) {
     this.url = url;
@@ -18,7 +17,6 @@ export class CustomWebSocket {
     this.stateUser = stateUser;
 
     this.resolve = null;
-    this.reject = null;
 
     this.body = document.querySelector("body") as HTMLElement;
     this.body.innerHTML = `<div class="connect">
@@ -83,12 +81,11 @@ export class CustomWebSocket {
   }
 
   connect() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       if (this.connected) {
         resolve(this.socket);
       } else {
         this.resolve = resolve;
-        this.reject = reject;
       }
     });
   }
