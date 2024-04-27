@@ -12,7 +12,7 @@ import {
 } from "../../helpers/api";
 import ElementCreator from "../../util/element-creator";
 import "./styles.css";
-import {State} from "../../helpers/myTypes";
+import {State, DateMessage} from "../../helpers/myTypes";
 
 
 export class MainView extends AbstractView {
@@ -174,7 +174,7 @@ export class MainView extends AbstractView {
   }
 
   //Появление сообщений, которые отправил я!
-  mainNewMessage(dateMessage:{id: string, datetime:string, text:string, status: {isReaded:boolean, isEdited:boolean}}) {
+  mainNewMessage(dateMessage: DateMessage) {
     const bodyContainer = this.app.querySelector(".body__container") as HTMLElement;;
     const noneMessage = bodyContainer.querySelector(".none-message");
     if (noneMessage) {
@@ -244,8 +244,8 @@ export class MainView extends AbstractView {
   }
 
   //Появления сообщения присланного мне!
-  interlocutorNewMessage(dateMessage) {
-    const bodyContainer = this.app.querySelector(".body__container");
+  interlocutorNewMessage(dateMessage: DateMessage) {
+    const bodyContainer = this.app.querySelector(".body__container") as HTMLElement;;
     const noneMessage = bodyContainer.querySelector(".none-message");
     if (noneMessage) {
       bodyContainer.innerHTML = "";
@@ -259,15 +259,15 @@ export class MainView extends AbstractView {
                 </div>`;
 
         //ждем клика для смены статуса
-        const mainBox = this.app.querySelector(".main");
+        const mainBox = this.app.querySelector(".main") as HTMLElement;
         const notReadBox = bodyContainer.querySelector(".body__chats-not-read");
-        const bodyContainerWheel = this.app.querySelector(".body__container");
+        const bodyContainerWheel = this.app.querySelector(".body__container") as HTMLElement;
 
         const changeStatusMainFun = this.changeStatusMain;
         const mainWs = this.ws;
-        function changeStatus(e) {
-          const el = e.target;
-          if (el.classList.contains !== "btn") {
+        function changeStatus(e: Event) {
+          const el = e.target as HTMLElement;
+          if (el.classList.contains("btn")) {
             changeStatusMainFun(mainWs); // меняем статусы на моей страничке
           }
           mainBox.removeEventListener("click", changeStatus);
@@ -289,7 +289,7 @@ export class MainView extends AbstractView {
 
     if (isNewMessage) {
       //Прокрутка до непрочитаного сообщения
-      const notRead = bodyContainer.querySelector(".body__chats-not-read");
+      const notRead = bodyContainer.querySelector(".body__chats-not-read") as HTMLElement;
       notRead.scrollIntoView({ behavior: "smooth", block: "start" });
     } else {
       // Проверяем, нужно ли прокручивать вниз
@@ -302,7 +302,7 @@ export class MainView extends AbstractView {
     }
   }
 
-  formateDate(timestamp) {
+  formateDate(timestamp: string) {
     const date = new Date(timestamp);
     const day = date.getDate().toString().padStart(2, "0");
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -315,8 +315,8 @@ export class MainView extends AbstractView {
     return formattedDate;
   }
 
-  updateMessageList(message) {
-    const bodyContainer = this.app.querySelector(".body__container");
+  updateMessageList(message: any) {
+    const bodyContainer = this.app.querySelector(".body__container") as HTMLElement;
     bodyContainer.innerHTML = "";
     const messages = message.payload.messages;
 
@@ -324,10 +324,10 @@ export class MainView extends AbstractView {
       bodyContainer.innerHTML = `<div class="none-message">Напишите ваше первое сообщение...</div>`;
     } else {
       let isNewMessage = false;
-      messages.forEach((item) => {
+      messages.forEach((item:any) => {
         if (this.stateUser.sendUser === item.from) {
           //отправленные сообщения мной, появится у собеседника
-          this.interlocutorNewMessage(item, isNewMessage);
+          this.interlocutorNewMessage(item);
         } else {
           ////отправленные сообщения мне
           this.mainNewMessage(item);
@@ -337,19 +337,18 @@ export class MainView extends AbstractView {
   }
 
   //обновление непрочитанных сообщений
-  updateMessageNumber(userSender) {
-    const sidebarUsers = this.app.querySelector(".sidebar__users");
+  updateMessageNumber(userSender:string) {
+    const sidebarUsers = this.app.querySelector(".sidebar__users") as HTMLElement;
     const items = sidebarUsers.getElementsByTagName("li");
     Array.from(items).forEach(function (item) {
-      const nameUser = item.querySelector(".sidebar__user-name").textContent;
+      const nameUser = (item.querySelector(".sidebar__user-name") as HTMLElement).textContent;
       if (nameUser === userSender) {
         const sidebarMessageNumber = item.querySelector(
           ".sidebar__message-number",
-        );
+        ) as HTMLElement;
         const sidebarMessageNumberIsSpan = sidebarMessageNumber.innerHTML;
         if (sidebarMessageNumberIsSpan) {
-          const sidebarMessageNumberSpan =
-            sidebarMessageNumber.querySelector("span");
+          const sidebarMessageNumberSpan = sidebarMessageNumber.querySelector("span") as HTMLElement;
           sidebarMessageNumberSpan.textContent = String(
             Number(sidebarMessageNumberSpan.textContent) + 1,
           );
@@ -360,19 +359,19 @@ export class MainView extends AbstractView {
     });
   }
 
-  changeStatusMain(ws) {
-    const bodyContainer = document.querySelector(".body__container");
+  changeStatusMain(ws:WebSocket) {
+    const bodyContainer = document.querySelector(".body__container") as HTMLSpanElement;
     const notRead = bodyContainer.querySelector(".body__chats-not-read");
 
     if (notRead) {
       //удалить оповещение у нужного пользователя
-      const sidebarUsers = document.querySelector(".sidebar__users");
+      const sidebarUsers = document.querySelector(".sidebar__users") as HTMLElement;
       const items = sidebarUsers.getElementsByTagName("li");
       Array.from(items).forEach(function (item) {
         if (item.classList.contains("active")) {
           const sidebarMessageNumber = item.querySelector(
             ".sidebar__message-number",
-          );
+          ) as HTMLElement;
           sidebarMessageNumber.innerHTML = "";
         }
       });
@@ -384,7 +383,7 @@ export class MainView extends AbstractView {
           elementsAfterReference.push(nextElement);
           nextElement = nextElement.nextElementSibling;
         }
-        elementsAfterReference.forEach((el) => {
+        elementsAfterReference.forEach((el: any) => {
           messageReadStatusChange(ws, el.dataset.id);
         });
       }
@@ -394,25 +393,28 @@ export class MainView extends AbstractView {
   }
 
   // при загрузке показывает количество сообщения, которые не прочитаны
-  updateSidebarMessageNumber(historyWithUser) {
+  updateSidebarMessageNumber(historyWithUser:{id:string, payload: {messages:[]}}) {
     if (historyWithUser.payload.messages.length > 0) {
       const userObject = sessionStorage.getItem("user");
-      const userName = JSON.parse(userObject).login;
+      const userName = userObject ? JSON.parse(userObject).login : 'default';
 
       const currerUser = this.stateUser.historyWithUser.id.replace(
         "history",
         "",
       );
-      const sidebarUsers = document.querySelector(".sidebar__users");
+      const sidebarUsers = document.querySelector(".sidebar__users") as HTMLElement;
       const items = sidebarUsers.getElementsByTagName("li");
       Array.from(items).forEach(function (item) {
-        const sidebarUserNameText = item.querySelector(
+        const sidebarUserNameText = (item.querySelector(
           ".sidebar__user-name",
-        ).textContent;
+        ) as HTMLElement).textContent;
 
         if (sidebarUserNameText === currerUser) {
           let countNotRead = 0;
-          historyWithUser.payload.messages.forEach((el) => {
+          historyWithUser.payload.messages.forEach((el:{
+            to:string,
+            status:{isReaded:boolean}
+          }) => {
             if (el.to === userName) {
               if (el.status.isReaded === false) {
                 countNotRead += 1;
@@ -422,7 +424,7 @@ export class MainView extends AbstractView {
           if (countNotRead !== 0) {
             const sidebarMessageNumber = item.querySelector(
               ".sidebar__message-number",
-            );
+            ) as HTMLElement;
             sidebarMessageNumber.innerHTML = `<span>${countNotRead}</span>`;
           }
         }
@@ -430,18 +432,23 @@ export class MainView extends AbstractView {
     }
   }
 
-  interlocutorStatusMessage(data) {
+  interlocutorStatusMessage(data:{
+    id: string,
+    status: {
+      isReaded: boolean,
+    }
+  }) {
     const id = data.id;
     const isReaded = data.status.isReaded;
 
     if (isReaded) {
       if (this.stateUser.sendUser) {
-        const bodyContainer = this.app.querySelector(".body__container");
+        const bodyContainer = this.app.querySelector(".body__container") as HTMLElement;
         const bodyChatsSender = bodyContainer.querySelectorAll(
           ".body__chats-sender",
         );
 
-        bodyChatsSender.forEach((el) => {
+        bodyChatsSender.forEach((el:any) => {
           if (el.dataset.id === id) {
             const bodyMessageSenderStatus = el.querySelector(
               ".body__messageSender-status",
@@ -453,14 +460,19 @@ export class MainView extends AbstractView {
     }
   }
 
-  deleteMessage(data) {
+  deleteMessage(data:{
+    id: string,
+    status: {
+      isDeleted: boolean,
+    }
+  }) {
     const id = data.id;
     if (this.stateUser.sendUser) {
-      const bodyContainer = this.app.querySelector(".body__container");
+      const bodyContainer = this.app.querySelector(".body__container") as HTMLElement;
       const bodyChatsRecipent = bodyContainer.querySelectorAll(
         ".body__chats-recipent",
       );
-      bodyChatsRecipent.forEach((el) => {
+      bodyChatsRecipent.forEach((el:any) => {
         if (el.dataset.id === id) {
           //найден
           el.remove();

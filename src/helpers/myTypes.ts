@@ -7,7 +7,7 @@ interface State{
     sendUser: String | null,
     mainLastMessage: String | null,
     currentReceivedMessage: String | null,
-    historyWithUser: {} | null,
+    historyWithUser: {} | null | any,
     notificationMessage: string | null
     msgRead: {} | null,
     msgDel: {} | null,
@@ -29,8 +29,19 @@ interface ParamsElement{
     idData?: string;
 }
 
+interface DateMessage{
+    id: string, 
+    datetime:string, 
+    text:string, 
+    status: {
+        isReaded:boolean, 
+        isEdited:boolean
+        }
+    }
+
 export{
     State,
     UserObject,
     ParamsElement,
+    DateMessage
 }
