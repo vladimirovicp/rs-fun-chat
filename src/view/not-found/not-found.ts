@@ -16,6 +16,11 @@ export class NotFound extends AbstractView {
     container.addInnerElement(info);
 
     this.app.innerHTML = "";
-    this.app.append(container.getElement());
+
+
+    const resContainer = container.getElement()
+    if(resContainer){
+      this.app.append(resContainer);
+    }
   }
 }
