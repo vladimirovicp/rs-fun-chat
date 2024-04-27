@@ -1,0 +1,189 @@
+.body__header{
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid #bfbdbd;
+    background-color: #fff;
+    gap: 1rem;
+}
+
+.body__btn, .messageBlock .btn{
+    padding: 10px;
+    width: 150px;
+    border: none;
+    outline: none;
+    background-color: #d1512d;
+    cursor: pointer;
+    color: #eae3d2;
+}
+
+.body__btn-about{
+    margin-left: auto;
+}
+
+.body__container{
+    height: 70vh;
+    background-color: #fff;
+    padding: 20px;
+    overflow: scroll;
+}
+
+.body__container > * {
+    margin-bottom: 10px;
+}
+
+.body__chats > p {
+    font-size: 13px;
+}
+
+/* .body__senderName{
+    text-align: right;
+} */
+
+.body__messageRecipient{
+    background-color: #f9efec;
+    width: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.body__messageSender{
+    background-color: rgb(194,243,194);
+    max-width: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    margin-left: auto;
+    font-size: 15px;
+}
+
+.body__messageRecipent{
+    background-color: rgb(194,243,194);
+    max-width: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    margin-right: auto;
+    font-size: 15px;
+}
+
+.body__chats-sender{
+    position: relative;
+}
+
+.body__chats-sender .body__chats-info,
+.body__chats-recipent .body__chats-info{
+    width: 300px;
+    padding-bottom: .5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.body__chats-sender .body__chats-name,
+.body__chats-recipent .body__chats-name{
+    font-weight: bold;
+}
+
+.body__chats-sender .body__chats-info{
+    margin-left: auto;
+}
+
+.body__messageSender-statuses{
+    width: 300px;
+    padding-bottom: .5rem;
+    display: flex;
+    justify-content: space-between;
+    margin: .2rem 0 2rem auto;
+}
+
+.body__messageSender-status{
+    text-align: right;
+    
+}
+
+.body__name-chat{
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.body__info{
+    background-color: #e1e1e1;
+    display: flex;
+    justify-content: space-around;
+    align-items:center;
+    height: 4vh;
+}
+
+.body__send-user-name{
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.body__send-user-status {
+    color: #8b0000;
+    
+}
+
+.body__send-user-status .status-active{
+    color:#32cd32;
+}
+
+.none-message{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    text-align: center;
+}
+
+.body__chats-not-read{
+    font-size: 1.5rem;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.body__chats-not-read:before{
+    border-bottom: 1px solid;
+    content: " ";
+    left: 0;
+    position: absolute;
+    top: .85rem;
+    width: 100%;
+}
+
+.body__chats-not-read span{
+    background: #fff;
+    box-sizing: border-box;
+    padding: 0 .5rem;
+    position: relative;
+    font-size: 1rem;
+}
+
+
+.body__context-menu{
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    background-color: #e1e1e1;
+    padding: 5px;
+}
+
+.body__context-menu ul{
+    padding: 0;
+    list-style: none;
+    margin: 5px 5px 0;
+}
+
+.body__context-menu ul li{
+    padding: 5px;
+    cursor: pointer;
+    transition: color .25s ease-in-out;
+}
+
+.body__context-menu ul li:hover{
+    color: #32cd32;
+}
