@@ -2,9 +2,12 @@ import { AbstractView } from "../../../common/view";
 import "./styles.css";
 import ElementCreator from "../../../util/element-creator";
 import { sendingMessageUser } from "../../../helpers/api";
-
+import {State} from "../../../helpers/myTypes";
 export class MessageBlock extends AbstractView {
-  constructor(ws, stateUser) {
+  private ws: WebSocket;
+  private stateUser:State;
+
+  constructor(ws: WebSocket, stateUser:State) {
     super();
     this.ws = ws;
     this.stateUser = stateUser;
@@ -30,7 +33,7 @@ export class MessageBlock extends AbstractView {
     form.addInnerElement(input);
     form.addInnerElement(button);
     messageBlock.addInnerElement(form);
-    const messageContainer = messageBlock.getElement();
+    const messageContainer = messageBlock.getElement() as HTMLElement;
 
     this.trackInput(messageContainer);
     this.btnClick(messageContainer);
@@ -38,11 +41,11 @@ export class MessageBlock extends AbstractView {
     return messageContainer;
   }
 
-  trackInput(messageContainer) {
-    const userMessage = messageContainer.querySelector(".userMessage");
-    const btn = messageContainer.querySelector(".btn");
-    userMessage.addEventListener("input", (e) => {
-      const value = e.target.value;
+  trackInput(messageContainer: HTMLElement): void {
+    const userMessage = messageContainer.querySelector(".userMessage") as HTMLInputElement;;
+    const btn = messageContainer.querySelector(".btn") as HTMLButtonElement;
+    userMessage.addEventListener("input", () => {
+      const value = userMessage.value;
       if (value.length > 0) {
         btn.removeAttribute("disabled");
       } else {
@@ -51,15 +54,18 @@ export class MessageBlock extends AbstractView {
     });
   }
 
-  btnClick(messageContainer) {
-    const userMessage = messageContainer.querySelector(".userMessage");
-    const btn = messageContainer.querySelector(".btn");
+  btnClick(messageContainer: HTMLElement) {
+    const userMessage = messageContainer.querySelector(".userMessage")  as HTMLInputElement;;
+    const btn = messageContainer.querySelector(".btn") as HTMLButtonElement;;
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       const messaage = userMessage.value;
       userMessage.value = "";
       btn.setAttribute("disabled", "disabled");
-      sendingMessageUser(this.ws, messaage, this.stateUser.sendUser);
+      if(this.stateUser.sendUser){
+        sendingMessageUser(this.ws, messaage, this.stateUser.sendUser);
+      }
+      
     });
   }
 }
