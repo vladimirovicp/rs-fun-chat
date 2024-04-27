@@ -2,9 +2,13 @@ import { AbstractView } from "../../common/view";
 import "./authorization.scss";
 import { authorizationIco } from "../../helpers/svg";
 import { userAuthentication } from "../../helpers/api";
+import { State } from "../../helpers/myTypes";
 
 export class Authorization extends AbstractView {
-  constructor(ws, stateUser) {
+
+  private stateUser:State;
+  private ws: WebSocket;
+  constructor(ws: WebSocket, stateUser:State) {
     super();
     this.stateUser = stateUser;
     this.ws = ws;
@@ -53,7 +57,7 @@ export class Authorization extends AbstractView {
         </div`;
 
     this.validateInput(pageAuth);
-    const signIn = pageAuth.querySelector(".sign-in");
+    const signIn = pageAuth.querySelector(".sign-in") as HTMLButtonElement;
     signIn.addEventListener("click", (e) => {
       e.preventDefault();
       this.btnClick(pageAuth);
@@ -63,9 +67,9 @@ export class Authorization extends AbstractView {
     this.app.append(pageAuth);
   }
 
-  btnClick(el) {
-    const userName = el.querySelector(".user-name");
-    const userPas = el.querySelector(".user-password");
+  btnClick(el: HTMLElement) {
+    const userName = el.querySelector(".user-name") as HTMLInputElement;
+    const userPas = el.querySelector(".user-password") as HTMLInputElement;
     const userNameVal = userName.value;
     const userPasVal = userPas.value;
     sessionStorage.setItem(
@@ -76,15 +80,15 @@ export class Authorization extends AbstractView {
     userAuthentication(this.ws);
   }
 
-  validateInput(pageAuth) {
+  validateInput(pageAuth: HTMLElement) {
     let nameBool = false;
     let passBool = false;
-    const signIn = pageAuth.querySelector(".sign-in");
-    const formUserName = pageAuth.querySelector(".form__user-name");
-    const userError = formUserName.querySelector(".user-error");
-    const userName = formUserName.querySelector(".user-name");
+    const signIn = pageAuth.querySelector(".sign-in") as HTMLInputElement;
+    const formUserName = pageAuth.querySelector(".form__user-name") as HTMLInputElement;
+    const userError = formUserName.querySelector(".user-error") as HTMLElement;;
+    const userName = formUserName.querySelector(".user-name") as HTMLButtonElement;
     userName.addEventListener("input", (e) => {
-      const value = e.target.value;
+      const value = (e.target as HTMLInputElement).value;
       if (value) {
         if (value[0] !== value[0].toUpperCase()) {
           userError.innerHTML = "Первая буква в Имени должно быть заглавной!";
@@ -106,11 +110,11 @@ export class Authorization extends AbstractView {
       }
     });
 
-    const formUserPassword = pageAuth.querySelector(".form__user-password");
-    const passwordError = formUserPassword.querySelector(".password-error");
-    const userPassword = formUserPassword.querySelector(".user-password");
+    const formUserPassword = pageAuth.querySelector(".form__user-password") as HTMLElement;
+    const passwordError = formUserPassword.querySelector(".password-error") as HTMLElement;
+    const userPassword = formUserPassword.querySelector(".user-password") as HTMLInputElement;;
     userPassword.addEventListener("input", (e) => {
-      const value = e.target.value;
+      const value = (e.target as HTMLInputElement).value;
       if (value) {
         if (value.length < 4) {
           passwordError.innerHTML = "Символов в пароле должно быть больше 3!";
