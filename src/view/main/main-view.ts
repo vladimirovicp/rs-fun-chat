@@ -12,14 +12,23 @@ import {
 } from "../../helpers/api";
 import ElementCreator from "../../util/element-creator";
 import "./styles.css";
+import {State} from "../../helpers/myTypes";
+
 
 export class MainView extends AbstractView {
-  constructor(ws, stateUser) {
+  private ws: WebSocket;
+  private stateUser:State;
+  private user: string;
+  private BodyClass: any;
+
+  constructor(ws: WebSocket, stateUser:State) {
     super();
     this.ws = ws;
     this.stateUser = stateUser;
     const userObject = sessionStorage.getItem("user");
-    this.user = JSON.parse(userObject);
+    this.user = userObject ? JSON.parse(userObject) : 'default';
+
+    this.BodyClass = null;
   }
 
   render() {
@@ -53,19 +62,23 @@ export class MainView extends AbstractView {
     main.classList.add("main");
 
     this.BodyClass = new Body(this.ws, this.stateUser);
-    main.append(this.BodyClass.render());
+    main.append(this.BodyClass.render() as HTMLElement);
     main.append(new MessageBlock(this.ws, this.stateUser).render());
 
     const footer = new ElementCreator({
       tag: "div",
       classNames: ["chat__footer"],
     }).getElement();
-    footer.innerHTML = `
-            <div class="chat__footer-rs"><img src="./img/rs-logo.webp">The Rolling Scopes School</div>
-            <div>Git Hub: <a href="https://github.com/vladimirovicp">Vladimirovicp</a></div>
-            <div>2024</div>
-        `;
-    main.append(footer);
+
+    if(footer){
+      footer.innerHTML = `
+        <div class="chat__footer-rs"><img src="./img/rs-logo.webp">The Rolling Scopes School</div>
+        <div>Git Hub: <a href="https://github.com/vladimirovicp">Vladimirovicp</a></div>
+        <div>2024</div>
+      `;
+      main.append(footer);
+    }
+
     pageName.append(main);
 
     this.app.innerHTML = "";
@@ -73,7 +86,7 @@ export class MainView extends AbstractView {
   }
 
   redrawingSidebar() {
-    const sidebar = this.app.querySelector(".sidebar");
+    const sidebar = this.app.querySelector(".sidebar") as HTMLElement;
     if (sidebar) {
       const sidebarNew = new Sidebar(this.ws, this.stateUser).render();
       const sidebarStr = sidebarNew.innerHTML;
@@ -84,34 +97,39 @@ export class MainView extends AbstractView {
     }
   }
 
-  searchUser(sidebar) {
-    const searchInput = sidebar.querySelector(".search__input");
-    const sidebarUsers = sidebar.querySelector(".sidebar__users");
+  searchUser(sidebar: HTMLElement) {
+    const searchInput = sidebar.querySelector(".search__input") as HTMLInputElement;
+    const sidebarUsers = sidebar.querySelector(".sidebar__users") as HTMLElement;
     const items = sidebarUsers.getElementsByTagName("li");
     searchInput.addEventListener("input", (e) => {
-      const searchText = e.target.value.toLowerCase();
+      const searchText = searchInput.value.toLowerCase();
       Array.from(items).forEach(function (item) {
-        const nameUser = item
-          .querySelector(".sidebar__user-name")
-          .textContent.toLowerCase();
-        if (nameUser.includes(searchText)) {
-          item.style.display = "block";
-        } else {
-          item.style.display = "none";
+        
+        const myItem = item.querySelector(".sidebar__user-name") as HTMLElement;
+        if(myItem){
+          const nameUserText = myItem.textContent;
+          if(nameUserText){
+            const nameUser = nameUserText.toLowerCase();
+            if (nameUser.includes(searchText)) {
+              item.style.display = "block";
+            } else {
+              item.style.display = "none";
+            }
+          }
         }
       });
     });
   }
 
-  clickUser(sidebar, stateUser) {
-    const sidebarUsers = sidebar.querySelector(".sidebar__users");
+  clickUser(sidebar: HTMLElement, stateUser:State) {
+    const sidebarUsers = sidebar.querySelector(".sidebar__users")as HTMLElement;
     const items = sidebarUsers.getElementsByTagName("li");
     Array.from(items).forEach(function (item) {
-      const sidebarUser = item.querySelector(".sidebar__user");
+      const sidebarUser = item.querySelector(".sidebar__user") as HTMLElement;
       sidebarUser.addEventListener("click", () => {
-        const sidebarUserName = sidebarUser.querySelector(
+        const sidebarUserName = (sidebarUser.querySelector(
           ".sidebar__user-name",
-        ).textContent;
+        ) as HTMLElement).textContent;
         stateUser.sendUser = sidebarUserName;
       });
     });
@@ -119,21 +137,21 @@ export class MainView extends AbstractView {
 
   isSendUser() {
     if (this.stateUser.sendUser) {
-      const sidebar = this.app.querySelector(".sidebar");
-      const sidebarUsers = sidebar.querySelector(".sidebar__users");
+      const sidebar = this.app.querySelector(".sidebar") as HTMLElement;;
+      const sidebarUsers = sidebar.querySelector(".sidebar__users") as HTMLElement;;
       const items = sidebarUsers.getElementsByTagName("li");
-      const bodyInfo = this.app.querySelector(".body__info");
-      const activeUserName = bodyInfo.querySelector(".body__send-user-name");
+      const bodyInfo = this.app.querySelector(".body__info") as HTMLElement;
+      const activeUserName = bodyInfo.querySelector(".body__send-user-name") as HTMLElement;
       const activeUserStatus = bodyInfo.querySelector(
         ".body__send-user-status",
-      );
+      ) as HTMLElement;
 
       Array.from(items).forEach((item) => {
-        const nameUser = item.querySelector(".sidebar__user-name").textContent;
+        const nameUser = (item.querySelector(".sidebar__user-name") as HTMLElement).textContent;
         if (this.stateUser.sendUser === nameUser) {
           item.classList.add("active");
           activeUserName.textContent = nameUser;
-          const sidebarUserStatus = item.querySelector(".sidebar__user-status");
+          const sidebarUserStatus = item.querySelector(".sidebar__user-status") as HTMLElement;;
           if (sidebarUserStatus.classList.contains("sidebar__user-active")) {
             activeUserStatus.innerHTML = `<span class="status-active">В сети</span>`;
           } else {
@@ -147,7 +165,7 @@ export class MainView extends AbstractView {
       });
 
       // активный интуп для отправки сообщений
-      const userMessage = this.app.querySelector(".userMessage");
+      const userMessage = this.app.querySelector(".userMessage") as HTMLInputElement;
       userMessage.removeAttribute("disabled");
 
       //Получение истории сообщений пользователя
@@ -156,8 +174,8 @@ export class MainView extends AbstractView {
   }
 
   //Появление сообщений, которые отправил я!
-  mainNewMessage(dateMessage) {
-    const bodyContainer = this.app.querySelector(".body__container");
+  mainNewMessage(dateMessage:{id: string, datetime:string, text:string, status: {isReaded:boolean, isEdited:boolean}}) {
+    const bodyContainer = this.app.querySelector(".body__container") as HTMLElement;;
     const noneMessage = bodyContainer.querySelector(".none-message");
     if (noneMessage) {
       bodyContainer.innerHTML = "";
@@ -176,15 +194,14 @@ export class MainView extends AbstractView {
       dateMessage.id,
     );
 
-    const bodyChatsSenderBox = bodyChatsSender.getElement();
+    const bodyChatsSenderBox = bodyChatsSender.getElement() as HTMLElement;
 
     //const bodyMessageSenderText = bodyChatsSenderBox.querySelector('p')
 
     bodyChatsSenderBox.addEventListener("contextmenu", (event) => {
       const self = this;
-
       event.preventDefault();
-      const bodyContainer = document.querySelector(".body__container");
+      const bodyContainer = document.querySelector(".body__container") as HTMLElement;
       const contextmenu = bodyContainer.querySelector(".body__context-menu");
 
       if (contextmenu) {
@@ -201,9 +218,12 @@ export class MainView extends AbstractView {
 
       const contextmenuNew = bodyChatsSenderBox.querySelector(
         ".body__context-menu",
-      );
+      ) as HTMLElement;
       bodyChatsSenderBox.addEventListener("click", (e) => {
-        if (e.target.textContent.trim() === "Удалить") {
+        
+        
+
+        if (bodyChatsSenderBox.textContent && bodyChatsSenderBox.textContent.trim() === "Удалить") {
           //Удалить
           messageDeletion(self.ws, dateMessage.id);
           bodyChatsSenderBox.remove();
