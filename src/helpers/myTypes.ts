@@ -4,7 +4,7 @@ interface State{
     isLogined: boolean,
     usersActive: [{login:String, isLogined:String}],
     usersInacrive: [{login:String, isLogined:String}],
-    sendUser: String | null,
+    sendUser: string | null,
     mainLastMessage: String | null,
     currentReceivedMessage: String | null,
     historyWithUser: {} | null | any,
@@ -31,6 +31,7 @@ interface ParamsElement{
 
 interface DateMessage{
     id: string, 
+    from: string,
     datetime:string, 
     text:string, 
     status: {

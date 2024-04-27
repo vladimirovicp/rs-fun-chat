@@ -19,7 +19,7 @@ export class MainView extends AbstractView {
   private ws: WebSocket;
   private stateUser:State;
   private user: string;
-  private BodyClass: any;
+  private BodyClass: Body | null;
 
   constructor(ws: WebSocket, stateUser:State) {
     super();
@@ -62,6 +62,7 @@ export class MainView extends AbstractView {
     main.classList.add("main");
 
     this.BodyClass = new Body(this.ws, this.stateUser);
+
     main.append(this.BodyClass.render() as HTMLElement);
     main.append(new MessageBlock(this.ws, this.stateUser).render());
 
@@ -184,55 +185,54 @@ export class MainView extends AbstractView {
     const statusMessage = dateMessage.status.isReaded
       ? "прочитано"
       : "доставлено";
-    const editMessage = dateMessage.status.isEdited ? "изменено" : null;
+    const editMessage = dateMessage.status.isEdited ? "изменено" : "";
 
-    const bodyChatsSender = this.BodyClass.createChatsSender(
-      dateMessage.text,
-      date,
-      statusMessage,
-      editMessage,
-      dateMessage.id,
-    );
+    if(this.BodyClass){
+      const bodyChatsSender = this.BodyClass.createChatsSender(
+        dateMessage.text,
+        date,
+        statusMessage,
+        editMessage,
+        dateMessage.id,
+      );
 
-    const bodyChatsSenderBox = bodyChatsSender.getElement() as HTMLElement;
-
-    //const bodyMessageSenderText = bodyChatsSenderBox.querySelector('p')
-
-    bodyChatsSenderBox.addEventListener("contextmenu", (event) => {
-      const self = this;
-      event.preventDefault();
-      const bodyContainer = document.querySelector(".body__container") as HTMLElement;
-      const contextmenu = bodyContainer.querySelector(".body__context-menu");
-
-      if (contextmenu) {
-        contextmenu.remove();
-      }
-
-      bodyChatsSenderBox.innerHTML += `
-            <div class="body__context-menu">
-                <ul>
-                    <li class="message__edit">Изменить</li>
-                    <li class="message__delete">Удалить</li>
-                </ul>
-            </div>`;
-
-      const contextmenuNew = bodyChatsSenderBox.querySelector(
-        ".body__context-menu",
-      ) as HTMLElement;
-      bodyChatsSenderBox.addEventListener("click", (e) => {
-        
-        
-
-        if (bodyChatsSenderBox.textContent && bodyChatsSenderBox.textContent.trim() === "Удалить") {
-          //Удалить
-          messageDeletion(self.ws, dateMessage.id);
-          bodyChatsSenderBox.remove();
+      const bodyChatsSenderBox = bodyChatsSender.getElement() as HTMLElement;
+      bodyChatsSenderBox.addEventListener("contextmenu", (event) => {
+        const self = this;
+        event.preventDefault();
+        const bodyContainer = document.querySelector(".body__container") as HTMLElement;
+        const contextmenu = bodyContainer.querySelector(".body__context-menu");
+  
+        if (contextmenu) {
+          contextmenu.remove();
         }
-        contextmenuNew.remove();
+  
+        bodyChatsSenderBox.innerHTML += `
+              <div class="body__context-menu">
+                  <ul>
+                      <li class="message__edit">Изменить</li>
+                      <li class="message__delete">Удалить</li>
+                  </ul>
+              </div>`;
+  
+        const contextmenuNew = bodyChatsSenderBox.querySelector(
+          ".body__context-menu",
+        ) as HTMLElement;
+        bodyChatsSenderBox.addEventListener("click", (e) => {
+          
+          
+  
+          if (bodyChatsSenderBox.textContent && bodyChatsSenderBox.textContent.trim() === "Удалить") {
+            //Удалить
+            messageDeletion(self.ws, dateMessage.id);
+            bodyChatsSenderBox.remove();
+          }
+          contextmenuNew.remove();
+        });
       });
-    });
-
-    bodyContainer.append(bodyChatsSenderBox);
+      bodyContainer.append(bodyChatsSenderBox);
+    }
+    
 
     // Проверяем, нужно ли прокручивать вниз
     if (bodyContainer.scrollHeight > bodyContainer.clientHeight) {
@@ -279,13 +279,21 @@ export class MainView extends AbstractView {
       }
     }
 
-    const bodyChatsRecipent = this.BodyClass.createChatsRecipent(
-      dateMessage.text,
-      date,
-      this.stateUser.sendUser,
-      dateMessage.id,
-    );
-    bodyContainer.innerHTML += bodyChatsRecipent.getElement().outerHTML;
+    if(this.BodyClass && this.stateUser.sendUser){
+
+      const bodyChatsRecipent = this.BodyClass.createChatsRecipent(
+        dateMessage.text,
+        date,
+        this.stateUser.sendUser,
+        dateMessage.id,
+      );
+      const bodyChatsRecipentRes = bodyChatsRecipent.getElement();
+
+      if(bodyChatsRecipentRes){
+        bodyContainer.innerHTML += bodyChatsRecipentRes.outerHTML;
+      }
+    }
+
 
     if (isNewMessage) {
       //Прокрутка до непрочитаного сообщения
@@ -315,7 +323,10 @@ export class MainView extends AbstractView {
     return formattedDate;
   }
 
-  updateMessageList(message: any) {
+  updateMessageList(message:{payload:{messages:[]}}) {
+
+
+
     const bodyContainer = this.app.querySelector(".body__container") as HTMLElement;
     bodyContainer.innerHTML = "";
     const messages = message.payload.messages;
@@ -324,7 +335,8 @@ export class MainView extends AbstractView {
       bodyContainer.innerHTML = `<div class="none-message">Напишите ваше первое сообщение...</div>`;
     } else {
       let isNewMessage = false;
-      messages.forEach((item:any) => {
+      messages.forEach((item:DateMessage) => {
+
         if (this.stateUser.sendUser === item.from) {
           //отправленные сообщения мной, появится у собеседника
           this.interlocutorNewMessage(item);
@@ -378,13 +390,17 @@ export class MainView extends AbstractView {
 
       if (notRead) {
         var elementsAfterReference = [];
-        var nextElement = notRead.nextElementSibling;
+        var nextElement = notRead.nextElementSibling as HTMLElement;
         while (nextElement) {
           elementsAfterReference.push(nextElement);
-          nextElement = nextElement.nextElementSibling;
+          nextElement = nextElement.nextElementSibling as HTMLElement;
         }
-        elementsAfterReference.forEach((el: any) => {
-          messageReadStatusChange(ws, el.dataset.id);
+        elementsAfterReference.forEach((el) => {
+          const id = el.dataset.id;
+          if(id){
+            messageReadStatusChange(ws, id);
+          }
+         
         });
       }
 
@@ -444,16 +460,19 @@ export class MainView extends AbstractView {
     if (isReaded) {
       if (this.stateUser.sendUser) {
         const bodyContainer = this.app.querySelector(".body__container") as HTMLElement;
-        const bodyChatsSender = bodyContainer.querySelectorAll(
+        const bodyChatsSender :NodeListOf<HTMLElement>= bodyContainer.querySelectorAll(
           ".body__chats-sender",
         );
 
-        bodyChatsSender.forEach((el:any) => {
+        bodyChatsSender.forEach((el) => {
           if (el.dataset.id === id) {
             const bodyMessageSenderStatus = el.querySelector(
               ".body__messageSender-status",
             );
-            bodyMessageSenderStatus.textContent = "прочитано";
+            if(bodyMessageSenderStatus){
+              bodyMessageSenderStatus.textContent = "прочитано";
+            }
+           
           }
         });
       }
@@ -469,10 +488,10 @@ export class MainView extends AbstractView {
     const id = data.id;
     if (this.stateUser.sendUser) {
       const bodyContainer = this.app.querySelector(".body__container") as HTMLElement;
-      const bodyChatsRecipent = bodyContainer.querySelectorAll(
+      const bodyChatsRecipent :NodeListOf<HTMLElement> = bodyContainer.querySelectorAll(
         ".body__chats-recipent",
       );
-      bodyChatsRecipent.forEach((el:any) => {
+      bodyChatsRecipent.forEach((el) => {
         if (el.dataset.id === id) {
           //найден
           el.remove();
