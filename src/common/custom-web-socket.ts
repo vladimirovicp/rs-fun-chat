@@ -1,13 +1,19 @@
 import { processingTypes } from "../helpers/control";
 
 export class CustomWebSocket {
+  private url: string;
+  private socket: WebSocket;
+  private connected: boolean;
+  private body: HTMLElement;
+  private count: number;
+
   constructor(url, stateUser) {
     this.url = url;
     this.socket = new WebSocket(this.url);
     this.connected = false;
     this.stateUser = stateUser;
 
-    this.body = document.querySelector("body");
+    this.body = document.querySelector("body") as HTMLElement;
     this.body.innerHTML = `<div class="connect">
         <div class="connect__info">Соединение подождите 10с</div>
       </div>`;

@@ -1,7 +1,10 @@
+
+import { State } from "./myTypes";
+
 //Аутентификация пользователя
-const userAuthentication = async (ws) => {
+const userAuthentication = async (ws: WebSocket) => {
   const userObject = sessionStorage.getItem("user");
-  const user = JSON.parse(userObject);
+  const user = userObject ?  JSON.parse(userObject) : 'default';
   const data = {
     id: user.login,
     type: "USER_LOGIN",
@@ -16,9 +19,9 @@ const userAuthentication = async (ws) => {
 };
 
 //Выход пользователя из системы
-const userLogout = (ws, stateUser) => {
+const userLogout = (ws: WebSocket, stateUser:State) => {
   const userObject = sessionStorage.getItem("user");
-  const user = JSON.parse(userObject);
+  const user = userObject ?  JSON.parse(userObject) : 'default';
   const data = {
     id: user.login,
     type: "USER_LOGOUT",
@@ -36,7 +39,7 @@ const userLogout = (ws, stateUser) => {
 };
 
 //Получение всех аутентифицированных пользователей
-const gettingAllAuthenticatedUsers = (ws) => {
+const gettingAllAuthenticatedUsers = (ws: WebSocket) => {
   const data = {
     id: "allAuthUser",
     type: "USER_ACTIVE",
@@ -46,7 +49,7 @@ const gettingAllAuthenticatedUsers = (ws) => {
 };
 
 //Получение всех неавторизованных пользователей
-const gettingAllUnauthorizedUsers = (ws) => {
+const gettingAllUnauthorizedUsers = (ws: WebSocket) => {
   const data = {
     id: "allUnautUser",
     type: "USER_INACTIVE",
@@ -56,9 +59,9 @@ const gettingAllUnauthorizedUsers = (ws) => {
 };
 
 //Отправка сообщения пользователю
-const sendingMessageUser = (ws, textMessage, toUser) => {
+const sendingMessageUser = (ws: WebSocket, textMessage: String, toUser: String) => {
   const userObject = sessionStorage.getItem("user");
-  const user = JSON.parse(userObject);
+  const user = userObject ?  JSON.parse(userObject) : 'default';
   const data = {
     id: user.login,
     type: "MSG_SEND",
@@ -73,7 +76,7 @@ const sendingMessageUser = (ws, textMessage, toUser) => {
 };
 
 //Получение истории сообщений пользователя
-const fetchingMessageHistoryWithUser = (ws, login) => {
+const fetchingMessageHistoryWithUser = (ws: WebSocket, login: string) => {
   const data = {
     id: `history${login}`,
     type: "MSG_FROM_USER",
@@ -92,7 +95,7 @@ const fetchingMessageHistoryWithUser = (ws, login) => {
 };
 
 //Изменение статуса прочтения сообщения
-const messageReadStatusChange = (ws, idMessage) => {
+const messageReadStatusChange = (ws: WebSocket, idMessage: String) => {
   const data = {
     id: `mainMSG_READ`,
     type: "MSG_READ",
@@ -106,7 +109,7 @@ const messageReadStatusChange = (ws, idMessage) => {
 };
 
 //Удаление сообщения
-const messageDeletion = (ws, id) => {
+const messageDeletion = (ws: WebSocket, id: String) => {
   const data = {
     id: "del",
     type: "MSG_DELETE",

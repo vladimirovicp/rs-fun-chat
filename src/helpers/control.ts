@@ -1,9 +1,11 @@
+import { State,UserObject } from '../helpers/myTypes'
+
 import {
   gettingAllAuthenticatedUsers,
   gettingAllUnauthorizedUsers,
 } from "../helpers/api";
 
-const processingTypes = (message, stateUser, ws) => {
+const processingTypes = (message: string, stateUser:State, ws: WebSocket) => {
   const messageJson = JSON.parse(message);
   const type = messageJson.type;
 
@@ -36,10 +38,11 @@ const processingTypes = (message, stateUser, ws) => {
   if (type === "USER_ACTIVE") {
     const usersList = messageJson.payload.users;
     const currentUserObj = sessionStorage.getItem("user");
-    const currentUserName = JSON.parse(currentUserObj).login;
+    
+    const currentUserName = currentUserObj ? JSON.parse(currentUserObj).login : 'default';
     // Находим индекс объекта в списке
     const indexToDelete = usersList.findIndex(
-      (obj) => obj.login === currentUserName,
+      (obj:UserObject) => obj.login === currentUserName,
     );
     if (indexToDelete !== -1) {
       usersList.splice(indexToDelete, 1);
@@ -57,7 +60,7 @@ const processingTypes = (message, stateUser, ws) => {
     const from = messageJson.payload.message.from;
     const to = messageJson.payload.message.to;
     const currentUserObj = sessionStorage.getItem("user");
-    const currentUserName = JSON.parse(currentUserObj).login;
+    const currentUserName = currentUserObj ? JSON.parse(currentUserObj).login :'default';
 
     if (currentUserName === from) {
       stateUser.mainLastMessage = messageJson;
