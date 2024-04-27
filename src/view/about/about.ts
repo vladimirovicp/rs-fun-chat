@@ -1,9 +1,10 @@
 import { AbstractView } from "../../common/view";
 import ElementCreator from "../../util/element-creator";
 import "./style.css";
+import {ParamsElement} from "../../helpers/myTypes";
 
 export class About extends AbstractView {
-  render() {
+  render(): void {
     const about = new ElementCreator({ tag: "div", classNames: ["about"] });
     const container = new ElementCreator({
       tag: "div",
@@ -35,6 +36,7 @@ export class About extends AbstractView {
     });
 
     container.addInnerElement(title);
+    
     container.addInnerElement(info);
     container.addInnerElement(autor);
     container.addInnerElement(bodyBtn);
@@ -42,6 +44,11 @@ export class About extends AbstractView {
     about.addInnerElement(container);
 
     this.app.innerHTML = "";
-    this.app.append(about.getElement());
+
+    const resultAbout = about.getElement();
+    if(resultAbout){
+      this.app.append(resultAbout);
+    }
+    
   }
 }

@@ -1,7 +1,9 @@
 import {ParamsElement} from '../helpers/myTypes';
 
 export default class ElementCreator {
+  
   private element: HTMLElement | null;
+
   constructor(params:ParamsElement) {
     this.element = null;
     this.createElement(params);
@@ -11,15 +13,15 @@ export default class ElementCreator {
     return this.element;
   }
 
-  addInnerElement(element:ParamsElement | HTMLElement): void {
+  addInnerElement(element:any): void {
     if (element instanceof ElementCreator) {
-      this.element?.append(element.getElement() as HTMLElement);
+      this.element?.append(element.getElement() as HTMLElement );
     } else {
-      this.element?.append(element as HTMLElement);
+      this.element?.append(element);
     }
   }
 
-  createElement(params:ParamsElement) {
+  createElement(params:ParamsElement): void {
     this.element = document.createElement(params.tag);
     this.setCssClasses(params.classNames as []);
     this.setTextContent(params.textContent);
