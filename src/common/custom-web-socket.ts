@@ -1,17 +1,24 @@
+import { State } from "../helpers/myTypes";
 import { processingTypes } from "../helpers/control";
 
 export class CustomWebSocket {
   private url: string;
   private socket: WebSocket;
   private connected: boolean;
+  private stateUser:State;
   private body: HTMLElement;
   private count: number;
+  private resolve: ((value?: WebSocket | PromiseLike<WebSocket>) => void) | null;
+  private reject: ((reason?: any) => void) | null;
 
-  constructor(url, stateUser) {
+  constructor(url:string, stateUser:State) {
     this.url = url;
     this.socket = new WebSocket(this.url);
     this.connected = false;
     this.stateUser = stateUser;
+
+    this.resolve = null;
+    this.reject = null;
 
     this.body = document.querySelector("body") as HTMLElement;
     this.body.innerHTML = `<div class="connect">
@@ -36,7 +43,7 @@ export class CustomWebSocket {
     };
   }
 
-  send(message) {
+  send(message: string) {
     this.socket.send(message);
   }
 
@@ -68,6 +75,7 @@ export class CustomWebSocket {
   }
 
   onOpenCallback() {
+
     // Вызываем resolve для промиса после установления соединения
     if (this.resolve) {
       this.resolve(this.socket);
