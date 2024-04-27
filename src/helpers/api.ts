@@ -76,7 +76,7 @@ const sendingMessageUser = (ws: WebSocket, textMessage: String, toUser: String) 
 };
 
 //Получение истории сообщений пользователя
-const fetchingMessageHistoryWithUser = (ws: WebSocket, login: string) => {
+const fetchingMessageHistoryWithUser = (ws: WebSocket, login: String) => {
   const data = {
     id: `history${login}`,
     type: "MSG_FROM_USER",

@@ -1,10 +1,13 @@
 import { AbstractView } from "../../../common/view";
 import "./styles.css";
-
+import {State} from "../../../helpers/myTypes";
 import { fetchingMessageHistoryWithUser } from "../../../helpers/api";
 
 export class Sidebar extends AbstractView {
-  constructor(ws, stateUser) {
+  private ws: WebSocket;
+  private stateUser:State;
+
+  constructor(ws: WebSocket, stateUser:State) {
     super();
     this.ws = ws;
     this.stateUser = stateUser;
@@ -12,7 +15,9 @@ export class Sidebar extends AbstractView {
 
   render() {
     const userObject = sessionStorage.getItem("user");
-    const userName = JSON.parse(userObject).login;
+    const userName = userObject ? JSON.parse(userObject).login : 'defaul';
+
+    
     const sidebar = document.createElement("div");
     sidebar.classList.add("sidebar");
     sidebar.innerHTML = `
@@ -29,9 +34,10 @@ export class Sidebar extends AbstractView {
 
     for (let i = 0; i < this.stateUser.usersActive.length; i++) {
       //запросить историю для подсчета непрочитаных сообщений
+      const currentusersActive =  this.stateUser.usersActive[i].login as String;
       fetchingMessageHistoryWithUser(
         this.ws,
-        this.stateUser.usersActive[i].login,
+        currentusersActive,
       );
 
       sidebarUsersList += `<li>
@@ -43,6 +49,7 @@ export class Sidebar extends AbstractView {
             </li>`;
     }
     for (let i = 0; i < this.stateUser.usersInacrive.length; i++) {
+
       sidebarUsersList += `<li>
                 <div class="sidebar__user">
                     <div class="sidebar__user-status"></div>
@@ -51,7 +58,7 @@ export class Sidebar extends AbstractView {
                 </div>
             </li>`;
     }
-    const sidebarUsers = sidebar.querySelector(".sidebar__users");
+    const sidebarUsers = sidebar.querySelector(".sidebar__users") as HTMLElement;
     sidebarUsers.innerHTML = sidebarUsersList;
     return sidebar;
   }
