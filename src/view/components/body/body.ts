@@ -2,9 +2,13 @@ import { AbstractView } from "../../../common/view";
 import { userLogout } from "../../../helpers/api";
 import "./styles.css";
 import ElementCreator from "../../../util/element-creator";
+import {State} from "../../../helpers/myTypes";
 
 export class Body extends AbstractView {
-  constructor(ws, stateUser) {
+  private ws: WebSocket;
+  private stateUser:State;
+
+  constructor(ws:WebSocket , stateUser:State) {
     super();
     this.ws = ws;
     this.stateUser = stateUser;
@@ -79,7 +83,7 @@ export class Body extends AbstractView {
     return container.getElement();
   }
 
-  createChatsSender(message, date, statusMessage, editMessage, idMessage) {
+  createChatsSender(message:string, date:string, statusMessage:string, editMessage:string, idMessage:string) {
     const bodyChatsSender = new ElementCreator({
       tag: "div",
       classNames: ["body__chats", "body__chats-sender"],
@@ -139,7 +143,7 @@ export class Body extends AbstractView {
     return bodyChatsSender;
   }
 
-  createChatsRecipent(message, date, userRecipent, idMessage) {
+  createChatsRecipent(message: string, date: string, userRecipent: string, idMessage: string) {
     const bodyChatsRecipent = new ElementCreator({
       tag: "div",
       classNames: ["body__chats", "body__chats-recipent"],
