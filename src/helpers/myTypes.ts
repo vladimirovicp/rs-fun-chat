@@ -19,7 +19,18 @@ interface UserObject{
     password: String | null,
 }
 
+interface ParamsElement{
+    tag: string;
+    classNames?: string[];
+    textContent?: string;
+    callback?: (event: Event) => void;
+    id?: string;
+    attr?: { [key: string]: string };
+    idData?: string;
+}
+
 export{
     State,
     UserObject,
+    ParamsElement,
 }
